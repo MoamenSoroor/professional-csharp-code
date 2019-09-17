@@ -88,7 +88,7 @@ namespace pro_csharp_book_training
             int[] arrint4 = new int [] { 10, 20, 30, 40 };
             int[] arrint5 = new int [5] { 10, 20, 30, 40, 50 };
 
-            var arrvar = new int[4];
+            var arrvar = new int [4];
             arrvar[0] = 10;
             arrvar[1] = 20;
             arrvar[2] = 30;
@@ -104,6 +104,16 @@ namespace pro_csharp_book_training
 
             // Rectangle 2D array
             int[,] rect1 = new int[2, 4];
+            rect1[0, 0] = 10;
+            rect1[0, 1] = 20;
+            rect1[0, 2] = 30;
+            rect1[0, 3] = 40;
+
+            rect1[1, 0] = 50;
+            rect1[1, 1] = 60;
+            rect1[1, 2] = 70;
+            rect1[1, 3] = 80;
+
             int[,] rect2 = new int[2, 4] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 } };
             // Error
             //int[,] rect3 = new int[2,] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 } };
@@ -114,8 +124,10 @@ namespace pro_csharp_book_training
             for (int i = 0; i < rect2.Rank; i++)
             {
                 Console.WriteLine($"rect dim {i}");
+                Console.WriteLine($"length: {rect2.GetLength(i)}");
                 for (int j = 0; j < rect2.GetLength(i); j++)
                 {
+                    
                     Console.WriteLine($"rectangle array[{i} , {j}] = {rect2[i, j]}");
                 }
             }
