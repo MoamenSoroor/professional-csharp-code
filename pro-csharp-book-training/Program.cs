@@ -114,23 +114,29 @@ namespace pro_csharp_book_training
             rect1[1, 2] = 70;
             rect1[1, 3] = 80;
 
-            int[,] rect2 = new int[2, 4] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 } };
+            int[,] rect2 = new int[3, 4] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 },{ 90, 91, 92,93} };
             // Error
             //int[,] rect3 = new int[2,] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 } };
             int[,] rect4 = new int[,] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 } };
             int[,] rect5 = new [,] { { 10, 20, 30, 40 }, { 50, 60, 70, 80 } };
 
             // read rect array
-            for (int i = 0; i < rect2.Rank; i++)
+            int rows = rect2.GetLength(0);
+            int cols = rect2.GetLength(1);
+
+            int colIndexWidth = cols.ToString().Length;
+
+            Console.WriteLine($"      {}");
+            for (int i = 0; i < rect2.GetLength(0); i++)
             {
-                Console.WriteLine($"rect dim {i}");
-                Console.WriteLine($"length: {rect2.GetLength(i)}");
-                for (int j = 0; j < rect2.GetLength(i); j++)
+                Console.Write($"r[{i}]: ");
+                for (int j = 0; j < rect2.GetLength(1); j++)
                 {
-                    
-                    Console.WriteLine($"rectangle array[{i} , {j}] = {rect2[i, j]}");
+                    Console.Write($"{rect2[i, j]}\t");
                 }
+                Console.WriteLine();
             }
+
 
             // Jagged 2D Array
             int[][] arr1 = new int[2][];
