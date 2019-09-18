@@ -16,7 +16,8 @@ namespace pro_csharp_book_training
             //SwitchTraining.TestSwitch("Moamen");
             //SwitchTraining.TestSwitch(null);
 
-            ArraysTraining.TestArrays();
+            //ArraysTraining.TestArrays();
+            StringsTraining.TestStrings();
 
             Console.WriteLine("Press Any Key to Continue!");
             Console.ReadLine();

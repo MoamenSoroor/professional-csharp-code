@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace pro_csharp_book_training
 {
-    class ArraysTraining
+    public static class ArraysTraining
     {
-        public ArraysTraining()
-        {
-
-        }
+        static ArraysTraining() { }
 
         public static void TestArrays()
         {
@@ -177,6 +174,28 @@ namespace pro_csharp_book_training
             }
             Console.WriteLine("]");
 
+            // separator
+            Console.WriteLine("Array Class Training".PadLeft(10,'=').PadRight(10,'='));
+
+            int[] arr10 = { 10, 2, 3, 4, 5, 9, 5, 7, 33, 10, 12, 13, 14, 17 , 2, 10, 20, 30, 33, 34, 100, 11, 45, 33, 34, 100};
+
+            // find number = 10 in array
+            int num = Array.Find(arr10, Predicates.Find100);
+            Console.WriteLine($"find num == 10 -> {num}");
+
+            num = Array.FindLast(arr10, Predicates.Find100);
+            Console.WriteLine($"find last num == 10 -> {num}");
+
+            int [] numarr = Array.FindAll(arr10, Predicates.Find100);
+            Console.WriteLine($"find all num == 10 -> ");
+            ArrayPrint(numarr);
+
+            // find all number more than 9 and less than 31
+            numarr = Array.FindAll(arr10, p => p >= 10 && p <= 30 );
+            Console.WriteLine($"find all num == 10 -> ");
+            ArrayPrint(numarr);
+
+            
 
 
 
@@ -210,10 +229,36 @@ namespace pro_csharp_book_training
             return arr;
         }
 
-        public static int[] ArrayFind(int[] arr)
+        // find number == 100
+        public static void ArrayPrint(int[] arr)
         {
-            return null;
+            //Console.WriteLine(string.Join(" , ",arr));
+            //Console.WriteLine(string.Concat(arr));
+
+            Console.WriteLine();
+            int count = 0;
+            foreach (var item in arr)
+            {
+                Console.Write($"{item.ToString()} {((count++ == arr.Length - 1)? ' ' : ',')} ");
+            }
+            Console.WriteLine();
         }
+
+    }
+
+    static class Predicates
+    {
+        static Predicates()
+        {
+
+        }
+
+        public static bool Find100(int a)
+        {
+            return a == 10;
+        }
+
+
     }
 
 }
