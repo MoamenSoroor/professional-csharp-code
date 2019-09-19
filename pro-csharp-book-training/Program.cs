@@ -17,19 +17,17 @@ namespace pro_csharp_book_training
             //SwitchTraining.TestSwitch(null);
 
             //ArraysTraining.TestArrays();
-            StringsTraining.TestStrings();
+            //StringsTraining.TestStrings();
+            EnumsTraining.TestEnums();
 
             Console.WriteLine("Press Any Key to Continue!");
             Console.ReadLine();
         }
 
 
-        class SwitchTraining
+        static class SwitchTraining
         {
-            public SwitchTraining()
-            {
-
-            }
+            static SwitchTraining() { }
 
             public static void TestSwitch(object obj)
             {
