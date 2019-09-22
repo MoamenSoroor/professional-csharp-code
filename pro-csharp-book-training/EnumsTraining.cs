@@ -13,6 +13,9 @@ namespace pro_csharp_book_training
     {
         public static void TestEnums()
         {
+            #region enum instances methods
+
+            
             EmpType emp1 = EmpType.Manager;
             // ------------------------<  obj.ToString()  >------------------------
             Console.WriteLine(emp1);
@@ -39,10 +42,15 @@ namespace pro_csharp_book_training
             Console.WriteLine($"emp1.Equals(EmpType.SalesPersom) = {emp1.Equals(EmpType.SalesPersom)}"); // False
             Console.WriteLine($"emp1.Equals(1) = {emp1.Equals(1)}");    // False
             Console.WriteLine($@"emp1.Equals(""Managers"") = {emp1.Equals("Manager")}");    // False
-
+            #endregion
+            
+            #region Get Type of enum
             // ------------------------<  System.Enum Class Functionality  >------------------------
             // -------------------------------------------------------------------------------------
             Console.WriteLine($"Enum.GetUnderlyingType(typeof(EmpType)) = {Enum.GetUnderlyingType(typeof(EmpType))} "); // Int32
+            #endregion
+
+            #region Array Enum.GetValues(Type enumtype);
 
             // ------------------------<   public static Array GetValues(Type enumType);  >------------------------
             Console.WriteLine("1- Array empItems = Enum.GetValues(typeof(EmpType))");
@@ -73,7 +81,9 @@ namespace pro_csharp_book_training
                 Console.WriteLine("Name: {0} , Value: {1}", item, (int)item);
             }
             Console.WriteLine();
+            #endregion
 
+            #region public static string[] GetNames(Type enumType)
             // ------------------------<  public static string[] GetNames(Type enumType);  >------------------------
             Console.WriteLine("Enum.GetNames()");
             foreach (string item in Enum.GetNames(typeof(EmpType)))
@@ -81,10 +91,14 @@ namespace pro_csharp_book_training
                 Console.WriteLine($"{item}");
             }
             Console.WriteLine();
+            #endregion
 
+            #region public static string GetName(Type enumType, object value);
             // ------------------------<  public static string GetName(Type enumType, object value);  >------------------------
             Console.WriteLine("Enum.GetName(typeof(EmpType),0) = {0}", Enum.GetName(typeof(EmpType),0));
+            #endregion
 
+            #region public static object Parse(Type enumType, string value);
             // ------------------------<  public static object Parse(Type enumType, string value);  >------------------------
             Console.WriteLine("public static object Parse(Type enumType, string value);");
             emp1 = EmpType.SalesPersom;
@@ -94,7 +108,9 @@ namespace pro_csharp_book_training
 
             emp1 = (EmpType)Enum.Parse(typeof(EmpType), "2");
             Console.WriteLine(@"Enum.Parse(typeof(EmpType),""2"") = " + emp1);
+            #endregion
 
+            #region public static bool TryParse<TEnum>(string value, out TEnum result) where TEnum : struct;
             // -----<  public static bool TryParse<TEnum>(string value, out TEnum result) where TEnum : struct;  >------
 
             if (Enum.TryParse("PTSalesPerson", out EmpType emp2))
@@ -112,7 +128,9 @@ namespace pro_csharp_book_training
             }
             else
                 Console.WriteLine("Can't Parse integer");
+            #endregion
 
+            #region public static object ToObject(Type enumType, int value);
             // -----<  public static object ToObject(Type enumType, int value);  >------
             Console.WriteLine(new StringBuilder().Append('=',30));
             Console.WriteLine("public static object ToObject(Type enumType, int value);");
@@ -120,7 +138,11 @@ namespace pro_csharp_book_training
             EmpType emp3 = (EmpType)Enum.ToObject(typeof(EmpType), 2);
             WriteEnum(emp3);
             WriteEnumNameValuePair(emp3.GetType());
+            #endregion
 
+            #region public static bool IsDefined(Type enumType, object value);
+
+            
             // -----<  public static bool IsDefined(Type enumType, object value);  >------
             Console.WriteLine();
             Console.WriteLine("public static bool IsDefined(Type enumType, object value);");
@@ -128,9 +150,41 @@ namespace pro_csharp_book_training
             Console.WriteLine($@"Enum.IsDefined(typeof(Day),""sat"") = {Enum.IsDefined(typeof(Day), "sat")}");
             Console.WriteLine($@"Enum.IsDefined(typeof(Day),""Moamen"") = {Enum.IsDefined(typeof(Day), "Moamen")}");
             Console.WriteLine();
+            #endregion
 
+            #region public static string Format(Type enumType, object value, string format);
             //-----<  public static string Format(Type enumType, object value, string format);  >------
-            // Not implemented yet!
+            //  Format          Description
+            //"G" or "g"        If value is equal to a named enumerated constant, 
+            //                  the name of that constant is returned; otherwise, 
+            //                  the decimal equivalent of value is returned.
+
+            //                  For example, suppose the only enumerated constant is named Red, 
+            //                  and its value is 1.If value is specified as 1, this format returns "Red".However,
+            //                  if value is specified as 2, this format returns "2".
+            ///////////////// there are another part here in Microsoft APIs about FlagsAttribute.
+
+            // "X" or "x"       Represents value in hexadecimal format without a leading "0x".
+
+            // "D" or "d"       Represents value in decimal form.
+
+            // "F" or "f"       Behaves identically to "G" or "g", except that 
+            //                  the FlagsAttribute is not required to be present on the Enum declaration.
+            Console.WriteLine("------------------- General Format --------------------");
+            Console.WriteLine($@"Enum.Format(Day, Day.Sat,""G"") = {Enum.Format(typeof(Day), Day.Sat, "G")}");
+            Console.WriteLine($@"Enum.Format(Day, Day.Sun,""G"") = {Enum.Format(typeof(Day), Day.Sun, "G")}");
+            Console.WriteLine($@"Enum.Format(Day, Day.Mon,""G"") = {Enum.Format(typeof(Day), Day.Mon, "G")}");
+
+            Console.WriteLine("------------------- Decimal Format --------------------");
+            Console.WriteLine($@"Enum.Format(Day, Day.Sat,""D"") = {Enum.Format(typeof(Day), Day.Sat, "D")}");
+            Console.WriteLine($@"Enum.Format(Day, Day.Sun,""D"") = {Enum.Format(typeof(Day), Day.Sun, "D")}");
+            Console.WriteLine($@"Enum.Format(Day, Day.Mon,""D"") = {Enum.Format(typeof(Day), Day.Mon, "D")}");
+
+            Console.WriteLine("------------------- HexDecimal Format --------------------");
+            Console.WriteLine($@"Enum.Format(Day, Day.Sat,""x"") = {Enum.Format(typeof(Day), Day.Sat, "x")}");
+            Console.WriteLine($@"Enum.Format(Day, Day.Sun,""x"") = {Enum.Format(typeof(Day), Day.Sun, "x")}");
+            Console.WriteLine($@"Enum.Format(Day, Day.Mon,""x"") = {Enum.Format(typeof(Day), Day.Mon, "x")}");
+            #endregion
 
             // Test: public static void WriteEnumNameValuePair(Type enumType);
             WriteEnumNameValuePair(emp2.GetType());
