@@ -14,78 +14,184 @@ namespace pro_csharp_book_training
         public static void TestEnums()
         {
             EmpType emp1 = EmpType.Manager;
+            // ------------------------<  obj.ToString()  >------------------------
             Console.WriteLine(emp1);
+            Console.WriteLine($"emp1.ToString() = {emp1.ToString()}");
+
+            // ------------------------<  obj.GetType()  >------------------------
             Console.WriteLine($"emp1.GetType() = {emp1.GetType()}");    //pro_csharp_book_training.EmpType
+
+            // ------------------------<  obj.GetTypeCode()  >------------------------
             Console.WriteLine($"emp1.GetTypeCode() = {emp1.GetTypeCode()}");    //Int32
 
-            // Compare
+            // ------------------------<  obj.CompareTo(object target)  >------------------------
+            // NOTE: target argument should be in the same type of enumeration
             Console.WriteLine($"emp1.CompareTo(EmpType.Manager) = {emp1.CompareTo(EmpType.Manager)}"); // 0
             Console.WriteLine($"emp1.CompareTo(EmpType.SalesPersom) = {emp1.CompareTo(EmpType.SalesPersom)}"); // -1
-            //Error:
+            //Error:passing string not EmptType
             //Console.WriteLine($@"emp1.CompareTo(""Manager"") = {emp1.CompareTo("Manager")}");
-            //Error:
+            //Error:passing int not EmptType
             //Console.WriteLine($"emp1.CompareTo(0) = { emp1.CompareTo(0)}");
 
+            // ------------------------<  obj.Equals(object target)  >------------------------
             // Equals : doesn't throw Exception in Type Mismatch
             Console.WriteLine($"emp1.Equals(EmpType.Manager) = {emp1.Equals(EmpType.Manager)}");        // True
             Console.WriteLine($"emp1.Equals(EmpType.SalesPersom) = {emp1.Equals(EmpType.SalesPersom)}"); // False
             Console.WriteLine($"emp1.Equals(1) = {emp1.Equals(1)}");    // False
             Console.WriteLine($@"emp1.Equals(""Managers"") = {emp1.Equals("Manager")}");    // False
 
+            // ------------------------<  System.Enum Class Functionality  >------------------------
+            // -------------------------------------------------------------------------------------
             Console.WriteLine($"Enum.GetUnderlyingType(typeof(EmpType)) = {Enum.GetUnderlyingType(typeof(EmpType))} "); // Int32
 
-            foreach (var item in Enum.GetValues(emp1.GetType()))
+            // ------------------------<   public static Array GetValues(Type enumType);  >------------------------
+            Console.WriteLine("1- Array empItems = Enum.GetValues(typeof(EmpType))");
+            Array empItems = Enum.GetValues(typeof(EmpType));
+            foreach (EmpType item in empItems)
             {
                 Console.WriteLine($"Name: {item} , Value: {(int)item}");
             }
             Console.WriteLine();
 
-            Console.WriteLine("Enum.GetNames()");
-            foreach (var item in Enum.GetNames(typeof(EmpType)))
+
+            // ------------------------<  public static Array GetValues(Type enumType);  >------------------------
+            // The same as the last code but here we see some changes
+            Console.WriteLine("2- Array empItems = Enum.GetValues(typeof(EmpType))");
+            empItems = Enum.GetValues(typeof(EmpType));
+            for (int i= 0; i < empItems.Length; i++)
             {
-                Console.Write($"{item}");
+                Console.WriteLine("Name: {0} , Value: {0:D}", empItems.GetValue(i));
             }
             Console.WriteLine();
 
+            // ------------------------<  public static Array GetValues(Type enumType);  >------------------------
+            // The same as the last code but here we see some changes
+            Console.WriteLine("3- Enum.GetValues(emp1.GetType())");
+            foreach (EmpType item in Enum.GetValues(emp1.GetType()))
+            {
+                //Console.WriteLine($"Name: {item} , Value: {(int)item}");
+                Console.WriteLine("Name: {0} , Value: {1}", item, (int)item);
+            }
+            Console.WriteLine();
 
+            // ------------------------<  public static string[] GetNames(Type enumType);  >------------------------
+            Console.WriteLine("Enum.GetNames()");
+            foreach (string item in Enum.GetNames(typeof(EmpType)))
+            {
+                Console.WriteLine($"{item}");
+            }
+            Console.WriteLine();
 
+            // ------------------------<  public static string GetName(Type enumType, object value);  >------------------------
+            Console.WriteLine("Enum.GetName(typeof(EmpType),0) = {0}", Enum.GetName(typeof(EmpType),0));
 
+            // ------------------------<  public static object Parse(Type enumType, string value);  >------------------------
+            Console.WriteLine("public static object Parse(Type enumType, string value);");
+            emp1 = EmpType.SalesPersom;
+            Console.WriteLine(emp1.ToString());
+            emp1 = (EmpType)Enum.Parse(typeof(EmpType), "Manager");
+            Console.WriteLine(@"Enum.Parse(typeof(EmpType),""Manager"") = " + emp1);
 
+            emp1 = (EmpType)Enum.Parse(typeof(EmpType), "2");
+            Console.WriteLine(@"Enum.Parse(typeof(EmpType),""2"") = " + emp1);
 
+            // -----<  public static bool TryParse<TEnum>(string value, out TEnum result) where TEnum : struct;  >------
 
+            if (Enum.TryParse("PTSalesPerson", out EmpType emp2))
+            {
+                Console.WriteLine($"TryParse string (PTSalesPerson) Result:");
+                WriteEnum(emp2);
+            }
+            else
+                Console.WriteLine("Can't Parse string");
 
+            if (Enum.TryParse("2", out emp2))
+            {
+                Console.WriteLine($"TryParse integer 2 Result:");
+                WriteEnum(emp2);
+            }
+            else
+                Console.WriteLine("Can't Parse integer");
 
+            // -----<  public static object ToObject(Type enumType, int value);  >------
+            Console.WriteLine(new StringBuilder().Append('=',30));
+            Console.WriteLine("public static object ToObject(Type enumType, int value);");
+            // To convert integer any provided value type to enum
+            EmpType emp3 = (EmpType)Enum.ToObject(typeof(EmpType), 2);
+            WriteEnum(emp3);
+            WriteEnumNameValuePair(emp3.GetType());
 
+            // -----<  public static bool IsDefined(Type enumType, object value);  >------
+            Console.WriteLine();
+            Console.WriteLine("public static bool IsDefined(Type enumType, object value);");
+            Console.WriteLine($@"Enum.IsDefined(typeof(Day),""Sat"") = {Enum.IsDefined(typeof(Day),"Sat")}");
+            Console.WriteLine($@"Enum.IsDefined(typeof(Day),""sat"") = {Enum.IsDefined(typeof(Day), "sat")}");
+            Console.WriteLine($@"Enum.IsDefined(typeof(Day),""Moamen"") = {Enum.IsDefined(typeof(Day), "Moamen")}");
+            Console.WriteLine();
+
+            //-----<  public static string Format(Type enumType, object value, string format);  >------
+            // Not implemented yet!
+
+            // Test: public static void WriteEnumNameValuePair(Type enumType);
+            WriteEnumNameValuePair(emp2.GetType());
+            WriteEnumNameValuePair(typeof(Day));
         }
+
+
+        public static void WriteEnum(Enum e)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Write Info of Enumeration << {e.GetType()} >>");
+            Console.WriteLine($"Enum Name-------------: {e}");
+            Console.WriteLine($"Enum Value------------: {Convert.ToInt32(e)}");
+            Console.WriteLine($"Enum Type-------------: {e.GetType()}");
+            Console.WriteLine($"Enum Underlaying Type-: {e.GetTypeCode()}");
+            Console.WriteLine();
+        }
+
+        public static void WriteEnumNameValuePair(Type enumType)
+        {
+
+            Array items = Enum.GetValues(enumType);
+            Console.WriteLine();
+            Console.WriteLine($"Name-Value Pair of Enumeration << {enumType.FullName} >>");
+            foreach (var item in items)
+            {
+                Console.WriteLine($"Name: {item}, Value: {(int)item}");
+            }
+            Console.WriteLine();
+        }
+
+
     }
 
 
     // enums default first constant is 0 , and the default storage is System.Int32
     public enum EmpType{
-        Manager,
-        SalesPersom,
-        PTSalesPerson
+        Manager,        // = 0  UnderlayingType : Int32
+        SalesPersom,    // = 1  UnderlayingType : Int32
+        PTSalesPerson   // = 2  UnderlayingType : Int32
     }
 
     public enum EmpType2
     {
-        Manager = 100,
-        SalesPersom,
-        PTSalesPerson
+        Manager = 100,  // = 100  UnderlayingType : Int32
+        SalesPersom,    // = 200  UnderlayingType : Int32
+        PTSalesPerson   // = 300  UnderlayingType : Int32
     }
 
     public enum EmpType3
     {
-        Manager = 10,
-        SalesPersom = 19,
-        PTSalesPerson = 6
+        Manager = 10,       // = 10  UnderlayingType : Int32
+        SalesPersom = 19,   // = 19  UnderlayingType : Int32
+        PTSalesPerson = 6   // = 6  UnderlayingType : Int32
     }
 
     public enum EmpType4 : short
     {
-        Manager,
-        SalesPersom,
-        PTSalesPerson
+        Manager,        // = 0  UnderlayingType : Int16
+        SalesPersom,    // = 1  UnderlayingType : Int16
+        PTSalesPerson   // = 2  UnderlayingType : Int16
     }
 
 
