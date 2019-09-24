@@ -17,8 +17,10 @@ namespace pro_csharp_book_training
             //SwitchTraining.TestSwitch(null);
 
             //ArraysTraining.TestArrays();
-            //StringsTraining.TestStrings();
-            EnumsTraining.TestEnums();
+            StringsTraining.TestStrings();
+            //EnumsTraining.TestEnums();
+            //TuplesTraining.TestTuples();
+
 
             Console.WriteLine("Press Any Key to Continue!");
             Console.ReadLine();
