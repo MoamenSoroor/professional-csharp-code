@@ -49,6 +49,7 @@
     <Compile Include="ArraysTraining.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EnumsTraining.cs" />
+    <Compile Include="NullableTraining.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringsTraining.cs" />

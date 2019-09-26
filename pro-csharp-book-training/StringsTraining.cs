@@ -22,6 +22,7 @@ namespace pro_csharp_book_training
             // Initialize to null.
             string message2 = null;
 
+
             // Initialize as an empty string.
             // Use the Empty constant instead of the literal "".
             string message3 = System.String.Empty;
@@ -142,10 +143,38 @@ namespace pro_csharp_book_training
 
             Console.WriteLine($"first name: {fname}; last name: {lname}; age: {age}");
 
+            int radius = 10;
+            const double pi = Math.PI;
+            Console.WriteLine($"Area of Circle with Radius {radius}is {radius * radius * pi}");
+
+            Console.WriteLine($" Sin(90) = {Math.Sin(90)}");
+            Console.WriteLine($" Cos(90) = {Math.Cos(90)}");
+
+            // Nested String inerpolation:
+            TestGreaterOrEquals(10, 11);
+            TestGreaterOrEquals(10, 9);
+            TestGreaterOrEquals(10, 10);
+
+            TestRelation(10, 11);
+            TestRelation(10, 9);
+            TestRelation(10, 10);
+
 
             #endregion
 
 
+        }
+
+        // for test nested interpolation
+        public static void TestGreaterOrEquals(int point, int value)
+        {
+            Console.WriteLine($"Your Data {value} is {(value >= point ? $"Geater than or Equals {point}." : $"Smaller than {point}.")}");
+        }
+
+        // for test nested interpolation
+        public static void TestRelation(int point, int value)
+        {
+            Console.WriteLine($"Your Data {value} is {(value > point ? $"Geater than {point}." : value == point ? $"Equal to {point}" : $"Smaller than {point}")}");
         }
 
 
