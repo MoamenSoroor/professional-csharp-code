@@ -20,8 +20,8 @@ namespace pro_csharp_book_training
             //StringsTraining.TestStrings();
             //EnumsTraining.TestEnums();
             //StructuresTraining.TestStructures();
-            NullablesTraining.TestNullables();
-            //TuplesTraining.TestTuples();
+            //NullablesTraining.TestNullables();
+            TuplesTraining.TestTuples();
 
 
 

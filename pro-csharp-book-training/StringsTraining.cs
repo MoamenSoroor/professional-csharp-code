@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace pro_csharp_book_training
@@ -162,9 +163,127 @@ namespace pro_csharp_book_training
 
             #endregion
 
+            #region string class static Methods and Properties
+
+
+            Logger.Title("public static int Compare(String strA, String strB)");
+            Console.WriteLine($"{string.Compare("Moamen", "Soroor")}");
+            Console.WriteLine($"{string.Compare("Moamen", "Moamen")}");
+            Console.WriteLine($"{string.Compare("MOAMEN", "moamen",false)}");
+            Console.WriteLine($"{string.Compare("MOAMEN", "moamen",true)}");
+            Console.WriteLine($"{string.Compare("MOAMEN", "moamen", StringComparison.Ordinal)}");
+            Console.WriteLine($"{string.Compare("MOAMEN", "moamen",StringComparison.OrdinalIgnoreCase)}");
+
+            Logger.Title("public static bool Equals(String a, String b)");
+            Console.WriteLine($"{string.Equals("Moamen", "Soroor")}");
+            Console.WriteLine($"{string.Equals("Moamen", "Moamen")}");
+            Console.WriteLine($"{string.Equals("MOAMEN", "moamen", StringComparison.Ordinal)}");
+            Console.WriteLine($"{string.Equals("MOAMEN", "moamen", StringComparison.OrdinalIgnoreCase)}");
+
+            Logger.Title("public static String Join(String separator, params object[] values)");
+            Console.WriteLine($"{string.Join(",",new[] { 10, 20, 30, 40})}");
+            Console.WriteLine($"{string.Join(", ",new[] { 10, 20, 30, 40})}");
+
+            Logger.Title("public static String Join(String separator, params object[] values)");
+            Console.WriteLine($"{string.Join(", ", "0123456789".ToCharArray())}");
+
+            Logger.Title("public static String Join(String separator, String[] value, int startIndex, int count)");
+            var strArray = new[] { "A", "B", "C", "D", "E", "F", "G" };
+            Console.WriteLine($"{string.Join(", ", strArray,3,6)}");
+
+            Logger.Title("public static String Concat(params String[] values); ");
+            Console.WriteLine($"{string.Concat("Moamen","Mohammed", "Gamal" , "Soroor")}");
+            Console.WriteLine($"{string.Concat(10,20,30,40,50,60)}");
+            Console.WriteLine($"{string.Concat(10, true,"Hello", Math.PI)}");
+
+
+
+
+            #endregion
+
+            #region string class methods and properties
+            string str = "Moamen Soroor";
+            //           "0123456789012"   
+            Console.WriteLine($"str = {str}");
+            Console.WriteLine($"str.Length = {str.Length}");
+
+            Console.WriteLine($@"str.Contains(""men"") = {str.Contains("men")}");
+            Console.WriteLine($@"str.Contains(""Sor"") = {str.Contains("Sor")}");
+
+            Console.WriteLine($"str.Replace('o','X') = {str.Replace('o','X')}");
+            Console.WriteLine($@"str.Replace(""Sor"", ""Tor"") = {str.Replace("Sor","Tor")}");
+
+            Console.WriteLine($"str.Remove(3) = {str.Remove(3)}");
+            Console.WriteLine($@"str.Remove(3,6) = {str.Remove(3,6)}");
+
+            Console.WriteLine($"str.ToLower() = {str.ToLower()}");
+            Console.WriteLine($"str.ToUpper() = {str.ToUpper()}");
+
+            Console.WriteLine($"str.Substring(7) = {str.Substring(7)}");
+            Console.WriteLine($"str.Substring(3,3) = {str.Substring(3,3)}");
+
+            Console.WriteLine($"str.IndexOf('M') = {str.IndexOf('M')}");
+            Console.WriteLine($"str.IndexOf('m') = {str.IndexOf('m')}");
+            Console.WriteLine($"str.IndexOf('o') = {str.IndexOf('o')}");
+            Console.WriteLine($"str.IndexOf('r') = {str.IndexOf('r')}");
+            Console.WriteLine($@"str.IndexOf(""Sor"") = {str.IndexOf("Sor")}");
+
+            Console.WriteLine($"str.LastIndexOf('o') = {str.LastIndexOf('o')}");
+            Console.WriteLine($"str.LastIndexOf('r') = {str.LastIndexOf('r')}");
+            Console.WriteLine($"str.LastIndexOf('r') = {str.LastIndexOf('r')}");
+            Console.WriteLine($@"str.LastIndexOf(""men"") = { str.LastIndexOf("men")}");
+
+            Logger.Title("public int IndexOfAny(char[] anyOf, int startIndex, int count)");
+            Console.WriteLine($"str.IndexOf('r') = {str.IndexOfAny(new [] {'S','e','r'})}"); ;
+            Console.WriteLine($@"str.IndexOfAny(""ser"".ToCharArray()) = {str.IndexOfAny("ser".ToCharArray())}");
+            Console.WriteLine($@"str.IndexOfAny(""ser"".ToCharArray(),7) = {str.IndexOfAny("ser".ToCharArray(),7)}");
+            Console.WriteLine($@"str.IndexOfAny(""ser"".ToCharArray(),7,3) = {str.IndexOfAny("ser".ToCharArray(),7,3)}");
+
+            Logger.Title("public int LastIndexOfAny(char[] anyOf, int startIndex, int count)");
+            Console.WriteLine($@"str.LastIndexOfAny(""ser"".ToCharArray()) = {str.LastIndexOfAny("ser".ToCharArray())}");
+
+
+            // the CompareTo method perform culture - sensitive and case-sensitive comparison
+            // Better approach is to use string.Compare Static Method.
+            Console.WriteLine($@"str.CompareTo(""Moamen Soroor"") = {str.CompareTo("Moamen Soroor")}");
+            Console.WriteLine($@"str.CompareTo(""moamen soroor"") = {str.CompareTo("moamen soroor")}");
+
+            Console.WriteLine($@"str.Equals(""Moamen Soroor"") = {str.Equals("Moamen Soroor")}");
+            Console.WriteLine($@"str.Equals(""moamen soroor"") = {str.Equals("moamen soroor")}");
+
+            Console.WriteLine($@"str.Equals(""Moamen Soroor"") = {str.Equals("Moamen Soroor",StringComparison.Ordinal)}");
+            Console.WriteLine($@"str.Equals(""moamen soroor"") = {str.Equals("moamen soroor", StringComparison.OrdinalIgnoreCase)}");
+
+
+            Logger.Title("public static String Join(String separator, params object[] values)");
+            Console.WriteLine($@"str.Insert(0, ""Mr. "") = {str.Insert(0,"Mr. ")}");
+            Console.WriteLine($@"str.Insert(str.IndexOf("" ""),"" Mohammed"") = {str.Insert(str.IndexOf(" ")," Mohammed")}");
+
+
+            Console.WriteLine();
+            #endregion
+
+            #region String Literal Can use string class methods and properties
+            Console.WriteLine();
+            Console.WriteLine("".PadLeft(20,'=').PadRight(20,'='));
+            Console.WriteLine("".Length);
+            Console.WriteLine();
+
+            #endregion
+
+            
+
+            // Make repeated string
+            Console.WriteLine(RepeatStringWithLoop("Moamen ", 10));
+            Console.WriteLine(RepeatStringWithLoopAndStringBuilder("Moamen ", 10));
+            Console.WriteLine(RepeatStringWithStringBuilderAndInsert("Moamen ", 10));
+            Console.WriteLine(RepeatStringWithPadLeftAndReplace("Moamen ", 10));
+            Console.WriteLine(RepeatStringWithStringConstructorAndReplace("Moamen ", 10));
+
 
         }
 
+        #region Nested String Interpolation Test Methods
         // for test nested interpolation
         public static void TestGreaterOrEquals(int point, int value)
         {
@@ -175,6 +294,76 @@ namespace pro_csharp_book_training
         public static void TestRelation(int point, int value)
         {
             Console.WriteLine($"Your Data {value} is {(value > point ? $"Geater than {point}." : value == point ? $"Equal to {point}" : $"Smaller than {point}")}");
+        }
+
+        #endregion
+
+        #region Repeate String with different ways
+        // repeate String with for loop
+        // // Not Efficient as each loop iteration a new string object is create
+        public static string RepeatStringWithLoop(string str, int count)
+        {
+            string result = str;
+            for (int i = 0; i < count - 1; i++)
+            {
+                result += str;
+            }
+            return result;
+        }
+
+        // better approach is to use StringBuilder with for loop and append method
+        public static string RepeatStringWithLoopAndStringBuilder(string str, int count)
+        {
+            StringBuilder builder = new StringBuilder(str.Length * count);
+            for (int i = 0; i < count; i++)
+            {
+                builder.Append(str);
+            }
+            return builder.ToString();
+        }
+
+        public static string RepeatStringWithStringBuilderAndInsert(string str, int count)
+        {
+            return new StringBuilder(str.Length * count).Insert(0, str, count).ToString();
+        }
+
+        // Not Efficient
+        public static string RepeatStringWithPadLeftAndReplace(string str, int count)
+        {
+            return "".PadLeft(count,'X').Replace("X", str);
+        }
+
+        // Not Efficient
+        public static string RepeatStringWithStringConstructorAndReplace(string str, int count)
+        {
+            return new string('X',count).Replace("X", str);
+        }
+
+        #endregion
+
+    }
+
+
+    public class Logger
+    {
+        public static int Count { get; set; } = 40;
+        public static string PaddingString { get; set; } = "=";
+
+        public static void Title(string str, int? count = null, string paddingString = null)
+        {
+            Console.WriteLine();
+            Console.WriteLine(str);
+            Sep(count ?? str.Length, paddingString);
+        }
+
+        public static void Sep(int? count = null, string paddingString = null)
+        {
+            Console.WriteLine(RepeatString(paddingString ?? PaddingString, count ?? Count));
+        }
+
+        public static string RepeatString(string str, int count)
+        {
+            return new StringBuilder(str.Length * count).Insert(0, str, count).ToString();
         }
 
 

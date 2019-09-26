@@ -3,6 +3,43 @@ using System;
 
 namespace pro_csharp_book_training
 {
+    // Structure Specification Notes
+    //----------------------------------------------------------------------------------------------------
+    // - A structure (such as an enumeration) is a user-defined type.
+
+    // - Structures considered Value-based as It is derived from ValueType class, so: 
+    //      it is treated as a Variable not as an Object and allocated in Stack not in the Heap
+    //      Simply put, data allocated on the stack can be created and destroyed quickly, 
+    //      as its lifetime is determined by the defining scope.
+
+    // - you can think of a structure as a “lightweight class type”
+
+    // - It cannot be used to build a family of related types.
+
+    // - When you need to build a family of related types through inheritance, 
+    //      you will need to make use of class types
+
+    // - Structures used for modeling mathematical, geometrical, 
+    //      and other “atomic” entities in your application.
+
+    // - Structures doesn't accepts protected Modifier
+
+    // Structure Programming Notes
+    //----------------------------------------------------------------------------------------------------
+    // - 
+    // - 
+    // - 
+    // - The three Paradigms of Creating Structure Variables is:
+    //     1- Creating Variable without Constructor - e.g Point p1; - :
+    //          With that way, all Data fields doesn't assigned to any value in Structure Variable Creation 
+    //          so you will face a Compile error if you don't assign it after structure creation in that way.
+    //     2- Creating Variable with default constructor e.g Point p1 = new Point();
+    //          Here, All Data Fields are set to it's default values e.g int to 0, float and double to 0.0,
+    //          and all objects are set to null.
+    //     3- Creating Variable with Custom Constructor e.g Point p1 = new Point(10,20);
+    //          Here, you must assign all data fields to it's value. or else, you will face Compile Error. 
+    // - 
+
     public static class StructuresTraining
     {
         static StructuresTraining() { }
@@ -43,42 +80,7 @@ namespace pro_csharp_book_training
 
         }
     }
-    // Structure Specification Notes
-    //----------------------------------------------------------------------------------------------------
-    // - A structure (such as an enumeration) is a user-defined type.
-
-    // - Structures considered Value-based as It is derived from ValueType class, so: 
-    //      it is treated as a Variable not as an Object and allocated in Stack not in the Heap
-    //      Simply put, data allocated on the stack can be created and destroyed quickly, 
-    //      as its lifetime is determined by the defining scope.
-
-    // - you can think of a structure as a “lightweight class type”
-
-    // - It cannot be used to build a family of related types.
-
-    // - When you need to build a family of related types through inheritance, 
-    //      you will need to make use of class types
-
-    // - Structures used for modeling mathematical, geometrical, 
-    //      and other “atomic” entities in your application.
-
-    // - Structures doesn't accepts protected Modifier
-
-    // Structure Programming Notes
-    //----------------------------------------------------------------------------------------------------
-    // - 
-    // - 
-    // - 
-    // - The three Paradigms of Creating Structure Variables is:
-    //     1- Creating Variable without Constructor - e.g Point p1; - :
-    //          With that way, all Data fields doesn't assigned to any value in Structure Variable Creation 
-    //          so you will face a Compile error if you don't assign it after structure creation in that way.
-    //     2- Creating Variable with default constructor e.g Point p1 = new Point();
-    //          Here, All Data Fields are set to it's default values e.g int to 0, float and double to 0.0,
-    //          and all objects are set to null.
-    //     3- Creating Variable with Custom Constructor e.g Point p1 = new Point(10,20);
-    //          Here, you must assign all data fields to it's value. or else, you will face Compile Error. 
-    // - 
+    
 
 
     struct MyStruct
