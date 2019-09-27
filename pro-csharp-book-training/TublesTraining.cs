@@ -11,13 +11,25 @@ namespace pro_csharp_book_training
 
     // Tuples Specification Notes
     //----------------------------------------------------------------------------------------------------
-    // - Tuples, which are lightweight data structures that contain multiple fields, were actually added in C# 6
-    //      but in a very limited way.
-    // - In C# 7, tuples use the new ValueTuple data type instead of reference types, potentially saving
-    //      significant memory.
-    // - An additional feature added in C# 7 is that each property in a tuple can be assigned a specific
-    //      name(just like variables), greatly enhancing the usability.
-    // - 
+    // - Methods return a single object. Tuples enable you to package multiple values in that 
+    //      single object more easily.
+    // -  you could create a class or a struct to carry multiple elements returned from method. 
+    //      Unfortunately, that's more work for you, and it obscures your design intent.
+    //      Making a struct or class implies that you are defining a type with both data and behavior.
+    //      Many times, you simply want to store multiple values in a single object.
+
+    // - Tuples, which are lightweight data structures that contain multiple fields, 
+    //      were actually added in C# 6 but in a very limited way.
+
+    // - In C# 7, tuples use the new ValueTuple -structure drived from ValueType- data type 
+    //       instead of reference types, potentially saving significant memory.
+
+    // - An additional feature added in C# 7 is that each property in a tuple can be 
+    //      assigned a specific name(just like variables), greatly enhancing the usability.
+
+    // - All the ValueTuple types are mutable structs. Each member field is a public field.
+    //      That makes them very lightweight. However, that means tuples should not be used
+    //      where immutability is important.
     // - 
 
     public static class TuplesTraining
@@ -32,8 +44,8 @@ namespace pro_csharp_book_training
             // you can use Impicity typed var
             var varValues = (Math.PI, "Math" , false);
 
-            // By default, the compiler assigns each property the name ItemX, where X represents the one based
-            //      position in the tuple.
+            // By default, the compiler assigns each property the name ItemX, 
+            //      where X represents the one based position in the tuple.
             Console.WriteLine(values.Item1);
             Console.WriteLine(values.Item2);
             Console.WriteLine(values.Item3);
@@ -44,9 +56,43 @@ namespace pro_csharp_book_training
             Console.WriteLine(values.Item2.GetType().FullName);
             Console.WriteLine(values.Item3.GetType().FullName);
 
-            // Specific names can also be added to each property in the tuple on either the right side or the left side of
-            //      the statement.
 
+            #region Named and unnamed tuples
+
+            // Named and unnamed tuples
+            //------------------------------------------------------------------------------------------
+            // The ValueTuple struct - drived from ValueType - has fields named Item1, Item2, Item3, and so on,
+            //      similar to the properties defined in the existing Tuple types.
+            //      These names are the only names you can use for unnamed tuples. 
+            //      When you do not provide any alternative field names to a tuple, 
+            //      you've created an unnamed tuple.
+
+            // Named tuples still have elements named Item1, Item2, Item3 and so on. 
+            //      But they also have synonyms for any of those elements that you have named.
+
+            //  In Named tuples, The compiled Microsoft Intermediate Language (MSIL) does not 
+            //      include the names you've given to tuple elements.
+
+            // Unnamed tuples
+            (int, bool) tuple1 = (10, true);
+            var tuple2 = (10, true);
+            (int, bool) tuple3 = (integer: 10, boolean: true);
+
+            // named tuples
+            (int integer, bool boolean) tuple4 = (10, true);
+            var tuple5 = (integer: 10, boolean: true);
+            (int integer, bool boolean) tuple6 = (myInt: 10, myBool: true); // right side names ignored by compiler
+
+            // Deconstruction tuple
+            (int integer, bool boolean) = (10, true);
+
+            var (integer1, boolean1) = (10, true);
+
+            (var integer2, var boolean2) = (10, true);
+
+
+            // Specific names can be added to each property in the tuple on either the right side or the left side of
+            //      the statement.
             // Left Side Named Properties
             //------------------------------------------------------------------------------------------
             (int MyInt, string Mystr, bool MyBool) rightSideTuple = (10, "Moamen", true);
@@ -62,7 +108,7 @@ namespace pro_csharp_book_training
             Console.WriteLine(rightSideTuple.MyBool);
             Console.WriteLine(rightSideTuple.Mystr);
 
-            // var with Right Side Named Properties
+            // var with Right Side Named Properties - Names as part of the tuple initialization -:
             //------------------------------------------------------------------------------------------
             var leftSideTupleWithVar = (MyInt: 10, MyStr: "Moamen", MyBool: true);
 
@@ -132,31 +178,183 @@ namespace pro_csharp_book_training
             Console.WriteLine(leftSideTuple.Item2);
             Console.WriteLine(leftSideTuple.Item3);
 
-            // Inferred Tuple Names
+            #endregion
+
+            #region Tuple Projection Initializers
+            // Tuple Projection Initializers
             //------------------------------------------------------------------------------------------
-            Logger.Title("Inferred Tuple Names");
-            var foo = (Prop1: "first", Prop2: "second");
-            var bar = (foo.Prop1, foo.Prop2);
-            var bar2 = (BarProp1: foo.Prop1, BarProp2: foo.Prop2);
-            Console.WriteLine($"{bar.Prop1};{bar.Prop2}");
-            Console.WriteLine($"{bar2.BarProp1};{bar2.BarProp1}");
+            // Beginning with C# 7.1, the field names for a tuple may be provided from the variables used to
+            //  initialize the tuple. This is referred to as tuple projection initializers.
 
-            // Value Types To Tuple Conversion without Named Properties (from C# 7.1)
-            int var1 = 10, var2 = 20;
-            var myTuple = (var1, var2);
+            Logger.Title("Tuple Projection Initializers");
+            double sum = 12.5;
+            int count = 5;
+            // projected names
+            var accumulation = (count, sum);
+            Console.WriteLine("accumulation.count = " + accumulation.count);
+            Console.WriteLine("accumulation.sum = " + accumulation.sum);
 
-            // Value Types To Tuple Conversion (from C# 7.0)
-            var myTuple2 = (TupleVar1: var1, TupleVar2: var2);
+            // You can use Projected Names, or update it with new Explicit Names.
+            // If an explicit name is given, that takes precedence over any projected name.
+            // and compile error with appear if you call elements with projected names     
 
-            Console.WriteLine(myTuple == (var1, var2));
-            Console.WriteLine(myTuple == myTuple2);
+            // explicit names
+            var accumulation2 = (count2: count, sum2: sum);
+            Console.WriteLine("accumulation.count2 = " + accumulation2.count2);
+            Console.WriteLine("accumulation.sum2 = " + accumulation2.sum2);
+            // compile Error if you use projected names, as explicit names canceled projected names
+            //Console.WriteLine("accumulation.sum = " + accumulation2.sum);
+            //Console.WriteLine("accumulation.count = " + accumulation2.count);
+
+            // For any field where an explicit name is not provided, an applicable implicit name is projected.
+
+            var stringContent = "The answer to everything";
+            var mixedTuple = (42, stringContent);
+            Console.WriteLine($"mixedTuple = ({mixedTuple.Item1} , {mixedTuple.stringContent})");
+
+            // Mixed tuple with explicit name for first element, and projected name for second element.
+            var mixedTuple2 = (integer: 42, stringContent);
+            Console.WriteLine($"mixedTuple2 = ({mixedTuple2.integer} , {mixedTuple2.stringContent})");
+
+            // There are two conditions where candidate field names are not projected onto the tuple field:
+            // 1- When the candidate name is a reserved tuple name. 
+            //      Examples include Item3, ToString.or Rest.
+            // 2- When the candidate name is a duplicate of another tuple field name,
+            //      either explicit or implicit.
+
+            // Neither of these conditions cause compile-time errors.Instead, 
+            //      the elements without projected names do not have semantic 
+            //      names projected for them.
+
+            // Projection Failure First Case:
+           int num = 10;
+            int Item2 = 20;
+            var tuple7 = (Item2, num);
+            // projection failed as Item2 ia << Reserved Tuple Name >> , and now:
+            // first element can be accessed only with implicit name (Item1)
+            Console.WriteLine(tuple7.Item1);
+            // second element can be accessed with projected name (num) and implicit name (Item2)
+            Console.WriteLine(tuple7.Item2);
+
+            // Projection Failure Second Case:
+
+            var point1 = (X: 10, Y: 20);
+            var point2 = (X: 30, Y: 40);
+            // Projection failed because of Names Ambiguity due to duplication of another tuple field name
+            var xCoords = (point1.X, point2.X);
+            // we can access xCoords only with Implicit names ItemX Notation
+            Console.WriteLine(xCoords.Item1);
+            Console.WriteLine(xCoords.Item2);
+
+            //Console.WriteLine(xCoords.X);
+
+            // These situations do not cause compiler errors because that would be a 
+            //      breaking change for code written with C# 7.0, when tuple field name 
+            //      projections were not available.
+
+            #endregion
+
+            #region Equality in Tuples
+
+            // Equality in Tuples
+
+            // Beginning with C# 7.3, tuple types support the == and != operators. 
+            // These operators work by comparing each member of the left argument to
+            // each member of the right argument in order. These comparisons short-circuit.
+            Logger.Title("Equality in Tuples");
+            var left = (a: 5, b: 10);
+            var right = (a: 5, b: 10);
+            Console.WriteLine(left == right); // displays 'true'
+
+            // Tuple equality also performs implicit conversions on each member of both tuples. 
+            // These include lifted conversions, widening conversions, or other implicit conversions.
+
+            // Tuple equality performs lifted conversions if one of the tuples is a nullable tuple
+            Logger.Title("lifted conversions if one of the tuples is a nullable tuple");
+            var left2 = (a: 10, b: 20);
+            (int? a, int? b) nullableRight = (10, 20);
+            Console.WriteLine(left2 == nullableRight);
+
+            // converted type of left is (long, long)
+            (long a, long b) longTuple = (5, 10);
+            Console.WriteLine(left == longTuple); // Also true
+
+            // comparisons performed on (long, long) tuples
+            (long a, int b) longFirst = (5, 10);
+            (int a, long b) longSecond = (5, 10);
+            Console.WriteLine(longFirst == longSecond); // Also true
+
+            // The names of the tuple members do not participate in tests for equality.However,
+            //  if one of the operands is a tuple literal with explicit names, the compiler 
+            //  generates warning CS8383 if those names do not match the names of the other operand. 
+
+            (int a, string b) pair = (1, "Hello");
+            (int z, string y) another = (1, "Hello");
+            Console.WriteLine(pair == another); // true. Member names don't participate.
+            Console.WriteLine(pair == (z: 1, y: "Hello")); // warning: literal contains different member names
+
+            //Finally, tuples may contain nested tuples. 
+            // Tuple equality compares the "shape" of each operand through nested tuples.
+
+            (int, (int, int)) nestedTuple = (1, (2, 3));
+            Console.WriteLine(nestedTuple == (1, (2, 3)));
+
+            // It's a compile time error to compare two tuples for equality (or inequality) 
+            //      when they have different shapes. The compiler won't attempt any deconstruction 
+            //      of nested tuples in order to compare them.
+
+            #endregion
+            //The language supports assignment between tuple types that have the same number of elements, 
+            //      where each right-hand side element can be implicitly converted to its corresponding 
+            //      left hand side element. Other conversions aren't considered for assignments. 
+            //      It's a compile time error to assign one tuple to another when they have different shapes. 
+            //      The compiler won't attempt any deconstruction of nested tuples in order to assign them. 
+            //      Let's look at the kinds of assignments that are allowed between tuple types.
+
+            // The 'arity' and 'shape' of all these tuples are compatible. 
+            // The only difference is the field names being used.
+            var unnamed = (42, "The meaning of life");
+            var anonymous = (16, "a perfect square");
+            var named = (Answer: 42, Message: "The meaning of life");
+            var differentNamed = (SecretConstant: 42, Label: "The meaning of life");
+
+            //  all of these assignments work:
+            unnamed = named;
+
+            named = unnamed;
+            // 'named' still has fields that can be referred to
+            // as 'answer', and 'message':
+            Console.WriteLine($"{named.Answer}, {named.Message}");
+
+            // unnamed to unnamed:
+            anonymous = unnamed;
+
+            // named tuples.
+            named = differentNamed;
+            // The field names are not assigned. 'named' still has 
+            // fields that can be referred to as 'answer' and 'message':
+            Console.WriteLine($"{named.Answer}, {named.Message}");
+
+            // With implicit conversions:
+            // int can be implicitly converted to long
+            (long, string) conversion = named;
+
+            // Notice that the names of the tuples are not assigned. The values of the elements
+            //      are assigned following the order of the elements in the tuple.
+
+            // Tuples of different types or numbers of elements are not assignable:
+            // Does not compile.
+            // CS0029: Cannot assign Tuple(int,int,int) to Tuple(int, string)
+            //var differentShape = (1, 2, 3);
+            //named = differentShape;
+
+            #region Assignment and tuples
 
 
-            // Tuple To Value Types Conversion
-            var1 = myTuple.Item1;
-            var2 = myTuple.Item2;
 
+            #endregion
 
+            #region Tuples As Method Return Values
 
             // Tuples As Method Return Values
             //------------------------------------------------------------------------------------------
@@ -201,15 +399,29 @@ namespace pro_csharp_book_training
             var (first2, _, _) = SplitName("Moamen Mohammed Soroor");
             Console.WriteLine($"{first2}");
 
-            // Deconstructing with Tuples
+            #endregion
+
+
+            #region Deconstructing with Tuples
+
+            // Deconstruction
             //------------------------------------------------------------------------------------------
+            // You can unpackage all the items in a tuple by deconstructing the tuple returned by a method. 
+            //      There are three different approaches to deconstructing tuples.
+
+
+
+
+
+            //MyPoint Sructure Variable
             MyPoint p1 = new MyPoint(10, 20);
 
+            // deconstructing
             var pointValues = p1.Deconstruct();
             Console.WriteLine($"px = {pointValues.XPos}");
             Console.WriteLine($"py = {pointValues.YPos}");
 
-
+            #endregion
 
         }
 
