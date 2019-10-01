@@ -11,6 +11,8 @@ namespace pro_csharp_book_training
         static void Main(string[] args)
         {
 
+            BasicsTraining.TestBasics();
+
             //SwitchTraining.TestSwitch(10);
             //SwitchTraining.TestSwitch(10.2341);
             //SwitchTraining.TestSwitch("Moamen");
@@ -21,7 +23,7 @@ namespace pro_csharp_book_training
             //EnumsTraining.TestEnums();
             //StructuresTraining.TestStructures();
             //NullablesTraining.TestNullables();
-            TuplesTraining.TestTuples();
+            //TuplesTraining.TestTuples();
 
 
 

@@ -76,11 +76,12 @@ namespace pro_csharp_book_training
             // Unnamed tuples
             (int, bool) tuple1 = (10, true);
             var tuple2 = (10, true);
-            (int, bool) tuple3 = (integer: 10, boolean: true);
+            (int, bool) tuple3 = (integer: 10, boolean: true); // right side names ignored by compiler
 
             // named tuples
             (int integer, bool boolean) tuple4 = (10, true);
             var tuple5 = (integer: 10, boolean: true);
+
             (int integer, bool boolean) tuple6 = (myInt: 10, myBool: true); // right side names ignored by compiler
 
             // Deconstruction tuple
