@@ -272,36 +272,62 @@ namespace pro_csharp_book_training
 
     // Use parentheses to change the order of evaluation imposed by operator associativity
 
+
+    // basic types:
+    // ----------------------
+    // sbyte  
+    // byte   
+    // short  
+    // ushort 
+    // int    
+    // uint   
+    // long   
+    // ulong  
+    // float  
+    // double 
+    // decimal
+    // char  
+    // bool
+    // ----------------------
+
+
     class BasicsTraining
     {
         public static void TestBasics()
         {
-            //
-            // mybytevar
-            // mysbytevar
-            // mydecimalvar
-            // mydoubleva
-            // myfloatvar
-            // myintvar
-            // myuintvar
-            // mylongvar
-            // myulongvar
-            // myshortvar
-            // myushortvar
+            #region C# Basic Data Types, default keyword, Literals, var, object, dynamic
+            // C# DataTypes
+            byte mybytevar = 0;       // 0
+            sbyte mysbytevar = 0;     // 0
+            decimal mydecimalvar = 0;     // 0
+            double mydoublevar = 0;       // 0
+            float myfloatvar = 0;     // 0
+            int myintvar = 0;     // 0
+            uint myuintvar = 0;       // 0
+            long mylongvar = 0;       // 0
+            ulong myulongvar = 0;     // 0
+            short myshortvar = 0;     // 0
+            ushort myushortvar = 0;       // 0
+
+            char mycharvar = 'a';
+            bool myboolvar = true;
+
 
             // The default literal is a new feature in C# 7.1 that allows for assigning 
             // a variable the default value for its data type. 
-            byte mybytevar = default;       // 0
-            sbyte mysbytevar = default;     // 0
-            decimal mydecimalvar = default;     // 0
-            double mydoublevar = default;       // 0
-            float myfloatvar = default;     // 0
-            int myintvar = default;     // 0
-            uint myuintvar = default;       // 0
-            long mylongvar = default;       // 0
-            ulong myulongvar = default;     // 0
-            short myshortvar = default;     // 0
-            ushort myushortvar = default;       // 0
+            mybytevar = default;       // 0
+            mysbytevar = default;     // 0
+            mydecimalvar = default;     // 0
+            mydoublevar = default;       // 0
+            myfloatvar = default;     // 0
+            myintvar = default;     // 0
+            myuintvar = default;       // 0
+            mylongvar = default;       // 0
+            myulongvar = default;     // 0
+            myshortvar = default;     // 0
+            myushortvar = default;       // 0
+            mycharvar = default;
+            myboolvar = default;
 
             Console.WriteLine(mybytevar);
             Console.WriteLine(mysbytevar);
@@ -314,8 +340,10 @@ namespace pro_csharp_book_training
             Console.WriteLine(myulongvar);
             Console.WriteLine(myshortvar);
             Console.WriteLine(myushortvar);
+            Console.WriteLine(mycharvar);
+            Console.WriteLine(myboolvar);
 
-            // Simple Data Type Suffix:
+            // Simple Data Type Literal Suffix:
             // -----------------------------------------------
             // byte suffix :    no suffix
             // sbyte suffix :   no suffix
@@ -340,6 +368,15 @@ namespace pro_csharp_book_training
             myulongvar = 402331233232UL;
             myshortvar = 3400;
             myushortvar = 3400;
+
+            // literals works with it's corresponding type member
+            // ---------------------------------------------------
+            Console.WriteLine("10.Equals(2) = " + 10.Equals(20));
+            Console.WriteLine("10D.Equals(10) = " + 10D.Equals(10));
+            Console.WriteLine("10D.Equals(10D) = " + 10D.Equals(10D));
+            Console.WriteLine("true.Equals(true) = " + true.Equals(true));
+            Console.WriteLine("'a'.ToString() = " + 'a'.ToString());
+
 
             // System.DataType is the same as simple data type
             System.Byte mybytevar1 = default;
@@ -402,7 +439,9 @@ namespace pro_csharp_book_training
             mydynamic = (short)0;
             mydynamic = (ushort)0;
             mydynamic = "Hello World";
+            #endregion
 
+            #region Implicit numeric conversions (Widening)
             // -------------------------------------------------------------------------------------------
             // Implicit numeric conversions (Widening)
             // -------------------------------------------------------------------------------------------
@@ -570,10 +609,9 @@ namespace pro_csharp_book_training
             myfloat2 = mychar2;
             mydouble2 = mychar2;
             mydecimal2 = mychar2;
+            #endregion
 
-
-
-
+            #region Explicit numeric Conversions (Narrowing)
             // Explicit numeric Conversions (Narrowing) or (numeric Casting)
             // -------------------------------------------------------------------------------------------
             // -------------------------------------------------------------------------------------------
@@ -610,22 +648,9 @@ namespace pro_csharp_book_training
             // decimal          to char, sbyte, byte, ushort, short, int, uint, float, double
             // -------------------------------------------------------------------------------------------
 
-            //  sbyte        mysbyte2
-            //  byte         mybyte2
-            //  short        myshort2 
-            //  ushort       myushort2  
-            //  int          myint2
-            //  uint         myuint2
-            //  long         mylong2
-            //  ulong        myulong2 
-            //  float        myfloat2 
-            //  double       mydouble2  
-            //  decimal      mydecimal2   
-            //  char         mychar2   
+            #endregion
 
-
-
-
+            #region Silent Overflow, checkced, and unchecked keywords
             // Silent Overflow
             // -------------------------------------------------------------------------
             // 1- the default behaviour of the compiler is to allow overflow silently,
@@ -715,9 +740,16 @@ namespace pro_csharp_book_training
             // the checked keyword.If you want to trap overflow errors throughout your 
             // application, enable the / checked flag.
             // Finally, the unchecked keyword can be used if you have a block of code  
-            // where overflow is acceptable(and thus should not trigger a runtime exception).
+            // where overflow is acceptable(and thus should not trigger a runtime exception). 
+            #endregion
 
+            #region Parse Method
             // Parsing From string
+            // ---------------------------------------------------------------------------------
+            // The.NET data types provide the ability to generate a variable of their underlying 
+            // type given a textual equivalent(e.g., parsing).This technique can be extremely 
+            // helpful when you want to convert some user input data into a numerical value
+            // (such as a selection from a GUI-based, drop - down list box).
             try
             {
                 sbyte mysbyte3 = sbyte.Parse("20");
@@ -732,6 +764,7 @@ namespace pro_csharp_book_training
                 double mydouble3 = double.Parse("234234234.34223");
                 decimal mydecimal3 = decimal.Parse("44234234.23423");
                 char mychar3 = char.Parse("a");
+                bool mybool3 = bool.Parse("False");
 
                 Console.WriteLine($"Parse sbyte = {mysbyte3}");
                 Console.WriteLine($"Parse byte = {mybyte3}");
@@ -744,7 +777,9 @@ namespace pro_csharp_book_training
                 Console.WriteLine($"Parse float = {myfloat3}");
                 Console.WriteLine($"Parse double = {mydouble3}");
                 Console.WriteLine($"Parse decimal = {mydecimal3}");
+
                 Console.WriteLine($"Parse char = {mychar3}");
+                Console.WriteLine($"Parse bool = {mybool3}");
 
             }
             catch (Exception ex)
@@ -752,20 +787,47 @@ namespace pro_csharp_book_training
                 Console.WriteLine(ex.Message);
             }
 
-            // sbyte    issbyteParsed      mysbyte4
-            // byte     isbyteParsed       mybyte4
-            // short    isshortParsed      myshort4
-            // ushort   isushortParsed     myushort4
-            // int      isintParsed        myint4
-            // uint     isuintParsed       myuint4
-            // long     islongParsed       mylong4
-            // ulong    isulongParsed      myulong4
-            // float    isfloatParsed      myfloat4
-            // double   isdoubleParsed     mydouble4
-            // decimal  isdecimalParsed    mydecimal4
-            // char     ischarParsed       mychar4
+            #endregion
 
+            #region TryParse Method
             // TryParse
+            // --------------------------------------------------------------------------
+            // One issue with the Parse method is that an exception will be thrown if 
+            // the string cannot be cleanly converted to the correct data type.
+            // The TryParse() method takes an out parameter and returns 
+            // a bool if the parsing was successful.
+            // the TryParse() method returns true and assigns the parsed value to
+            // the variable passed into the method. If the value cannot be parsed,the variable is assigned
+            // its default value, and the TryParse() method returns false.
+
+            // int parse example to descover the shape of TryParse
+            // - TryParse integers: Successful Parse Cases
+            // ----------------------------------------------------------------------------------
+            int myvar1;
+            bool isParsed = int.TryParse("100", out myvar1);
+            Console.WriteLine(isParsed ? $"{myvar1}" : "myvar1 Parsing Failed!");
+
+            isParsed = int.TryParse("100", out int myvar2);
+            Console.WriteLine(isParsed ? $"{myvar2}" : "myvar2 Parsing Failed!");
+
+            // compression of expressions
+            Console.WriteLine($"{(int.TryParse("100", out myvar2) ? $"{myvar2}" : "myvar2 Parsing Failed!")}");
+
+
+            // - TryParse integers: Failed Parse Cases
+            // ----------------------------------------------------------------------------------
+            int myvar3;
+            isParsed = int.TryParse("Moamen", out myvar3);
+            Console.WriteLine(isParsed ? $"{myvar3}" : "myvar3 Parsing Failed!");
+
+            isParsed = int.TryParse("100tone", out int myvar4);
+            Console.WriteLine(isParsed ? $"{myvar4}" : "myvar4 Parsing Failed!");
+
+            // compression of expressions
+            Console.WriteLine($"{(int.TryParse("1 0 0", out myvar4) ? $"{myvar4}" : "myvar4 Parsing Failed!")}");
+
+
+            // TryParse other type
             bool issbyteParsed = sbyte.TryParse("100", out sbyte mysbyte4);
             bool isbyteParsed = byte.TryParse("100", out byte mybyte4);
             bool isshortParsed = short.TryParse("100", out short myshort4);
@@ -777,7 +839,9 @@ namespace pro_csharp_book_training
             bool isfloatParsed = float.TryParse("100", out float myfloat4);
             bool isdoubleParsed = double.TryParse("100", out double mydouble4);
             bool isdecimalParsed = decimal.TryParse("100", out decimal mydecimal4);
+
             bool ischarParsed = char.TryParse("5", out char mychar4);
+            bool isboolParsed = bool.TryParse("True", out bool mybool4);
 
             Console.WriteLine(issbyteParsed ? $"{mysbyte4}" : "mysbyte4 TryParsing Failed!");
             Console.WriteLine(isbyteParsed ? $"{mybyte4}" : "mybyte4 TryParsing Failed!");
@@ -791,8 +855,13 @@ namespace pro_csharp_book_training
             Console.WriteLine(isdoubleParsed ? $"{mydouble4}" : "mydouble4 TryParsing Failed!");
             Console.WriteLine(isdecimalParsed ? $"{mydecimal4}" : "mydecimal4 TryParsing Failed!");
             Console.WriteLine(ischarParsed ? $"{mychar4}" : "mychar4 TryParsing Failed!");
+            Console.WriteLine(isboolParsed ? $"{mybool4}" : "mybool4 TryParsing Failed!");
 
+            #endregion
+
+            #region Convert Class
             // Convert Class
+            // -------------------------------------------------------------------------------
             // You can call a method of the Convert class to convert any supported type 
             // This is possible for each type that supports the IConvertible interface.
 
@@ -845,7 +914,7 @@ namespace pro_csharp_book_training
                 myint5 = Convert.ToInt32(mydecimal4);
                 myint5 = Convert.ToInt32(mychar4);
 
-                
+
 
                 // To Int64
                 long mylong5;
@@ -1033,91 +1102,360 @@ namespace pro_csharp_book_training
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Convert Failed: " + ex.Message); 
+                Console.WriteLine("Convert Failed: " + ex.Message);
             }
+            #endregion
 
+            // Some Important Methods and operator of basic types : int, double, bool, char
+            // -----------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------
 
-
-
-
-
-            // Simple Type int with some important methods
-            Console.WriteLine("Integer Data Type");
-            int x1;
-            x1 = 10;
-            int x2 = 10;
-            int x3 = default;
-            var x4 = 10;
-            Console.WriteLine($"x1,x2,x3,x4 = {(x1, x2, x3, x4)}");
-            Console.WriteLine(int.MaxValue);
-            Console.WriteLine(int.MinValue);
-            Console.WriteLine(int.Equals(x1, x2));
-
-            // - TryParse integers: Successful Parse Cases
-            // ----------------------------------------------------------------------------------
-            int myvar1;
-            bool isParsed = int.TryParse("100", out myvar1);
-            Console.WriteLine(isParsed ? $"{myvar1}" : "myvar1 Parsing Failed!");
-
-            isParsed = int.TryParse("100", out int myvar2);
-            Console.WriteLine(isParsed ? $"{myvar2}" : "myvar2 Parsing Failed!");
-
-            // compression of expressions
-            Console.WriteLine($"{(int.TryParse("100", out myvar2) ? $"{myvar2}" : "myvar2 Parsing Failed!")}");
-
-
-            // - TryParse integers: Failed Parse Cases
-            // ----------------------------------------------------------------------------------
-            int myvar3;
-            isParsed = int.TryParse("Moamen", out myvar3);
-            Console.WriteLine(isParsed ? $"{myvar3}" : "myvar3 Parsing Failed!");
-
-            isParsed = int.TryParse("100tone", out int myvar4);
-            Console.WriteLine(isParsed ? $"{myvar4}" : "myvar4 Parsing Failed!");
-
-            // compression of expressions
-            Console.WriteLine($"{(int.TryParse("1 0 0", out myvar4) ? $"{myvar4}" : "myvar4 Parsing Failed!")}");
-
-            // Parse Integer
-            try
-            {
-                // success
-                Console.WriteLine($"{int.Parse("100")}");
-                // failure
-                Console.WriteLine($"{int.Parse("100sd")}");
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            // Convert
-            // You can call a method of the Convert class to convert any supported type to an Int32 value. 
-            // This is possible because Int32 supports the IConvertible interface.
-            int x = Convert.ToInt32("100");
-            long l1 = 100L; // or 100l
-
-
-            Console.WriteLine();
-
+            #region int Data Type
+            // int data type
+            // -----------------------------------------------------------------------------------
             // integer(Int32) is a Structure drived from Object->ValueType
             // So it inherts all Object methods and considered Value Type(Located at Stack not Heap)
             // The Default Integral Numeric Storage is Int32 or int
-            // All Integral Literal without are 
+            // All Integral Literal without Suffix are considered int
+
+            // Int32 Structure Important Members:
+            // -------------------------------------------------------------------
+            //public const Int32 MaxValue = 2147483647;
+            //public const Int32 MinValue = -2147483648;
+
+            //public static Int32 Parse(string s);
+            //public static bool TryParse(string s, out Int32 result);
+
+            //public Int32 CompareTo(object value);
+            //public bool Equals(Int32 obj);
+            //public override Int32 GetHashCode();
+            //public TypeCode GetTypeCode();
+            //public override string ToString();
+
+            // static members
+            Console.WriteLine("---- int static members ----");
+
+            Console.WriteLine(int.MaxValue);
+            Console.WriteLine(int.MinValue);
+            Console.WriteLine(int.Parse("100"));
+            Console.WriteLine(int.TryParse("100", out int v) ? $"{v}" : $"Can't Parse");
+
+            // none static members
+            int aa = 100, bb = 200;
+            Console.WriteLine(int.Equals(aa, bb));              // False
+            Console.WriteLine(int.ReferenceEquals(aa, bb));     // False
+                                                                // 
+            int aa2 = 100, bb2 = 100;                           // 
+            Console.WriteLine(int.Equals(aa2, bb2));            // True
+            Console.WriteLine(int.ReferenceEquals(aa2, bb2));   // False
+                                                                // 
+                                                                // 
+            Console.WriteLine(int.Equals(aa2, aa2));            // True
+            Console.WriteLine(int.ReferenceEquals(aa2, aa2));   // False
+                                                                // 
+            int aa3 = 100;                                      // 
+            object bb3 = aa3;                                   // 
+            Console.WriteLine(int.Equals(aa3, bb3));            // True
+            Console.WriteLine(int.ReferenceEquals(aa3, bb3));   // False
+                                                                // 
+            Int32 aa4 = new Int32();                            // 
+            Int32 bb4 = aa4;                                    // 
+            Console.WriteLine(int.Equals(aa3, bb3));            // True
+            Console.WriteLine(int.ReferenceEquals(aa3, bb3));   // False
+
+            Console.WriteLine($"compare 100, 200 result: {aa.CompareTo(bb)}");
+            Console.WriteLine($"compare 100, 100 result: {aa2.CompareTo(bb2)}");
+
+            Console.WriteLine(aa.GetType().Name);
+            Console.WriteLine(aa.GetType().FullName);
+            Console.WriteLine(aa.GetType().BaseType);
+
+            Console.WriteLine("aa.ToString() is the same as aa");
+            Console.WriteLine(aa);
+            Console.WriteLine(aa.ToString()); 
+            #endregion
+
+            #region double Data Type
+            // double data type
+            // -----------------------------------------------------------------------------------
+            // double (System.Double) represents a double-precision floating-point number.
+            // it is a Structure drived from Object->ValueType
+            // So it inherts all Object methods and considered Value Type(Located at Stack not Heap)
+            // All floating-point Literal without Suffix are considered double
+
+            // Double Structure Important Members:
+            // -------------------------------------------------------------------
+            //  public const Double MinValue = -1.7976931348623157E+308;
+            //  public const Double MaxValue = 1.7976931348623157E+308;
+            //  public const Double Epsilon = 4.94065645841247E-324;
+            //  public const Double NegativeInfinity = -1D / 0D;
+            //  public const Double PositiveInfinity = 1D / 0D;
+            //  public const Double NaN = 0D / 0D;
+
+            //  public static bool IsInfinity(Double d);
+            //  public static bool IsNaN(Double d);
+            //  public static bool IsNegativeInfinity(Double d);
+            //  public static bool IsPositiveInfinity(Double d);
+            //  public static Double Parse(string s);
+            //  public static bool TryParse(string s, out Double result);
+
+            //  public int CompareTo(Double value);
+            //  public override bool Equals(object obj);
+            //  public override int GetHashCode();
+            //  public TypeCode GetTypeCode();
+            //  public override string ToString();
 
 
+            // static members
+            Console.WriteLine("---- double members ----");
+
+            Console.WriteLine(double.MaxValue);
+            Console.WriteLine(double.MinValue);
+
+            Console.WriteLine(double.PositiveInfinity);
+            Console.WriteLine(double.NegativeInfinity);
+            Console.WriteLine(double.Epsilon);
+            Console.WriteLine(double.NaN);
+
+            Console.WriteLine(double.IsInfinity(10));
+            Console.WriteLine(double.IsPositiveInfinity(10));
+            Console.WriteLine(double.IsNegativeInfinity(10));
+            Console.WriteLine(double.IsNaN(10));
+
+            Console.WriteLine(double.IsInfinity(double.PositiveInfinity));
+            Console.WriteLine(double.IsInfinity(double.NegativeInfinity));
+            Console.WriteLine(double.IsPositiveInfinity(double.PositiveInfinity));
+            Console.WriteLine(double.IsNegativeInfinity(double.NegativeInfinity));
+            Console.WriteLine(double.IsNaN(double.NaN));
+
+            Console.WriteLine(double.Parse("100"));
+            Console.WriteLine(double.TryParse("1323.23231", out double v2) ? $"{v2}" : $"Can't Parse double");
+
+            #endregion
+
+            #region char Data Type
+            // char data type
+            // -----------------------------------------------------------------------------------
+            // char (System.Char) represents a character as a UTF-16 code unit.
+            // it is a Structure drived from Object->ValueType
+            // So it inherts all Object methods and considered Value Type(Located at Stack not Heap)
 
 
+            // public const Char MaxValue = '\uffff';
+            // public const Char MinValue = '\0';
 
-            // Unicode characters: char
-            // IEEE binary floating-point: float, double
-            // High-precision decimal floating-point: decimal
-            // Boolean: bool
+            // public static double GetNumericValue(string s, int index);
+            // public static double GetNumericValue(Char c);
+            // public static UnicodeCategory GetUnicodeCategory(string s, int index);
+            // public static UnicodeCategory GetUnicodeCategory(Char c);
 
+            // public static bool IsControl(char ch);
+            // ...etc the most of ISMethod(char ch) is in FindCharType Method
+
+            // public static Char Parse(string s);
+            // public static Char ToLower(Char c);
+            // public static Char ToLower(Char c, CultureInfo culture);
+            // public static Char ToLowerInvariant(Char c);
+            // public static string ToString(Char c);
+            // public static Char ToUpper(Char c, CultureInfo culture);
+            // public static Char ToUpper(Char c);
+            // public static Char ToUpperInvariant(Char c);
+            // public static bool TryParse(string s, out Char result);
+
+            // public int CompareTo(Char value);
+            // public int CompareTo(object value);
+            // public bool Equals(Char obj);
+            // public override bool Equals(object obj);
+            // public override int GetHashCode();
+            // public TypeCode GetTypeCode();
+            // public string ToString(IFormatProvider provider);
+            // public override string ToString();
+
+            // test check Char type
+
+            FindCharType('A');
+            FindCharType('a');
+            FindCharType('0');
+            FindCharType(';');
+            FindCharType(',');
+            FindCharType('\'');
+            FindCharType('\"');
+
+            Console.WriteLine("char.MaxValue = " + char.MaxValue);
+            Console.WriteLine("char.MinValue = " + char.MinValue);
+
+            Console.WriteLine("char.ToUpper('a') = " + char.ToUpper('a'));
+            Console.WriteLine("char.ToUpper('b') = " + char.ToUpper('b'));
+            Console.WriteLine("char.ToUpper('c') = " + char.ToUpper('c'));
+            Console.WriteLine("char.ToUpper('9') = " + char.ToUpper('9'));
+
+            Console.WriteLine("char.ToLower('A') = " + char.ToLower('A'));
+            Console.WriteLine("char.ToLower('B') = " + char.ToLower('B'));
+            Console.WriteLine("char.ToLower('C') = " + char.ToLower('C'));
+            Console.WriteLine("char.ToLower('9') = " + char.ToLower('9'));
+
+            Console.WriteLine("GetNumericValue('1') * 2 = " + char.GetNumericValue('1') * 2);
+            Console.WriteLine("GetNumericValue('2') * 2 = " + char.GetNumericValue('2') * 2);
+            Console.WriteLine("GetNumericValue('3') * 2 = " + char.GetNumericValue('3') * 2);
+            Console.WriteLine("GetNumericValue('4') * 2 = " + char.GetNumericValue('4') * 2);
+
+            Console.WriteLine("TryParse 'a' = " + (char.TryParse("a", out char c) ? $"{c}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse 'b' = " + (char.TryParse("b", out c) ? $"{c}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse 'c' = " + (char.TryParse("c", out c) ? $"{c}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse 'd' = " + (char.TryParse("d", out c) ? $"{c}" : $"Parsing Fails"));
+
+            try
+            {
+                Console.WriteLine("TryParse 'a' = " + char.Parse("a"));
+                Console.WriteLine("TryParse 'b' = " + char.Parse("b"));
+                Console.WriteLine("TryParse 'c' = " + char.Parse("c"));
+                Console.WriteLine("TryParse 'd' = " + char.Parse("d"));
+
+                Console.WriteLine(@"Convert.ToChar(""a"") = " + Convert.ToChar("a"));
+                Console.WriteLine(@"Convert.ToChar(48) = " + Convert.ToChar(48));
+                Console.WriteLine(@"Convert.ToChar(48L) = " + Convert.ToChar(48L));
+                Console.WriteLine(@"Convert.ToChar(48.0) = " + Convert.ToChar(48.0));
+                Console.WriteLine(@"Convert.ToChar(48.0F) = " + Convert.ToChar(48.0F));
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            // Two Local Functions
+            void FindCharType(char ch)
+            {
+                Console.WriteLine($"-------- Check char type: {ch} --------");
+                Console.WriteLine("IsControl        = " + char.IsControl(ch));
+                Console.WriteLine("IsDigit          = " + char.IsDigit(ch));
+                Console.WriteLine("IsLetter         = " + char.IsLetter(ch));
+                Console.WriteLine("IsLetterOrDigit  = " + char.IsLetterOrDigit(ch));
+                Console.WriteLine("IsLower          = " + char.IsLower(ch));
+                Console.WriteLine("IsNumber         = " + char.IsNumber(ch));
+                Console.WriteLine("IsPunctuation    = " + char.IsPunctuation(ch));
+                Console.WriteLine("IsSeparator      = " + char.IsSeparator(ch));
+                Console.WriteLine("IsSymbol         = " + char.IsSymbol(ch));
+                Console.WriteLine("IsUpper          = " + char.IsUpper(ch));
+                Console.WriteLine("IsWhiteSpace     = " + char.IsWhiteSpace(ch));
+            }
+            void FindCharTypeFromString(string str, int index)
+            {
+                Console.WriteLine($"-------- In String Check char type: {str[index]} --------");
+                Console.WriteLine("IsControl        = " + char.IsControl(str, index));
+                Console.WriteLine("IsDigit          = " + char.IsDigit(str, index));
+                Console.WriteLine("IsLetter         = " + char.IsLetter(str, index));
+                Console.WriteLine("IsLetterOrDigit  = " + char.IsLetterOrDigit(str, index));
+                Console.WriteLine("IsLower          = " + char.IsLower(str, index));
+                Console.WriteLine("IsNumber         = " + char.IsNumber(str, index));
+                Console.WriteLine("IsPunctuation    = " + char.IsPunctuation(str, index));
+                Console.WriteLine("IsSeparator      = " + char.IsSeparator(str, index));
+                Console.WriteLine("IsSymbol         = " + char.IsSymbol(str, index));
+                Console.WriteLine("IsUpper          = " + char.IsUpper(str, index));
+                Console.WriteLine("IsWhiteSpace     = " + char.IsWhiteSpace(str, index));
+            }
+
+            #endregion
+
+            #region bool Data Type
+            // bool data type
+            // -----------------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------------
+            // bool (System.Boolean) represents .
+            // it is a Structure drived from Object->ValueType
+            // So it inherts all Object methods and considered Value Type(Located at Stack not Heap)
+
+            // bool Structure Important Members:
+            // -------------------------------------------------------------------
+            // public static readonly string TrueString;
+            // public static readonly string FalseString;
+
+            // public static Boolean Parse(string value);
+            // public static Boolean TryParse(string value, out Boolean result);
+            // public int CompareTo(object obj);
+            // public int CompareTo(Boolean value);
+            // public override Boolean Equals(object obj);
+            // public Boolean Equals(Boolean obj);
+            // public override int GetHashCode();
+            // public TypeCode GetTypeCode();
+            // public override string ToString();
+            // public string ToString(IFormatProvider provider);
+
+            Console.WriteLine("---- bool static members ----");
+            Console.WriteLine("bool.TrueString = " + bool.TrueString);
+            Console.WriteLine("bool.FalseString = " + bool.FalseString);
+            Console.WriteLine("TryParse True = " + (bool.TryParse("True", out bool logic1) ? $"{logic1}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse False = " + (bool.TryParse("False", out logic1) ? $"{logic1}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse true = " + (bool.TryParse("true", out logic1) ? $"{logic1}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse false = " + (bool.TryParse("false", out logic1) ? $"{logic1}" : $"Parsing Fails"));
+            Console.WriteLine("TryParse false = " + (bool.TryParse("false", out logic1) ? $"{logic1}" : $"Parsing Fails"));
+
+            try
+            {
+                Console.WriteLine("Parse True  = " + bool.Parse("True "));
+                Console.WriteLine("Parse False = " + bool.Parse("False"));
+                Console.WriteLine("Parse true  = " + bool.Parse("true "));
+                Console.WriteLine("Parse false = " + bool.Parse("false"));
+
+                Console.WriteLine(@"Convert.ToBoolean(""True"") = " + Convert.ToBoolean("True"));
+                Console.WriteLine(@"Convert.ToBoolean(""False"") = " + Convert.ToBoolean("False"));
+                Console.WriteLine(@"Convert.ToBoolean(""true"") = " + Convert.ToBoolean("true"));
+                Console.WriteLine(@"Convert.ToBoolean(""false"") = " + Convert.ToBoolean("false"));
+                Console.WriteLine("Convert.ToBoolean(0) = " + Convert.ToBoolean(0));
+                Console.WriteLine("Convert.ToBoolean(0L) = " + Convert.ToBoolean(0L));
+                Console.WriteLine("Convert.ToBoolean(0.0F) = " + Convert.ToBoolean(0.0F));
+                Console.WriteLine("Convert.ToBoolean(0.0) = " + Convert.ToBoolean(0.0));
+                Console.WriteLine("Convert.ToBoolean(0.0D) = " + Convert.ToBoolean(0.0D));
+                Console.WriteLine("Convert.ToBoolean(0.0M) = " + Convert.ToBoolean(0.0M));
+
+                Console.WriteLine("Convert.ToBoolean(20) = " + Convert.ToBoolean(20));
+                Console.WriteLine("Convert.ToBoolean(20L) = " + Convert.ToBoolean(20L));
+                Console.WriteLine("Convert.ToBoolean(20.0F) = " + Convert.ToBoolean(20.0F));
+                Console.WriteLine("Convert.ToBoolean(20.0) = " + Convert.ToBoolean(20.0));
+                Console.WriteLine("Convert.ToBoolean(20.0D) = " + Convert.ToBoolean(20.0D));
+                Console.WriteLine("Convert.ToBoolean(20.0M) = " + Convert.ToBoolean(20.0M));
+
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            // Comparison Operator returns bool
+            Console.WriteLine($" 10 < 20  is { 10 < 20  }");
+            Console.WriteLine($" 10 > 20  is { 10 > 20  }");
+            Console.WriteLine($" 10 == 20 is { 10 == 20 }");
+            Console.WriteLine($" 10 != 20 is { 10 != 20 }");
+            Console.WriteLine($" 10 <= 20 is { 10 <= 20 }");
+            Console.WriteLine($" 10 >= 20 is { 10 >= 20 }");
+
+            Console.WriteLine($" 10 == 20 || 10 == 10 is { 10 == 20 || 10 == 10 }");
+            Console.WriteLine($" 10 != 20 && 10 == 10 is { 10 != 20 && 10 == 10 }"); 
+            #endregion
 
 
 
         }
+
+
+
     }
 }
+
+//IsControl
+//IsControl
+//IsDigit
+//IsDigit
+//IsLetter
+//IsLetter
+//IsLetterOrDigit
+//IsLetterOrDigit
+//IsLower
+//IsLower
+//IsLowSurrogate
+//IsLowSurrogate
+//IsNumber
+//IsNumber
+//IsPunctuation
+//IsPunctuation
+//IsSeparator
+//IsSeparator
+//IsSymbol
+//IsSymbol
+//IsUpper
+//IsUpper
+//IsWhiteSpace
+//IsWhiteSpace
