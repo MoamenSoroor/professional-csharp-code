@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pro_csharp_book_training
+namespace CSharpBookTraining
 {
     class Program
     {
         static void Main(string[] args)
         {
 
-            BasicsTraining.TestBasics();
-
+            //BasicsTraining.TestBasics();
             //SwitchTraining.TestSwitch(10);
             //SwitchTraining.TestSwitch(10.2341);
             //SwitchTraining.TestSwitch("Moamen");
@@ -25,9 +24,19 @@ namespace pro_csharp_book_training
             //NullablesTraining.TestNullables();
             //TuplesTraining.TestTuples();
 
+            try
+            {
+                ExceptionHandling.TestExceptionHandling();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception In Main Method: {ex.Message}");
+            }
+
+            
 
 
-            Console.WriteLine("Press Any Key to Continue!");
+            Console.WriteLine("Press any key to continue . . .");
             Console.ReadLine();
         }
 

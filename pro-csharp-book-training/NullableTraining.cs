@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace pro_csharp_book_training
+namespace CSharpBookTraining
 {
     // Some Important Notes about  Nullable Types:
     // ----------------------------------------------------------------------------------------------------------

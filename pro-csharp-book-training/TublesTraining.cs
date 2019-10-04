@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 
-namespace pro_csharp_book_training
+namespace CSharpBookTraining
 {
 
     // Tuples Specification Notes

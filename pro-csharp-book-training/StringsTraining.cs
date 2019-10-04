@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace pro_csharp_book_training
+namespace CSharpBookTraining
 {
     public static class StringsTraining
     {

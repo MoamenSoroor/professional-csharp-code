@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace pro_csharp_book_training
+namespace CSharpBookTraining
 {
     // Structure Specification Notes
     //----------------------------------------------------------------------------------------------------

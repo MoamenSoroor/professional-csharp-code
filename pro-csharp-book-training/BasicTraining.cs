@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 
-namespace pro_csharp_book_training
+namespace CSharpBookTraining
 {
     // C# Pogramming Language
     // -------------------------------------------------------------------------------------------

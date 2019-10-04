@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3AAC5CD8-F842-42B3-A54B-D7F31F69487B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>pro_csharp_book_training</RootNamespace>
-    <AssemblyName>pro-csharp-book-training</AssemblyName>
+    <RootNamespace>CSharpBookTraining</RootNamespace>
+    <AssemblyName>CSharpBookTraining</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>pro_csharp_book_training.Program</StartupObject>
+    <StartupObject>CSharpBookTraining.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +65,7 @@
     <Compile Include="BasicTraining.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EnumsTraining.cs" />
+    <Compile Include="ExceptionHandling.cs" />
     <Compile Include="NullableTraining.cs" />
     <Compile Include="OOPTraining.cs" />
     <Compile Include="Program.cs" />
