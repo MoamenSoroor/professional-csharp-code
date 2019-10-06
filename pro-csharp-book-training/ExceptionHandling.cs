@@ -189,18 +189,36 @@ namespace CSharpBookTraining
 
 
 
-    class ExceptionHandling
+    class ExceptionHandlingTraining
     {
         public static void TestExceptionHandling()
         {
+            try
+            {
+                ExceptionHandlingCases();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Exception In {ex.TargetSite.DeclaringType}.{ex.TargetSite.Name} {ex.TargetSite.MemberType} {ex.TargetSite.MemberType}: {ex.Message}");
+            }
+
+        }
+        public static void ExceptionHandlingCases()
+        {
             //ExampleCar1();
-            //ExampleCar2(); // unhandled exception
+            ExampleCar2(); // unhandled exception
             //ExampleCar22();
             //ExampleCar3();
-            ExampleCar4();
-            ExampleCar5();
-            Console.ReadLine();
+            //ExampleCar4();
+            //ExampleCar5();
+            //ExampleCar52();
+            //ExampleCar53();
+            //ExampleCar54();
+            //ExampleCar55();
+
         }
+        
 
         // Without Exception Handling Mechanism
         // ---------------------------------------------------------------------------------------------------------------
@@ -487,7 +505,7 @@ namespace CSharpBookTraining
         // First, assume you have added a few custom properties to your CarIsDeadException.
         private static void ExampleCar55()
         {
-            Console.WriteLine("***** Custom Exception Example *****");
+            Console.WriteLine("***** Exception Filtering with When Clause Test *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car5 myCar = new Car5("Zippy", 90);
             myCar.CrankTunes(true);
@@ -498,7 +516,7 @@ namespace CSharpBookTraining
             }
             catch (CarIsDeadException ex) when (ex.ErrorTimeStamp.DayOfWeek != DayOfWeek.Friday)
             {
-                Console.WriteLine($"-------------- CarIsDeadException --------------");
+                Console.WriteLine($"-------------- CarIsDeadException, when day is not Friday --------------");
                 Console.WriteLine($"ex.Message         : {ex.Message}");
                 Console.WriteLine($"ex.ErrorTimeStamp  : {ex.ErrorTimeStamp}");
                 Console.WriteLine($"ex.CauseOfError    : {ex.CauseOfError}");

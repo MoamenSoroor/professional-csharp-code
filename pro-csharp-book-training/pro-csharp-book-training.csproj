@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="ArraysTraining.cs" />
     <Compile Include="BasicTraining.cs" />
+    <Compile Include="ControlFlowTraining.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EnumsTraining.cs" />
     <Compile Include="ExceptionHandling.cs" />
