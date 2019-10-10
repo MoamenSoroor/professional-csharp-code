@@ -20,33 +20,13 @@ namespace CSharpBookTraining
             //NullablesTraining.TestNullables();
             //TuplesTraining.TestTuples();
             //ExceptionHandlingTraining.TestExceptionHandling();
-            OOP_Part.OOPTraining.TestOOP();
-
-
-
-
+            //OOP_Part1.OOPTraining.TestOOP();
+            OOP_Part2.OOPTraining.TestOOP();
 
             Console.WriteLine("Press any key to continue . . .");
             Console.ReadLine();
         }
 
-
-        
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
 }
