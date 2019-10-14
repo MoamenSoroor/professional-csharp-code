@@ -14,6 +14,8 @@ using System.Linq;
 
 namespace CSharpBookTraining.OOP_Part2
 {
+
+    #region Inheritance
     // Inheritance Notes
     // ==============================================================================================================
     // - Ineritance represent is-a relationship
@@ -126,12 +128,15 @@ namespace CSharpBookTraining.OOP_Part2
     {
         public static void Test()
         {
-            
+
         }
 
     }
 
+    #endregion
 
+
+    #region Polymorphism, The virtual, override and sealed Keywords
 
     // ===============================================> Polymorphism <==================================================
     // =================================================================================================================
@@ -140,8 +145,6 @@ namespace CSharpBookTraining.OOP_Part2
     // set of members(formally termed the polymorphic interface) that are available to all descendants.A class’s
     // polymorphic interface is constructed using any number of virtual or abstract members. 
 
-
-    #region The virtual, override and sealed Keywords
     // ========================> The virtual and override Keywords <========================
     // Polymorphism provides a way for a subclass to define its own version of a method defined by its base class,
     // using the process termed method overriding.
@@ -411,7 +414,6 @@ namespace CSharpBookTraining.OOP_Part2
     #endregion
 
 
-
     #region Understanding Abstract Classes
 
     // ==============================> Understanding Abstract Classes <============================== 
@@ -486,8 +488,6 @@ namespace CSharpBookTraining.OOP_Part2
     }
 
     #endregion
-
-
 
     #region Understanding Member Shadowing
     // ==============================> Understanding Member Shadowing <==============================
@@ -795,11 +795,9 @@ namespace CSharpBookTraining.OOP_Part2
 
     #endregion
 
-    // NOTE: Discards with the is Keyword (New) used with if and switch statements
-
     #region Pattern Matching in Switch Statements
 
-
+    // NOTE: Discards with the is Keyword (New) used with if and switch statements
 
     #endregion
 
@@ -1020,18 +1018,274 @@ namespace CSharpBookTraining.OOP_Part2
 
     }
 
+    // ==============================> Override ToString() Virtual Method <==============================
+
+    class Person2: Person
+    {
+        public Person2()
+        {
+        }
+
+        public Person2(string name, int age) : base(name, age)
+        {
+        }
+
+        public override string ToString()
+        {
+            //return base.ToString();
+
+            return $"Person [Name:{Name}, Age:{Age}]";
+        }
+    }
+
+
+    // ==============================> Overriding System.Object.Equals() <==============================
+    // Let’s also override the behavior of Object.Equals() to work with value-based semantics.Recall that by
+    // default, Equals() returns true only if the two objects being compared reference the same object instance in
+    // memory.
+    class Person3 : Person
+    {
+        public Person3()
+        {
+        }
+
+        public Person3(string name, int age) : base(name, age)
+        {
+        }
+
+        // Override Equals to work with Value-based semantics.
+        public override bool Equals(object obj)
+        {
+            //return base.Equals(obj);
+
+            if (obj is Person3 p3 && obj != null)
+            {
+                return (this.Name == p3.Name && this.Age == p3.Age) ? true : false;
+            }
+            else
+                return false;
+        }
+    }
+
+
+    // another approach to make Equals() value-based semantic, is to override ToString() Method and Used it inside Equals()
+    // to compare two Objects of Persons.
+    // and in this way, we avoid Casting
+    class Person4 : Person
+    {
+        public Person4()
+        {
+        }
+
+        public Person4(string name, int age) : base(name, age)
+        {
+        }
+
+        public override string ToString()
+        {
+            return $"Person[Name: {Name}, Age: {Age}]";
+        }
+
+        // Override Equals to work with Value-based semantics depends on ToString().
+        public override bool Equals(object obj)
+        {
+            //return base.Equals(obj);
+
+            return this.ToString() == obj?.ToString();
+        }
+    }
+
+
+    // ==============================> Overriding System.Object.GetHashCode() <==============================
+    // When a class overrides the Equals() method, you should also override the default implementation of
+    // GetHashCode(). Simply put, a hash code is a numerical value that represents an object as a particular state.For
+    // example, if you create two string variables that hold the value Hello, you would obtain the same hash code.
+    // However, if one of the string objects were in all lowercase(hello), you would obtain different hash codes.
+
+    // By default, System.Object.GetHashCode() uses your object’s current location in memory to yield the
+    // hash value.However, if you are building a custom type that you intend to store in a Hashtable type (within
+    // the System.Collections namespace), you should always override this member, as the Hashtable will be
+    // internally invoking Equals() and GetHashCode() to retrieve the correct object.
+
+    // 
+    class Person5 : Person
+    {
+        public string Ssn { get; set; }
+        public Person5()
+        {
+            Ssn = "000000000000000";
+        }
+
+        public Person5(string ssn, string name, int age) : base(name, age)
+        {
+            Ssn = ssn;
+        }
+
+        public override string ToString()
+        {
+            return $"Person[SSN:{Ssn}, Name: {Name}, Age: {Age}]";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.ToString() == obj?.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            // if we have a unique value for each object like ssn and id, we can depends on it to get unique HashCode()
+            //return Ssn.GetHashCode();
+
+            // another way is to use overrrided ToString() Method that never returns the same string 
+            // except if the two objects is identical
+            return ToString().GetHashCode();
+
+            // or use one of hasing algorithms
+        }
+
+
+
+    }
+
+    // ==============================> The Static Members of System.Object <==============================
+    // public static bool Equals(Object objA, Object objB);
+    //      it is depends on objects type entered to it, value-based, or Reference-based
+    //
+    // public static bool ReferenceEquals(Object objA, Object objB);
+    //      it checks for reference in equality
+
+    class TestObjectStaticMembers
+    {
+        public static void Test()
+        {
+            Person5 p1 = new Person5("12345678","Moamen",20);
+            Person5 p2 = new Person5("12345678","Moamen",20);
+            Person5 p3 = new Person5("91919191", "Shady",22);
+
+            Console.WriteLine();
+            Console.WriteLine("equality of p1 and p2");
+            CheckEquals(p1, p2);
+
+            Console.WriteLine();
+            Console.WriteLine("equality of p1 and p3");
+            CheckEquals(p1, p3);
+
+            // the both are referenceEquals
+            Person5 p4 = p1;
+            Person5 p5 = p1;
+
+            Console.WriteLine();
+            Console.WriteLine("equality of p4 and p5");
+            CheckEquals(p4, p5);
+
+            // the both are referenceEquals
+            Person5 p6 = p3;
+            Person5 p7 = p3;
+
+            Console.WriteLine();
+            Console.WriteLine("equality of p6 and p7");
+            CheckEquals(p6, p7);
+
+
+        }
+
+        public static void CheckEquals(Person5 p1, Person5 p2)
+        {
+            Console.WriteLine("====================================================================");
+            Console.WriteLine($"object.Equals = {object.Equals(p1, p2)}");
+            Console.WriteLine($"object.ReferenceEquals = {object.ReferenceEquals(p1, p2)}");
+
+        }
+
+
+    }
+
     class TestMasterClass
     {
         public static void Test()
         {
             Person p1 = new Person();
-            p1.Name = "Moamen Soroor";
-            p1.Age = 20;
             p1.PrintPersonInfo();
+            // object inherted members
+            Console.WriteLine($" p1.GetType() : {p1.GetType()}");
+            Console.WriteLine($"p1.GetHashCode() : {p1.GetHashCode()}");
+            Console.WriteLine($"p1.ToString() : {p1.ToString()}");
+
+            Console.WriteLine("Person After Override ToString()");
+            Console.WriteLine("================================");
+            Person2 p2 = new Person2("Mohammed" , 24);
+            Console.WriteLine(p2);
+
+            Console.WriteLine();
+            Console.WriteLine("Person After Override Equals()");
+            Console.WriteLine("================================");
+
+            Person3 p3 = new Person3("Mohammed", 24);
+            Person3 p32 = new Person3("Mohammed", 24);
+            Person3 p33 = new Person3("Shady", 25);
+
+            Console.WriteLine("p3.Equals(p32) = " + p3.Equals(p32));
+            Console.WriteLine("p3.Equals(p33) = " + p3.Equals(p33));
+
+            Console.WriteLine();
+            Console.WriteLine("Person After Override Equals() using ToString() Method");
+            Console.WriteLine("================================");
+            Person4 p4 = new Person4("Mohammed", 24);
+            Person4 p45 = new Person4("Mohammed", 24);
+            Person4 p46 = new Person4("Shady", 25);
+
+            Console.WriteLine("p4.Equals(p45) = " + p4.Equals(p45));
+            Console.WriteLine("p4.Equals(p46) = " + p4.Equals(p46));
+
+
+
+            Console.WriteLine("==============> Test Object Static Members <===================");
+            TestObjectStaticMembers.Test();
 
         }
 
     }
+
+    #endregion
+
+
+
+    #region Understanding Interface Types
+
+    // ==============================> Understanding Interface Types <==============================
+    // =============================================================================================
+    // - An interface is nothing more than a named set of abstract members.
+    // - An interface expresses a behavior that a given class or structure may choose to support.
+    // - A class or structure can support as many interfaces as necessary, thereby supporting
+    // (in essence) multiple behaviors.
+    // 
+    // Note:  By convention, .net interfaces are prefixed with a capital letter I. When you are creating your own
+    //        custom interfaces, it is considered a best practice to do the same.
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+
+
+
+
+
+
+
+
 
     #endregion
     static class OOPTraining
@@ -1045,7 +1299,6 @@ namespace CSharpBookTraining.OOP_Part2
             //TestCastingRules.Test();
             //TestAsKeyword.Test();
             //TestIsKeyword.Test();
-
             TestMasterClass.Test();
 
         }
