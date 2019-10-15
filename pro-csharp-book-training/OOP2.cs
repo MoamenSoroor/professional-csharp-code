@@ -1248,46 +1248,6 @@ namespace CSharpBookTraining.OOP_Part2
 
     #endregion
 
-
-
-    #region Understanding Interface Types
-
-    // ==============================> Understanding Interface Types <==============================
-    // =============================================================================================
-    // - An interface is nothing more than a named set of abstract members.
-    // - An interface expresses a behavior that a given class or structure may choose to support.
-    // - A class or structure can support as many interfaces as necessary, thereby supporting
-    // (in essence) multiple behaviors.
-    // 
-    // Note:  By convention, .net interfaces are prefixed with a capital letter I. When you are creating your own
-    //        custom interfaces, it is considered a best practice to do the same.
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-
-
-
-
-
-
-
-
-
-    #endregion
     static class OOPTraining
     {
         public static void TestOOP()

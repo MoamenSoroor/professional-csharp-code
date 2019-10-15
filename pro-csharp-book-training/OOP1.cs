@@ -1296,6 +1296,7 @@ namespace CSharpBookTraining.OOP_Part1
             this.EmpID = id;
             this.EmpAge = age;
             this.EmpPay = pay;
+            
         }
 
         // .NET Properties
@@ -1318,6 +1319,7 @@ namespace CSharpBookTraining.OOP_Part1
                     Console.WriteLine("Error! Name length exceeds 15 characters!");
                 else
                     empName = value;
+                
             }
         }
 
@@ -1331,13 +1333,12 @@ namespace CSharpBookTraining.OOP_Part1
 
         public float EmpPay { get; set; }
 
-
-
         // Methods.
         // -------------------------------------------------------------------------
         public void GiveBonus(float amount)
         {
             EmpPay += amount;
+            
         }
         public void DisplayStats()
         {
@@ -1354,7 +1355,7 @@ namespace CSharpBookTraining.OOP_Part1
         {
             // Encapsulation Using .NET Properties
             // ------------------------------------------------------
-            Employee2 emp1 = new Employee2();
+            Employee3 emp1 = new Employee3();
 
             //After you have these properties in place, it appears to the caller that it is getting and setting a public
             //point of data; however, the correct get and set block is called behind the scenes to preserve encapsulation.
@@ -1364,6 +1365,8 @@ namespace CSharpBookTraining.OOP_Part1
             emp1.EmpID = 9999;
             emp1.EmpAge = 40;
             emp1.EmpPay = 20_000.00F;
+
+            
 
             // to increase Age Value, you can do the following:
             emp1.EmpAge++;
