@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -357,7 +358,7 @@ namespace CSharpBookTraining.OOP_Part3
             }
 
             // ==============================> Casting with as Operator <==============================
-
+            
             Interface4 inter2 = myclass1 as Interface4;
             if (inter2 == null)
                 Console.WriteLine("NULL Reference, InvalidCast! ");
@@ -504,7 +505,7 @@ namespace CSharpBookTraining.OOP_Part3
         }
     }
 
-    class TestInterfaces6
+    class TestInterfaces5
     {
         public static void Test()
         {
@@ -553,6 +554,781 @@ namespace CSharpBookTraining.OOP_Part3
     #endregion
 
 
+    #region Explicit Interface Implementation
+
+    // ==============================> Explicit Interface <==============================
+    // - Explicit Interface implementation, allow you t define a method for each interface if there are
+    //   a name conflicts. but it doesn't allow to use methods with implementaion Type, and you should cast type
+    //   to a specific interface to be able to use explicit methods of it.
+
+    // - if you didn't use explicit interface, you should implement one method that is 
+    //   considered for the trhee interfaces.
+
+    interface IFilePrintable
+    {
+        void Print();
+    }
+
+    interface IDataPrintable
+    {
+        void Print();
+    }
+
+    interface IConsolePrintable
+    {
+        void Print();
+    }
+
+    class Person0 : IFilePrintable, IDataPrintable, IConsolePrintable
+    {
+        public int ID { get; set; }
+        public string Fname { get; set; }
+        public string Lname { get; set; }
+        public DateTime BirthDate { get; set; }
+
+        public Person0() : this(100, "FName", "LName", new DateTime(1995, 1, 22)) { }
+
+        public Person0(int iD, string fname, string lname, DateTime birthDate)
+        {
+            ID = iD;
+            Fname = fname;
+            Lname = lname;
+            BirthDate = birthDate;
+        }
+
+        // one method implementation for all the three interfaces.
+        public void Print()
+        {
+            Console.WriteLine("Print Method that are for the 3 interfaces");
+        }
+    }
+
+    class Person : IFilePrintable, IDataPrintable, IConsolePrintable 
+    {
+        public int ID { get; set; }
+        public string Fname { get; set; }
+        public string Lname { get; set; }
+        public DateTime BirthDate { get; set; }
+
+        public Person() : this(100, "FName", "LName", new DateTime(1995, 1, 22)) { }
+
+        public Person(int iD, string fname, string lname, DateTime birthDate)
+        {
+            ID = iD;
+            Fname = fname;
+            Lname = lname;
+            BirthDate = birthDate;
+        }
+
+
+        void IConsolePrintable.Print()
+        {
+            Console.WriteLine("Write to Console");
+        }
+
+        void IDataPrintable.Print()
+        {
+            Console.WriteLine("Write to Database");
+        }
+
+        void IFilePrintable.Print()
+        {
+            Console.WriteLine("Write to File");
+        }
+
+
+
+
+
+    }
+
+    class TestInterfaces6
+    {
+        public static void Test()
+        {
+
+            // ====================> Without Explicit Interface Implementation <======================
+
+            Console.WriteLine("------ Without Using Explicit Interface Implementation ------");
+
+            Person0 p1 = new Person0();
+            p1.Print();
+
+            IConsolePrintable cpr = p1;
+            IFilePrintable fpr = p1;
+            IDataPrintable dpr = p1;
+            cpr.Print();
+            fpr.Print();
+            dpr.Print();
+
+
+            // ====================> Using Explicit Interface Implementation <======================
+            Console.WriteLine("------ Using Explicit Interface Implementation ------");
+
+
+            Person p2 = new Person();
+            
+            // Error, we can't use explicit implementation without casting to the Interface type
+            // p2.Print();
+
+            IConsolePrintable cpr2 = p2;
+            IFilePrintable fpr2 = p2;
+            IDataPrintable dpr2 = p2;
+            cpr2.Print();
+            fpr2.Print();
+            dpr2.Print();
+
+
+        }
+
+    }
+
+    #endregion
+
+    // ==============================> Discover some .NET Interfaces <==============================
+
+    #region ICloneable Interface
+    // namespace System
+    //{
+    //    //
+    //    // Summary:
+    //    //     Supports cloning, which creates a new instance of a class with the same value
+    //    //     as an existing instance.
+    //    public interface ICloneable
+    //    {
+    //        //
+    //        // Summary:
+    //        //     Creates a new object that is a copy of the current instance.
+    //        //
+    //        // Returns:
+    //        //     A new object that is a copy of this instance.
+    //        object Clone();
+    //    }
+    //}
+
+    class Point: ICloneable
+    {
+        public float X { get; set; }
+        public float Y { get; set; }
+
+        public Point() : this(0.0F,0.0F) { }
+        public Point(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public void PrintPoint()
+        {
+            Console.WriteLine($"Point [ X = {X}; Y = {Y} ]");
+        }
+
+
+
+        public object Clone()
+        {
+            return new Point(X, Y);
+        }
+    }
+
+    class TestInterfaces7
+    {
+        public static void Test()
+        {
+            Point p1 = new Point(10,20);
+
+            Point p2 = p1;
+
+            Point p3 = (Point)p1.Clone();
+
+            Console.WriteLine("Print p1:");
+            p1.PrintPoint();
+
+            p3.X = 40;
+            p3.Y = 50;
+
+            Console.WriteLine("After Change Cloned ref p3 states, Print p1 then p3:");
+            p1.PrintPoint();
+            p3.PrintPoint();
+
+
+            p2.X = 40;
+            p2.Y = 50;
+
+            Console.WriteLine("After Change ref p2 states, Print p1 then p2:");
+            p1.PrintPoint();
+            p2.PrintPoint();
+
+        }
+
+    }
+
+
+    // ==============================> The object.MemberWiseClone() Method  <==============================
+    // Creates a shallow copy of the current object
+    // Shallow Copy means that it copy value types , and copy reference of reference value
+    // if you want to make deep copy you should manually copy values of reference types.
+    // 
+    // 
+    // update Clone Method to use in it object.MemberwiseClone()
+    class Point2 : Point
+    {
+        public Point2()
+        {
+        }
+
+        public Point2(float x, float y) : base(x, y)
+        {
+
+        }
+
+        public new object Clone()
+        {
+            // create shallow copy
+            return this.MemberwiseClone();
+        }
+
+    }
+
+
+    // ==============================> shallow copy when there are References <==============================
+
+    class CoordinateInfo: ICloneable
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        public CoordinateInfo() : this("Custom Coordinate Name", "Custom Coordinate Description") { }
+        public CoordinateInfo(string name) : this(name, "Custom Coordinate Description") { }
+
+        public CoordinateInfo(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+
+        public override string ToString()
+        {
+            return $@"CoordinateInfo
+        {{
+            Name: {Name};
+            Description: {Description};
+        }}";
+        
+        }
+
+        public object Clone()
+        {
+            return new CoordinateInfo((string)Name.Clone(), (string)Description.Clone());
+        }
+    }
+
+    class PointInfo : ICloneable
+    {
+
+        // ------------------------ Constructors -------------------------
+        #region Constructors
+
+        public PointInfo(int iD, string name, string description, CoordinateInfo coordinateInfo)
+        {
+            ID = iD;
+            Name = name;
+            Description = description;
+            CoordinateInfo = coordinateInfo;
+        }
+
+        public PointInfo(int iD, string name, string description)
+            : this(iD, name, description, new CoordinateInfo()) { }
+
+        public PointInfo()
+            : this(111, "Custom Point Info", "Custom Point Description", new CoordinateInfo()) { }
+
+        // --------------------- End of Constructors ---------------------
+        #endregion
+
+        // ------------------------ Properties -------------------------
+        #region Properties
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public CoordinateInfo CoordinateInfo { get; set; }
+
+        // --------------------- End of Properties ---------------------
+        #endregion
+
+        // ------------------------ Methods -------------------------
+        #region Methods
+        public override string ToString()
+        {
+            return $@"PointInfo
+    {{
+        ID: {ID};
+        Name: {Name};
+        Description: {Description};
+        {CoordinateInfo}
+        
+    }}";
+        }
+
+        public object Clone()
+        {
+            return new PointInfo(ID, (string)Name.Clone(), (string)Description.Clone(), (CoordinateInfo)CoordinateInfo.Clone());
+        }
+
+        // --------------------- End of Methods ---------------------
+        #endregion
+
+
+    }
+
+    // ----------------------- Shallow Copy using protected Method MemberwiseClone() -----------------------
+    class Point3 : Point
+    {
+        public PointInfo PointInfo { get; set; }
+        public Point3()
+        {
+            PointInfo = new PointInfo();
+        }
+
+        public Point3(float x, float y) : base(x, y)
+        {
+            PointInfo = new PointInfo();
+        }
+
+        public Point3(float x, float y, PointInfo pointInfo) : base(x, y)
+        {
+            PointInfo = pointInfo;
+        }
+
+        public Point3(PointInfo pointInfo)
+        {
+            PointInfo = pointInfo;
+        }
+
+        public new object Clone()
+        {
+            // create shallow copy
+            return this.MemberwiseClone();
+        }
+
+        
+        public override string ToString()
+        {
+            return $@"Point
+{{
+    X = {X};
+    Y = {Y};
+    {PointInfo}
+}}
+";
+
+        }
+    }
+
+    // ----------------------- Deep Copy using Clone() using nested Clone() -----------------------
+    class Point4 : Point3
+    {
+        public Point4(){ }
+
+        public Point4(PointInfo pointInfo) : base(pointInfo) { }
+
+        public Point4(float x, float y) : base(x, y){ }
+
+        public Point4(float x, float y, PointInfo pointInfo) : base(x, y, pointInfo){ }
+
+
+        // Deep Copy
+        public new object Clone()
+        {
+            // create Deep copy
+            Point4 newPoint =  (Point4)this.MemberwiseClone();
+            newPoint.PointInfo = (PointInfo)this.PointInfo.Clone();
+            newPoint.PointInfo.CoordinateInfo = (CoordinateInfo)this.PointInfo.CoordinateInfo.Clone();
+
+
+            return newPoint;
+        }
+    }
+
+    // ----------------------- Deep Copy using Clone() without using nested Clone() -----------------------
+    class Point5 : Point4
+    {
+        public Point5() { }
+
+        public Point5(PointInfo pointInfo) : base(pointInfo) { }
+
+        public Point5(float x, float y) : base(x, y) { }
+
+        public Point5(float x, float y, PointInfo pointInfo) : base(x, y, pointInfo) { }
+
+
+        // Deep Copy without using Clone of type memebers.
+        public new object Clone()
+        {
+            // create Deep Copy without using Clone of type memebers.
+            Point4 newPoint = (Point4)this.MemberwiseClone();
+            newPoint.PointInfo = new PointInfo
+            {
+                ID = this.PointInfo.ID,
+                Name = this.PointInfo.Name,
+                Description = this.PointInfo.Description,
+                CoordinateInfo = new CoordinateInfo
+                {
+                    Name = this.PointInfo.CoordinateInfo.Name,
+                    Description = this.PointInfo.CoordinateInfo.Description
+                }
+                
+            };
+
+
+            return newPoint;
+        }
+    }
+
+    class TestInterfaces8
+    {
+        public static void Test()
+        {
+            Point4 p1 = new Point4(10, 20)
+            {
+
+                PointInfo = new PointInfo(111, "My Pointy", "this is my lovely Pointy.")
+                {
+                    CoordinateInfo = new CoordinateInfo("My Cool Coord System", "this is my cool coordinate System.")
+                }
+            };
+
+
+            // ==============================> Copy By Reference <==============================
+            Console.WriteLine("========= Copy By Reference =========");
+            Point4 p2 = p1;
+
+            Console.WriteLine($"-> Point1 Data: {p1}");
+
+            Console.WriteLine($"-> Point2 Data: {p2}");
+
+            Console.WriteLine("=================================================");
+
+
+            p2.PointInfo.CoordinateInfo = new CoordinateInfo("new Cool Coord System", "new Coord describe.");
+
+            Console.WriteLine($"-> Point1 Data: {p1}");
+
+            Console.WriteLine($"-> Point2 Data: {p2}");
+
+
+            // ==============================> Deep Copy with Clone() Method <==============================
+            Console.WriteLine("========= Deep Copy with Clone() Method =========");
+
+            p2 = (Point4)p1.Clone();
+
+            Console.WriteLine($"-> Point1 Data: {p1}");
+
+            Console.WriteLine($"-> Point2 Data: {p2}");
+
+            Console.WriteLine("=================================================");
+
+
+            p2.PointInfo.CoordinateInfo = new CoordinateInfo("Very new Cool Coord System", "Very new Coord describe.");
+
+            Console.WriteLine($"-> Point1 Data: {p1}");
+
+            Console.WriteLine($"-> Point2 Data: {p2}");
+
+
+        }
+
+    }
+
+    #endregion
+
+
+    #region The IComparable and The IComparer Interface
+    // -------------------------------------------------------------------------------------
+    // The IComparable Interface
+    // -------------------------------------------------------------------------------------
+    // The System.IComparable interface specifies a behavior that allows an object to be sorted based on some
+    // specified key.Here is the formal definition:
+    // // This interface allows an object to specify its
+    // // relationship between other like objects.
+    // -----------------------------------------------------------------------------------------------------
+    // public interface IComparable
+    //    {
+    //        int CompareTo(object o);
+    //    }
+    // -----------------------------------------------------------------------------------------------------
+    // 
+    // -----------------------------------------------------------------------------------------------------
+    // Table CompareTo() Return Values
+    // -----------------------------------------------------------------------------------------------------
+    // CompareTo() Return Value          Description
+    // -----------------------------------------------------------------------------------------------------
+    // Any number less than zero         This instance comes before the specified object in the sort order.
+    // Zero                              This instance is equal to the specified object.
+    // Any number greater than zero      This instance comes after the specified object in the sort order.
+    // -----------------------------------------------------------------------------------------------------
+
+    class Car : IComparable
+    {
+
+        // ------- Sorting using strongly associated property ---------
+        public static IComparer NameComparer
+        {
+            get { return (IComparer)new CarNameComparer(); }
+        }
+
+        public static IComparer SpeedComparer
+        {
+            get { return (IComparer)new CarSpeedComparer(); }
+        }
+
+        
+        public string PetName { get; set; }
+        public int Speed { get; set; }
+
+        public Car() : this("Custom Pet Name", 20) { }
+
+        public Car(string petName, int speed)
+        {
+            PetName = petName;
+            Speed = speed;
+        }
+
+        public override string ToString()
+        {
+            return $"Car {{ PetName: {PetName}; Speed: {Speed} }}";
+        }
+
+        // method of IComparable Interface
+        // Comparison depends on speed
+        public int CompareTo(object obj)
+        {
+            //return Speed.CompareTo(obj);
+            Car aCar = obj as Car;
+            if(aCar != null)
+            {
+                return this.Speed > aCar.Speed ? 1 : this.Speed == aCar.Speed ? 0: -1;
+            }
+            else
+                throw new ArgumentException("Parameter is not a Car!");
+        }
+
+
+        public class CarNameComparer : IComparer
+        {
+            public int Compare(object obj1, object obj2)
+            {
+                Car car1 = obj1 as Car;
+                Car car2 = obj2 as Car;
+
+                if (car1 != null && car2 != null)
+                {
+                    return string.Compare(car1.PetName, car2.PetName);
+                }
+                else
+                    throw new ArgumentException("Parameter is not a Car!");
+
+            }
+        }
+
+        public class CarSpeedComparer : IComparer
+        {
+            public int Compare(object obj1, object obj2)
+            {
+                Car car1 = obj1 as Car;
+                Car car2 = obj2 as Car;
+
+                if (car1 != null && car2 != null)
+                {
+                    return car1.Speed.CompareTo(car2.Speed);
+                }
+                else
+                    throw new ArgumentException("Parameter is not a Car!");
+
+            }
+        }
+
+    }
+
+    class TestInterfaces9
+    {
+        public static void Test()
+        {
+
+            Car[] carArray = new Car[4];
+            carArray[0] = new Car("Hondai", 100);
+            carArray[1] = new Car("Nissan", 50);
+            carArray[2] = new Car("Toyota", 70);
+            carArray[3] = new Car("Chevrolet", 10);
+
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            Array.Sort(carArray);
+
+            Console.WriteLine();
+            Console.WriteLine("After Sorting array with the Iplementation of IComparable Interface");
+            Console.WriteLine("-------------------------------------------------------------------");
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            
+            // ----------------------- Sorting Depends on IComparer Interface -----------------------
+            carArray[0] = new Car("Hondai", 100);
+            carArray[1] = new Car("Nissan", 50);
+            carArray[2] = new Car("Toyota", 70);
+            carArray[3] = new Car("Chevrolet", 10);
+
+            Console.WriteLine();
+            Console.WriteLine();
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            Array.Sort(carArray,new Car.CarSpeedComparer());
+
+            Console.WriteLine();
+            Console.WriteLine("After Sorting Array with Speed using IComparer Interface");
+            Console.WriteLine("-------------------------------------------------------------------");
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            Array.Sort(carArray, new Car.CarNameComparer());
+
+            Console.WriteLine();
+            Console.WriteLine("After Sorting Array with PetName using IComparer Interface");
+            Console.WriteLine("-------------------------------------------------------------------");
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            // ----------------------- Sorting using strongly associated property -----------------------
+            carArray[0] = new Car("Hondai", 100);
+            carArray[1] = new Car("Nissan", 50);
+            carArray[2] = new Car("Toyota", 70);
+            carArray[3] = new Car("Chevrolet", 10);
+
+            Console.WriteLine();
+            Console.WriteLine();
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            Array.Sort(carArray, Car.SpeedComparer);
+
+            Console.WriteLine();
+            Console.WriteLine("After Sorting Array with Speed using IComparer Interface");
+            Console.WriteLine("-------------------------------------------------------------------");
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            Array.Sort(carArray, Car.NameComparer);
+
+            Console.WriteLine();
+            Console.WriteLine("After Sorting Array with PetName using IComparer Interface");
+            Console.WriteLine("-------------------------------------------------------------------");
+            foreach (var item in carArray)
+            {
+                Console.WriteLine(item);
+            }
+
+
+
+        }
+
+    }
+
+
+    #endregion
+
+
+    #region The IEnumerable and IEnumerator Interfaces
+    // -------------------------------------------------------------------------------------
+    // The IEnumerable and IEnumerator Interfaces
+    // -------------------------------------------------------------------------------------
+
+    // This interface informs the caller
+    // that the object's items can be enumerated.
+    // -------------------------------------------------------------------------------------
+    // public interface IEnumerable
+    // {
+    //     IEnumerator GetEnumerator();
+    // }
+    // -------------------------------------------------------------------------------------
+
+
+    // This interface allows the caller to
+    // obtain a container's items.
+    // -------------------------------------------------------------------------------------
+    // public interface IEnumerator
+    // {
+    //     bool MoveNext(); // Advance the internal position of the cursor.
+    //     object Current { get; } // Get the current item (read-only property).
+    //     void Reset(); // Reset the cursor before the first member.
+    // }
+    // -------------------------------------------------------------------------------------
+
+    // Garage contains a set of Car objects.
+    public class Garage : IEnumerable
+    {
+        private Car[] carArray = new Car[4];
+        // Fill with some Car objects upon startup.
+        public Garage()
+        {
+            carArray[0] = new Car("Rusty", 30);
+            carArray[1] = new Car("Clunker", 55);
+            carArray[2] = new Car("Zippy", 30);
+            carArray[3] = new Car("Fred", 30);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return carArray.GetEnumerator();
+
+        }
+    }
+
+    class TestInterfaces10
+    {
+        public static void Test()
+        {
+            Console.WriteLine("***** Fun with IEnumerable / IEnumerator *****\n");
+            Garage carLot = new Garage();
+            // Hand over each car in the collection?
+            foreach (Car c in carLot)
+            {
+                Console.WriteLine("{0} is going {1} MPH",
+                c.PetName, c.Speed);
+            }
+
+
+        }
+
+    }
+
+
+    #endregion
+
+
+
 
 
 
@@ -567,7 +1343,11 @@ namespace CSharpBookTraining.OOP_Part3
             //TestInterfaces2.Test();
             //TestInterfaces3.Test();
             //TestInterfaces4.Test();
-            TestInterfaces6.Test();
+            //TestInterfaces5.Test();
+            //TestInterfaces6.Test();
+            //TestInterfaces7.Test();
+            //TestInterfaces8.Test();
+            TestInterfaces9.Test();
         }
 
     }

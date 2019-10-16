@@ -73,6 +73,7 @@
     <Compile Include="OOP1.cs" />
     <Compile Include="OOP2.cs" />
     <Compile Include="OOP3.cs" />
+    <Compile Include="PrintDecorations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringsTraining.cs" />
