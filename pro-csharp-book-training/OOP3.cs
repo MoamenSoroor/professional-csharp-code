@@ -37,6 +37,7 @@ namespace CSharpBookTraining.OOP_Part3
     // ==================================================================================================
 
     // ==============================> Defining Custom Interfaces <==============================
+    
     #region Defining Interfaces 0
     interface Interface0
     {
@@ -1068,7 +1069,7 @@ namespace CSharpBookTraining.OOP_Part3
     // Any number greater than zero      This instance comes after the specified object in the sort order.
     // -----------------------------------------------------------------------------------------------------
 
-    class Car : IComparable
+    public class Car : IComparable
     {
 
         // ------- Sorting using strongly associated property ---------
@@ -1286,11 +1287,40 @@ namespace CSharpBookTraining.OOP_Part3
     // }
     // -------------------------------------------------------------------------------------
 
+    class GarageEnumerator : IEnumerator
+    {
+        private Garage garage;
+
+        private int counter = -1;
+
+        public GarageEnumerator(Garage garage)
+        {
+            this.garage = garage;
+        }
+
+        public object Current { get => garage.CarArray[counter]; }
+
+        public bool MoveNext()
+        {
+            counter++;
+
+            return (counter < garage.CarArray.Length);
+        }
+
+        public void Reset()
+        {
+            counter = -1;
+        }
+    }
+
+
     // Garage contains a set of Car objects.
     public class Garage : IEnumerable
     {
-        private Car[] carArray = new Car[4];
+        protected Car[] carArray = new Car[4];
         // Fill with some Car objects upon startup.
+
+        public Car[] CarArray { get => carArray; }
         public Garage()
         {
             carArray[0] = new Car("Rusty", 30);
@@ -1299,9 +1329,46 @@ namespace CSharpBookTraining.OOP_Part3
             carArray[3] = new Car("Fred", 30);
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new GarageEnumerator(this);
+
+        }
+    }
+
+    // another implementation of GetEnumerator()
+    
+    
+    public class Garage2 : Garage, IEnumerable
+    {
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return carArray.GetEnumerator();
+
+        }
+    }
+
+    // ==============================> yield Contextual Keyword <==============================
+    public class Garage3 : Garage, IEnumerable
+    {
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (var car in CarArray)
+            {
+                yield return car;
+            }
+
+        }
+    }
+
+    public class Garage4 : Garage, IEnumerable
+    {
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            yield return CarArray[0];
+            yield return CarArray[1];
+            yield return CarArray[2];
+            yield return CarArray[3];
 
         }
     }
@@ -1318,6 +1385,28 @@ namespace CSharpBookTraining.OOP_Part3
                 Console.WriteLine("{0} is going {1} MPH",
                 c.PetName, c.Speed);
             }
+            
+            // ----------------------------------------------------------------------------------------------
+            Console.WriteLine();
+            Console.WriteLine("***** Fun with IEnumerable / IEnumerator yield contextual keyword *****\n");
+            Garage3 carLot3 = new Garage3();
+            // Hand over each car in the collection?
+            foreach (Car c in carLot3)
+            {
+                Console.WriteLine("{0} is going {1} MPH",
+                c.PetName, c.Speed);
+            }
+
+            // ----------------------------------------------------------------------------------------------
+            Console.WriteLine();
+            Console.WriteLine("***** Fun with IEnumerable / IEnumerator yield contextual keyword *****\n");
+            Garage4 carLot4 = new Garage4();
+            // Hand over each car in the collection?
+            foreach (Car c in carLot4)
+            {
+                Console.WriteLine("{0} is going {1} MPH",
+                c.PetName, c.Speed);
+            }
 
 
         }
@@ -1327,6 +1416,52 @@ namespace CSharpBookTraining.OOP_Part3
 
     #endregion
 
+    #region yield Contextual Keyword, with IEnumerable and IEnumerator
+    
+    class Sequence
+    {
+
+        public int Counter { get; set; }
+
+        public int Max { get; set; }
+
+        public int Step { get; set; }
+
+        public Sequence(int counter, int max, int step)
+        {
+            Counter = counter;
+            Max = max;
+            Step = step;
+        }
+
+        public Sequence() :this(0,1000,1) { }
+
+        public IEnumerator GetEnumerator()
+        {
+            while(Counter < Max)
+            {
+                yield return Counter++;
+            }
+            
+        }
+
+    }
+
+
+    class TestInterfaces11
+    {
+        public static void Test()
+        {
+            Sequence seq = new Sequence();
+            IEnumerator en = seq.GetEnumerator();
+
+
+        }
+
+    }
+
+
+    #endregion
 
 
 
@@ -1347,7 +1482,9 @@ namespace CSharpBookTraining.OOP_Part3
             //TestInterfaces6.Test();
             //TestInterfaces7.Test();
             //TestInterfaces8.Test();
-            TestInterfaces9.Test();
+            //TestInterfaces9.Test();
+            //TestInterfaces10.Test();
+            TestInterfaces11.Test();
         }
 
     }
