@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.CSharpValueTypes
 {
 
     // System.Enum is the class that is enums gain functionality from it.

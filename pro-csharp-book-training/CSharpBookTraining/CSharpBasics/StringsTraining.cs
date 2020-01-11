@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.CSharpBasics
 {
     public static class StringsTraining
     {
@@ -189,7 +189,7 @@ namespace CSharpBookTraining
 
             Logger.Title("public static String Join(String separator, String[] value, int startIndex, int count)");
             var strArray = new[] { "A", "B", "C", "D", "E", "F", "G" };
-            Console.WriteLine($"{string.Join(", ", strArray,3,6)}");
+            Console.WriteLine($"{string.Join(", ", strArray,3,3)}");
 
             Logger.Title("public static String Concat(params String[] values); ");
             Console.WriteLine($"{string.Concat("Moamen","Mohammed", "Gamal" , "Soroor")}");

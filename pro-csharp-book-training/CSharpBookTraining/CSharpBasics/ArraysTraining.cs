@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.CSharpBasics
 {
     public static class ArraysTraining
     {

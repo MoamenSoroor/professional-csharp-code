@@ -16,7 +16,7 @@ using static System.Math;
 // CHAPTER 5: Understanding Encapsulation
 // ===========================================================================================================
 
-namespace CSharpBookTraining.OOP_Part1
+namespace ProCSharpBook.OOPEncapsulation
 {
 
     #region Introducing the C# Class Type, Fields, and Constructors, methods

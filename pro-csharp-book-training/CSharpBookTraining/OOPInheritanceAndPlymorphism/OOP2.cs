@@ -12,7 +12,7 @@ using System.Linq;
 // CHAPTER 5: Understanding Inheritance and Polymorphism
 // ===========================================================================================================
 
-namespace CSharpBookTraining.OOP_Part2
+namespace ProCSharpBook.OOPInheritanceAndPlymorphism
 {
 
     #region Inheritance

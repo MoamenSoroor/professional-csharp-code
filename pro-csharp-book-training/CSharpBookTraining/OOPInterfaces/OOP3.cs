@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 // ===========================================================================================================
 // CHAPTER 8: Working with Interfaces
 // ===========================================================================================================
-namespace CSharpBookTraining.OOP_Part3
+namespace ProCSharpBook.OOPInterfaces
 {
 
     // ==============================> Understanding Interface Types <==============================

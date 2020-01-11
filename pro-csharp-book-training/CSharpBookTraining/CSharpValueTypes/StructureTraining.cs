@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.CSharpValueTypes
 {
     // Structure Specification Notes
     //----------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace CSharpBookTraining
             p2.Display();
 
             // Creating Variable with custom constructor
-            Point p3 = new Point("P3", 10, 20);
+            Point p3 = new Point(10, 20);
             // Will dislay default values 0 for int, 0.0 for float and double, null for object
             p3.Display();
 
@@ -133,13 +133,7 @@ namespace CSharpBookTraining
         // if you didn't assigned all data points in custom constructor Compile Error will appear.
         // public Point2(int x, int y) { this.X = x; }
 
-        public Point(string name1 ,int x , int y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
-
-        public Point(int x, int y)
+        public Point(int x , int y)
         {
             this.X = x;
             this.Y = y;
@@ -165,7 +159,7 @@ namespace CSharpBookTraining
         // Display the current position.
         public void Display()
         {
-            Console.WriteLine("X = {1}, Y = {2}", X, Y);
+            Console.WriteLine("X = {0}, Y = {1}", X, Y);
         }
     }
 

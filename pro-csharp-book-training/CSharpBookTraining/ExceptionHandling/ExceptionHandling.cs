@@ -4,7 +4,7 @@ using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.ExceptionHandling
 {
     // ======================================================================================
     // you will learn how to handle runtime anomalies in your C# code through the use of

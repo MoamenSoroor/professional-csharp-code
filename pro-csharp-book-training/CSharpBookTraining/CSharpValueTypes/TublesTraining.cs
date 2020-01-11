@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
+using ProCSharpBook.CSharpBasics;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.CSharpValueTypes
 {
 
     // Tuples Specification Notes

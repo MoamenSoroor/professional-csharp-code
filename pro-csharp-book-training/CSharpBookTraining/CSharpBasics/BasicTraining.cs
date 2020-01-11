@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.CSharpBasics
 {
     // C# Pogramming Language
     // -------------------------------------------------------------------------------------------
@@ -58,21 +58,24 @@ namespace CSharpBookTraining
 
     // 1- Value types
 
-    //      - Simple types
+    //      - Simple types: All simple types are Derived from Object -> ValueType Class
     //          # Signed integral: sbyte, short, int, long
     //          # Unsigned integral: byte, ushort, uint, ulong
     //          # Unicode characters: char
     //          # IEEE binary floating-point: float, double
     //          # High-precision decimal floating-point: decimal
+    //          # Special: void, Guid
     //          # Boolean: bool
+    //          # Date and Time: DateTime, TimeSpan
+    //          
 
-    //      - Enum types
+    //      - Enum types: All Enum types are Derived from Object -> ValueType -> Enum Class
     //          # User-defined types of the form enum E {...}
 
-    //      - Struct types
+    //      - Struct types: All Structures are Derived from Object -> ValueType Class
     //          # User-defined types of the form struct S {...}
 
-    //      - Nullable value types
+    //      - Nullable value types: All Nullable are Derived from Object -> ValueType -> Nullable<T> Struct
     //          # Extensions of all other value types with a null value
 
     //      - Tuple Types: 
@@ -82,6 +85,8 @@ namespace CSharpBookTraining
     //              (Type [Name1], Type [Name2] ,..., Type [NameX]) TupleName = (Value1, Value2, ...,ValueX);
     //              var TupleName = ([Name1:] Value1, [Name2:] Value2, ..., [NameX:]ValueX);
     //              
+
+
 
     // 2- Reference types
 
@@ -651,19 +656,19 @@ namespace CSharpBookTraining
             #endregion
 
             #region Silent Overflow, checkced, and unchecked keywords
-            // Silent Overflow
-            // -------------------------------------------------------------------------
-            // 1- the default behaviour of the compiler is to allow overflow silently,
-            //    so if some of your code in your app doesn't accept Silent Overflow,
-            //    - you can surrount your code with checked keyword that throws 
-            //      OverflowException, and handle the exception with try catch
-            //    - if most of your code doesn't allow Overflow, you can use 
-            //      /checked flag of compiler options that doesn't allow silent Overflow,
-            //      and in that case if you have little cases you can allow Slient Overflow,
-            //      you can use unchecked Keyword.
+        // Silent Overflow
+        // -------------------------------------------------------------------------
+        // 1- the default behaviour of the compiler is to allow overflow silently,
+        //    so if some of your code in your app doesn't accept Silent Overflow,
+        //    - you can surrount your code with checked keyword that throws 
+        //      OverflowException, and handle the exception with try catch
+        //    - if most of your code doesn't allow Overflow, you can use 
+        //      /checked flag of compiler options that doesn't allow silent Overflow,
+        //      and in that case if you have little cases you can allow Slient Overflow,
+        //      you can use unchecked Keyword.
 
-            // silent overflow example
-            short a = 25_000;
+        // silent overflow example
+        short a = 25_000;
             short b = (short)(a * 2);
 
             long lg = long.MaxValue / 2;
@@ -1432,7 +1437,63 @@ namespace CSharpBookTraining
 
 
 
+
+
+
     }
+
+    // ------------------------ Boxing and Unboxing Operation -------------------------
+    #region Boxing and Unboxing Operation
+
+    // Boxing and Unboxing
+    // =========================================================================================================
+    // you will seldom need to store a local value type in a local object variable,
+    // as shown here.However, it turns out that the boxing/unboxing process is quite helpful because it allows you
+    // to assume everything can be treated as a System.Object, while the CLR takes care of the memory-related
+    // details on your behalf.
+
+    // Although you pass in Value Type directly into methods requiring an object, the runtime automatically 
+    // boxes the stack-based data on your behalf.Later, if you want to retrieve a Value Type from methods, 
+    // you must unbox the heap-allocated object into a stack-allocated integer using a casting operation.
+    // 
+
+    class BoxingAndUnboxing
+    {
+        public static void Test()
+        {
+            int val1 = 10;
+
+            // Boxing Operation : stack to heap memory transfer
+            object obj1 = val1;
+            TestBoxing(val1);
+
+            // Unboxing Operation : heap to stack memory transfer
+            int val2 = (int)obj1;
+            val2 = (int)TestUnboxing();
+
+
+
+
+        }
+
+        // Boxing Operation when passing type value argument to the method
+        public static void TestBoxing(object obj1)
+        {
+            if (obj1 is ValueType)
+                Console.WriteLine($"Boxed Value");
+        }
+
+        // unboxing Operation when returning type value from method
+        public static object TestUnboxing()
+        {
+            int val = new Random().Next(100);
+            return val;
+        }
+
+    }
+
+    // --------------------- End of Boxing and Unboxing Operation ---------------------
+    #endregion
 }
 
 //IsControl

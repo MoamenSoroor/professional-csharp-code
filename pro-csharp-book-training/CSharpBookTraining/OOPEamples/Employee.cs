@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpBookTraining
+namespace ProCSharpBook.OOPExamples
 {
 
 
@@ -37,19 +37,48 @@ namespace CSharpBookTraining
 
     class Employee
     {
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
         public double Salary { get; set; }
         public string JobTitle { get; protected set; }
 
-
-
-        public Employee()
+        public Employee(string firstName, string lastName, int age, double salary, string jobTitle)
         {
-            this.JobTitle = "Employee";
+            FirstName = firstName;
+            LastName = lastName;
+            Age = age;
+            Salary = salary;
+            JobTitle = jobTitle;
         }
 
+        public Employee() : this("Custom FirstName", "Custom LastName", 22, 4000.00f, "Employee") { }
+
+        public Employee(string firstName, string lastName, int age) : this(firstName, lastName, age, 4000.00f, "Employee") { }
+
+        public override string ToString()
+        {
+            return $@"Employee
+{{
+    FirstName   : {FirstName},
+    LastName    : {LastName},
+    Age         : {Age},
+    Salary      : {Salary},
+    JobTitle    : {JobTitle},
+
+}}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     class Manager : Employee
