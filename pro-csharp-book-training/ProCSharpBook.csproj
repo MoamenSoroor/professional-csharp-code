@@ -64,22 +64,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSharpBookTraining\CSharpBasics\ArraysTraining.cs" />
-    <Compile Include="CSharpBookTraining\CSharpBasics\BasicTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\DataTypesBasics.cs" />
     <Compile Include="CSharpBookTraining\CSharpBasics\ControlFlowTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\ClassesTraining.cs" />
     <Compile Include="CSharpBookTraining\CsharpCollections\CollectionsTraining.cs" />
     <Compile Include="CSharpBookTraining\CSharpGenerics\GenericsTraining.cs" />
     <Compile Include="CSharpBookTraining\OOPEamples\Employee.cs" />
-    <Compile Include="CSharpBookTraining\CSharpValueTypes\EnumsTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\EnumsTraining.cs" />
     <Compile Include="CSharpBookTraining\ExceptionHandling\ExceptionHandling.cs" />
-    <Compile Include="CSharpBookTraining\CSharpValueTypes\NullableTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\NullablesTraining.cs" />
     <Compile Include="CSharpBookTraining\OOPEncapsulation\OOP1.cs" />
     <Compile Include="CSharpBookTraining\OOPInheritanceAndPlymorphism\OOP2.cs" />
     <Compile Include="CSharpBookTraining\OOPInterfaces\OOP3.cs" />
     <Compile Include="CSharpBookTraining\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSharpBookTraining\CSharpBasics\StringsTraining.cs" />
-    <Compile Include="CSharpBookTraining\CSharpValueTypes\StructureTraining.cs" />
-    <Compile Include="CSharpBookTraining\CSharpValueTypes\TublesTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\StructuresTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\TuplesTraining.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

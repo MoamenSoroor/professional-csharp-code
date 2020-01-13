@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 using ProCSharpBook.CSharpBasics;
 
-namespace ProCSharpBook.CSharpValueTypes
+namespace ProCSharpBook.CSharpBasics
 {
 
     // Tuples Specification Notes

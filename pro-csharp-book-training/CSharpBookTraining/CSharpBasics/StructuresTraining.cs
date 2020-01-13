@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ProCSharpBook.CSharpValueTypes
+namespace ProCSharpBook.CSharpBasics
 {
     // Structure Specification Notes
     //----------------------------------------------------------------------------------------------------

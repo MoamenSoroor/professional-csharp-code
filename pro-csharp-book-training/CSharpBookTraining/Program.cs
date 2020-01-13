@@ -10,20 +10,20 @@ namespace ProCSharpBook
     {
         static void Main(string[] args)
         {
-            CSharpBasics.BasicsTraining.TestBasics();
+            CSharpBasics.DataTypesBasics.TestBasics();
             CSharpBasics.LoopsTraining.TestLoops();
             CSharpBasics.SwitchTraining.TestSwitches();
             CSharpBasics.IfTraining.TestIfStatement();
             CSharpBasics.ArraysTraining.TestArrays();
             CSharpBasics.StringsTraining.TestStrings();
-            
 
 
 
-            CSharpValueTypes.EnumsTraining.TestEnums();
-            CSharpValueTypes.StructuresTraining.TestStructures();
-            CSharpValueTypes.TuplesTraining.TestTuples();
-            CSharpValueTypes.NullablesTraining.TestNullables();
+
+            CSharpBasics.EnumsTraining.TestEnums();
+            CSharpBasics.StructuresTraining.TestStructures();
+            CSharpBasics.TuplesTraining.TestTuples();
+            CSharpBasics.NullablesTraining.TestNullables();
 
             ExceptionHandling.ExceptionHandlingTraining.TestExceptionHandling();
 

@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace ProCSharpBook.CSharpBasics
 {
+
+    #region Introduction to C# Programming Language
+
     // C# Pogramming Language
     // -------------------------------------------------------------------------------------------
     // C# (pronounced "See Sharp") is a simple, modern, object-oriented, and type-safe programming 
@@ -112,18 +115,18 @@ namespace ProCSharpBook.CSharpBasics
     //  bool          System.Boolean        Structure
     //  byte          System.Byte           Structure
     //  sbyte         System.SByte          Structure
-    //  char          System.Char           Structure
-    //  decimal       System.Decimal        Structure
-    //  double        System.Double         Structure
-    //  float         System.Single         Structure
+    //  short         System.Int16          Structure
+    //  ushort        System.UInt16         Structure
     //  int           System.Int32          Structure
     //  uint          System.UInt32         Structure
     //  long          System.Int64          Structure
     //  ulong         System.UInt64         Structure
-    //  object        System.Object         Class
-    //  short         System.Int16          Structure
-    //  ushort        System.UInt16         Structure
+    //  float         System.Single         Structure
+    //  double        System.Double         Structure
+    //  decimal       System.Decimal        Structure
+    //  char          System.Char           Structure
     //  string        System.String         Class
+    //  object        System.Object         Class
     // ------------------------------------------------------------------------------------------
 
     // The following table summarizes C#'s numeric types.
@@ -293,46 +296,95 @@ namespace ProCSharpBook.CSharpBasics
     // decimal
     // char  
     // bool
-    // ----------------------
+    // ---------------------- 
+    #endregion
 
 
-    class BasicsTraining
+    class DataTypesBasics
     {
         public static void TestBasics()
         {
-            #region C# Basic Data Types, default keyword, Literals, var, object, dynamic
-            // C# DataTypes
+
+            // C# Basic Data Types, default keyword, Literals, var, object(Boxing and Unboxing), dynamic
+            // ==============================================================================================================
+
+            #region C# Simple DataTypes
+
+            // C# Simple DataTypes
+            // ------------------------------------------------------------
+            //      - Simple types: All simple types are Derived from Object -> ValueType Class
+            //          # Signed integral: sbyte, short, int, long
+            //          # Unsigned integral: byte, ushort, uint, ulong
+            //          # Unicode characters: char
+            //          # IEEE binary floating-point: float, double
+            //          # High-precision decimal floating-point: decimal
+            //          # Special: void, Guid
+            //          # Boolean: bool
+            //          # Date and Time: DateTime, TimeSpan
+
+            //  Built-in types
+            // -------------------------------------------------------------------------------------------
+            //  C# type       .NET type             ValueType / ReferenceType
+            // ------------------------------------------------------------------------------------------
+            //  bool          System.Boolean        Structure
+            //  byte          System.Byte           Structure
+            //  sbyte         System.SByte          Structure
+            //  short         System.Int16          Structure
+            //  ushort        System.UInt16         Structure
+            //  int           System.Int32          Structure
+            //  uint          System.UInt32         Structure
+            //  long          System.Int64          Structure
+            //  ulong         System.UInt64         Structure
+            //  float         System.Single         Structure
+            //  double        System.Double         Structure
+            //  decimal       System.Decimal        Structure
+            //  char          System.Char           Structure
+            // ------------------------------------------------------------
+            //  string        System.String         Class
+            //  object        System.Object         Class
+            // ------------------------------------------------------------------------------------------
+
+            // The following table summarizes C#'s numeric types.
+            // Category         Bits    Type        Range/Precision
+            // ------------------------------------------------------------------------------------------
+            // Signed integral	
+            // ------------------------------------------------------------------------------------------
+            //                  8	    sbyte	    -128...127
+            //                  16	    short	    -32,768...32,767
+            //                  32	    int	        -2,147,483,648...2,147,483,647
+            //                  64	    long	    -9,223,372,036,854,775,808...9,223,372,036,854,775,807
+
+            // Unsigned integral                    
+            // ------------------------------------------------------------------------------------------
+            //                  8	    byte	    0...255
+            //                  16	    ushort	    0...65,535
+            //                  32	    uint	    0...4,294,967,295
+            //                  64	    ulong	    0...18,446,744,073,709,551,615
+
+            // Floating point                       
+            // ------------------------------------------------------------------------------------------
+            //                  32	    float	    1.5 × 10^−45 to 3.4 × 10^38, 7-digit precision
+            //                  64	    double	    5.0 × 10^−324 to 1.7 × 10^308, 15-digit precision
+
+            // Decimal                              
+            // ------------------------------------------------------------------------------------------
+            //                  128	    decimal	    1.0 × 10^−28 to 7.9 × 10^28, 28-digit precision
+            // ------------------------------------------------------------------------------------------
+
             byte mybytevar = 0;       // 0
             sbyte mysbytevar = 0;     // 0
-            decimal mydecimalvar = 0;     // 0
-            double mydoublevar = 0;       // 0
-            float myfloatvar = 0;     // 0
+            decimal mydecimalvar = 0m;     // 0
+            double mydoublevar = 0d;       // 0
+            float myfloatvar = 0f;     // 0
             int myintvar = 0;     // 0
-            uint myuintvar = 0;       // 0
-            long mylongvar = 0;       // 0
-            ulong myulongvar = 0;     // 0
+            uint myuintvar = 0u;       // 0
+            long mylongvar = 0l;       // 0
+            ulong myulongvar = 0ul;     // 0
             short myshortvar = 0;     // 0
             ushort myushortvar = 0;       // 0
 
             char mycharvar = 'a';
             bool myboolvar = true;
-
-
-            // The default literal is a new feature in C# 7.1 that allows for assigning 
-            // a variable the default value for its data type. 
-            mybytevar = default;       // 0
-            mysbytevar = default;     // 0
-            mydecimalvar = default;     // 0
-            mydoublevar = default;       // 0
-            myfloatvar = default;     // 0
-            myintvar = default;     // 0
-            myuintvar = default;       // 0
-            mylongvar = default;       // 0
-            myulongvar = default;     // 0
-            myshortvar = default;     // 0
-            myushortvar = default;       // 0
-            mycharvar = default;
-            myboolvar = default;
 
             Console.WriteLine(mybytevar);
             Console.WriteLine(mysbytevar);
@@ -347,6 +399,73 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine(myushortvar);
             Console.WriteLine(mycharvar);
             Console.WriteLine(myboolvar);
+
+            // System.DataType is the same as simple data type
+            System.Byte mybytevar1 = 0;         // is the same as byte 
+            System.SByte mysbytevar1 = 0;       // is the same as sbyte
+            System.Decimal mydecimalvar1 = 0m;  // is the same as decimal
+            System.Double mydoublevar1 = 0;     // is the same as double 
+            System.Single myfloatvar1 = 0f;     // is the same as float
+            System.Int32 myintvar1 = 0;         // is the same as int
+            System.UInt32 myuintvar1 = 0u;      // is the same as uint 
+            System.Int64 mylongvar1 = 0l;       // is the same as long 
+            System.UInt64 myulongvar1 = 0ul;    // is the same as ulong
+            System.Int16 myshortvar1 = 0;       // is the same as short
+            System.UInt16 myushortvar1 = 0;     // is the same as ushort 
+            System.Char mycharvar1 = 'a';       // is the same as char 
+            System.Boolean myboolvar1 = true;   // is the same as bool 
+            
+            Console.WriteLine(mybytevar1);
+            Console.WriteLine(mysbytevar1);
+            Console.WriteLine(mydecimalvar1);
+            Console.WriteLine(mydoublevar1);
+            Console.WriteLine(myfloatvar1);
+            Console.WriteLine(myintvar1);
+            Console.WriteLine(myuintvar1);
+            Console.WriteLine(mylongvar1);
+            Console.WriteLine(myulongvar1);
+            Console.WriteLine(myshortvar1);
+            Console.WriteLine(myushortvar1);
+            Console.WriteLine(mycharvar1);
+            Console.WriteLine(myboolvar1);
+
+            #endregion
+
+            #region the default Literal
+            // The default literal
+            // ------------------------------------------------------------
+            // The default literal is a new feature in C# 7.1 that allows for assigning 
+            // a variable the default value for its data type. 
+            mybytevar = default;       // 0
+            mysbytevar = default;     // 0
+            mydecimalvar = default;     // 0
+            mydoublevar = default;       // 0
+            myfloatvar = default;     // 0
+            myintvar = default;     // 0
+            myuintvar = default;       // 0
+            mylongvar = default;       // 0
+            myulongvar = default;     // 0
+            myshortvar = default;     // 0
+            myushortvar = default;       // 0
+            mycharvar = default;        // '\0'
+            myboolvar = default;        // false
+
+            Console.WriteLine(mybytevar);
+            Console.WriteLine(mysbytevar);
+            Console.WriteLine(mydecimalvar);
+            Console.WriteLine(mydoublevar);
+            Console.WriteLine(myfloatvar);
+            Console.WriteLine(myintvar);
+            Console.WriteLine(myuintvar);
+            Console.WriteLine(mylongvar);
+            Console.WriteLine(myulongvar);
+            Console.WriteLine(myshortvar);
+            Console.WriteLine(myushortvar);
+            Console.WriteLine(mycharvar);
+            Console.WriteLine(myboolvar); 
+            #endregion
+
+            #region Data Type Literals (suffix, and underscore separator)
 
             // Simple Data Type Literal Suffix:
             // -----------------------------------------------
@@ -374,6 +493,20 @@ namespace ProCSharpBook.CSharpBasics
             myshortvar = 3400;
             myushortvar = 3400;
 
+            // Underscore Separator between Numeric Literals
+            // ---------------------------------------------------
+            mybytevar = 1_0;
+            mysbytevar = 1_0;
+            mydecimalvar = 123_514_12m;
+            mydoublevar = 340_001_212.12_12;
+            myfloatvar = 912_932_3.123_123F;
+            myintvar = 500_444_333;
+            myuintvar = 40_00U;
+            mylongvar = 4023_0233_2344L;
+            myulongvar = 402_33123_32_32UL;
+            myshortvar = 3_40_0;
+            myushortvar = 3_40_0;
+
             // literals works with it's corresponding type member
             // ---------------------------------------------------
             Console.WriteLine("10.Equals(2) = " + 10.Equals(20));
@@ -381,22 +514,13 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine("10D.Equals(10D) = " + 10D.Equals(10D));
             Console.WriteLine("true.Equals(true) = " + true.Equals(true));
             Console.WriteLine("'a'.ToString() = " + 'a'.ToString());
+            #endregion
 
-
-            // System.DataType is the same as simple data type
-            System.Byte mybytevar1 = default;
-            System.SByte mysbytevar1 = default;
-            System.Decimal mydecimalvar1 = default;
-            System.Double mydoublevar1 = default;
-            System.Single myfloatvar1 = default;
-            System.Int32 myintvar1 = default;
-            System.UInt32 myuintvar1 = default;
-            System.Int64 mylongvar1 = default;
-            System.UInt64 myulongvar1 = default;
-            System.Int16 myshortvar1 = default;
-            System.UInt16 myushortvar1 = default;
+            #region Var -- Implicit Local Type Variable --
 
             // Implicit Local Type Variable (var)
+            // ------------------------------------------------------------
+            // Note that var makes Variable or Reference that is Static-Type not Dynamic-Type.
             var mybytevar2 = (byte)0;
             var mysbytevar2 = (sbyte)0;
             var mydecimalvar2 = 0m; // or d
@@ -408,9 +532,14 @@ namespace ProCSharpBook.CSharpBasics
             var myulongvar2 = 0ul;
             var myshortvar2 = (short)0;
             var myushortvar2 = (ushort)0;
+            #endregion
 
+            #region object with Simple data types, and Boxing and Unboxing
 
-            // Implicit Up Casting
+            // object with Simple data types, and Boxing and Unboxing
+            // -------------------------------------------------------
+
+            // Boxing
             object mybytevar3 = (byte)0;
             object mysbytevar3 = (sbyte)0;
             object mydecimalvar3 = 0m; // or d
@@ -423,27 +552,56 @@ namespace ProCSharpBook.CSharpBasics
             object myshortvar3 = (short)0;
             object myushortvar3 = (ushort)0;
 
-            // Dynamic Type
-            // When you assign a class object to the dynamic type, then the compiler does 
-            // not check for the right method and property name of the dynamic type which 
-            // holds the custom class object.
-            // You can also pass a dynamic type parameter in the method so that the method 
-            // can accept any type of parameter at run time.As shown in the below example.
-            // Dynamic is useful when we need to code using reflection or dynamic languages
-            // or with the COM objects and when getting result out of the LinQ queries.
+            // Unboxing
+            mybytevar = (byte)mybytevar3;
+            mysbytevar = (sbyte)mysbytevar3;
+            mydecimalvar = (decimal)mydecimalvar3;
+            mydoublevar = (double)mydoublevar3;
+            myfloatvar = (float)myfloatvar3;
+            myintvar = (int)myintvar3;
+            myuintvar = (uint)myuintvar3;
+            mylongvar = (long)mylongvar3;
+            myulongvar = (ulong)myulongvar3;
+            myshortvar = (short)myshortvar3;
+            myushortvar = (ushort)myushortvar3;
+            #endregion
 
-            dynamic mydynamic = (byte)0;
+           
+            #region Dynamic Keyword -- Dynamic type Style --
+        // Dynamic Type
+        // -------------------------------------------------------------------------
+        // When you assign a class object to the dynamic type, then the compiler does 
+        // not check for the right method and property name of the dynamic type which 
+        // holds the custom class object.
+        // You can also pass a dynamic type parameter in the method so that the method 
+        // can accept any type of parameter at run time.As shown in the below example.
+        // Dynamic is useful when we need to code using reflection or dynamic languages
+        // or with the COM objects and when getting result out of the LinQ queries.
+
+        dynamic mydynamic = (byte)0;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = (sbyte)0;
-            mydynamic = 0m; // or d
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
+            mydynamic = 0m; // or d       Type is 
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = 0d;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = 0f;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = 0;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = 0u;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = 0l;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = 0ul;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = (short)0;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = (ushort)0;
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = "Hello World";
+            Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}"); 
             #endregion
 
             #region Implicit numeric conversions (Widening)
@@ -453,14 +611,14 @@ namespace ProCSharpBook.CSharpBasics
             // -------------------------------------------------------------------------------------------
             // Widening: term define an implicit upword cast that doesn't result a loss of data.
 
-            // The Rules of Conversion:
+            // The Rules of Implicit Numeric Conversion:
             // -------------------------------------------------------------------------------
-            // First, we order the data types from the smalles to the greatest in storage:
-            //      sbyte, byte, short, ushort, int, uint, long, ulong, float, double.
-            // 2- From Signed To Upper Signed 
-            // 3- From Unsigned To Upper Signed, and Upper Unsigned
-            // 4- From Signed and Unsigned To float, double, decimal, and char
-            // 5- From float To double
+            // First, we order the data types from the smallest to the greatest in storage:
+            //      sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal.
+            // 1- From Signed To Upper Signed, and All Floating-Points(float, double, decimal)
+            // 2- From Unsigned To Upper Signed, and Upper Unsigned, and All Floating-Points.
+            // 3- From float To double
+            // 3- From char To All Numerics Except sbyte, byte, short
             // -------------------------------------------------------------------------------
 
             // The following is an implicit data types conversion table.
@@ -656,19 +814,19 @@ namespace ProCSharpBook.CSharpBasics
             #endregion
 
             #region Silent Overflow, checkced, and unchecked keywords
-        // Silent Overflow
-        // -------------------------------------------------------------------------
-        // 1- the default behaviour of the compiler is to allow overflow silently,
-        //    so if some of your code in your app doesn't accept Silent Overflow,
-        //    - you can surrount your code with checked keyword that throws 
-        //      OverflowException, and handle the exception with try catch
-        //    - if most of your code doesn't allow Overflow, you can use 
-        //      /checked flag of compiler options that doesn't allow silent Overflow,
-        //      and in that case if you have little cases you can allow Slient Overflow,
-        //      you can use unchecked Keyword.
+            // Silent Overflow
+            // -------------------------------------------------------------------------
+            // 1- the default behaviour of the compiler is to allow overflow silently,
+            //    so if some of your code in your app doesn't accept Silent Overflow,
+            //    - you can surrount your code with checked keyword that throws 
+            //      OverflowException, and handle the exception with try catch
+            //    - if most of your code doesn't allow Overflow, you can use 
+            //      /checked flag of compiler options that doesn't allow silent Overflow,
+            //      and in that case if you have little cases you can allow Slient Overflow,
+            //      you can use unchecked Keyword.
 
-        // silent overflow example
-        short a = 25_000;
+            // silent overflow example
+            short a = 25_000;
             short b = (short)(a * 2);
 
             long lg = long.MaxValue / 2;
@@ -1177,7 +1335,7 @@ namespace ProCSharpBook.CSharpBasics
 
             Console.WriteLine("aa.ToString() is the same as aa");
             Console.WriteLine(aa);
-            Console.WriteLine(aa.ToString()); 
+            Console.WriteLine(aa.ToString());
             #endregion
 
             #region double Data Type
@@ -1428,7 +1586,7 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine($" 10 >= 20 is { 10 >= 20 }");
 
             Console.WriteLine($" 10 == 20 || 10 == 10 is { 10 == 20 || 10 == 10 }");
-            Console.WriteLine($" 10 != 20 && 10 == 10 is { 10 != 20 && 10 == 10 }"); 
+            Console.WriteLine($" 10 != 20 && 10 == 10 is { 10 != 20 && 10 == 10 }");
             #endregion
 
 
@@ -1436,64 +1594,63 @@ namespace ProCSharpBook.CSharpBasics
         }
 
 
+        #region Boxing and Unboxing Operation
 
+        // Boxing and Unboxing
+        // =========================================================================================================
+        // you will seldom need to store a local value type in a local object variable,
+        // as shown here.However, it turns out that the boxing/unboxing process is quite helpful because it allows you
+        // to assume everything can be treated as a System.Object, while the CLR takes care of the memory-related
+        // details on your behalf.
+
+        // Although you pass in Value Type directly into methods requiring an object, the runtime automatically 
+        // boxes the stack-based data on your behalf.Later, if you want to retrieve a Value Type from methods, 
+        // you must unbox the heap-allocated object into a stack-allocated integer using a casting operation.
+        // 
+
+        class BoxingAndUnboxing
+        {
+            public static void Test()
+            {
+                int val1 = 10;
+
+                // Boxing Operation : stack to heap memory transfer
+                object obj1 = val1;
+                TestBoxing(val1);
+
+                // Unboxing Operation : heap to stack memory transfer
+                int val2 = (int)obj1;
+                val2 = (int)TestUnboxing();
+
+
+
+
+            }
+
+            // Boxing Operation when passing type value argument to the method
+            public static void TestBoxing(object obj1)
+            {
+                if (obj1 is ValueType)
+                    Console.WriteLine($"Boxed Value");
+            }
+
+            // unboxing Operation when returning type value from method
+            public static object TestUnboxing()
+            {
+                int val = new Random().Next(100);
+                return val;
+            }
+
+        }
+
+        // --------------------- End of Boxing and Unboxing Operation ---------------------
+        #endregion
 
 
 
     }
 
-    // ------------------------ Boxing and Unboxing Operation -------------------------
-    #region Boxing and Unboxing Operation
 
-    // Boxing and Unboxing
-    // =========================================================================================================
-    // you will seldom need to store a local value type in a local object variable,
-    // as shown here.However, it turns out that the boxing/unboxing process is quite helpful because it allows you
-    // to assume everything can be treated as a System.Object, while the CLR takes care of the memory-related
-    // details on your behalf.
-
-    // Although you pass in Value Type directly into methods requiring an object, the runtime automatically 
-    // boxes the stack-based data on your behalf.Later, if you want to retrieve a Value Type from methods, 
-    // you must unbox the heap-allocated object into a stack-allocated integer using a casting operation.
-    // 
-
-    class BoxingAndUnboxing
-    {
-        public static void Test()
-        {
-            int val1 = 10;
-
-            // Boxing Operation : stack to heap memory transfer
-            object obj1 = val1;
-            TestBoxing(val1);
-
-            // Unboxing Operation : heap to stack memory transfer
-            int val2 = (int)obj1;
-            val2 = (int)TestUnboxing();
-
-
-
-
-        }
-
-        // Boxing Operation when passing type value argument to the method
-        public static void TestBoxing(object obj1)
-        {
-            if (obj1 is ValueType)
-                Console.WriteLine($"Boxed Value");
-        }
-
-        // unboxing Operation when returning type value from method
-        public static object TestUnboxing()
-        {
-            int val = new Random().Next(100);
-            return val;
-        }
-
-    }
-
-    // --------------------- End of Boxing and Unboxing Operation ---------------------
-    #endregion
 }
 
 //IsControl

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace ProCSharpBook.CSharpValueTypes
+namespace ProCSharpBook.CSharpBasics
 {
     // Some Important Notes about  Nullable Types:
     // ----------------------------------------------------------------------------------------------------------
