@@ -1469,10 +1469,10 @@ namespace ProCSharpBook.CSharpBasics
 
             try
             {
-                Console.WriteLine("TryParse 'a' = " + char.Parse("a"));
-                Console.WriteLine("TryParse 'b' = " + char.Parse("b"));
-                Console.WriteLine("TryParse 'c' = " + char.Parse("c"));
-                Console.WriteLine("TryParse 'd' = " + char.Parse("d"));
+                Console.WriteLine("Parse 'a' = " + char.Parse("a"));
+                Console.WriteLine("Parse 'b' = " + char.Parse("b"));
+                Console.WriteLine("Parse 'c' = " + char.Parse("c"));
+                Console.WriteLine("Parse 'd' = " + char.Parse("d"));
 
                 Console.WriteLine(@"Convert.ToChar(""a"") = " + Convert.ToChar("a"));
                 Console.WriteLine(@"Convert.ToChar(48) = " + Convert.ToChar(48));

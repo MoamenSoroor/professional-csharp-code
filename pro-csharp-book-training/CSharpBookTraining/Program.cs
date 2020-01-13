@@ -11,6 +11,7 @@ namespace ProCSharpBook
         static void Main(string[] args)
         {
             CSharpBasics.DataTypesBasics.TestBasics();
+            CSharpBasics.MethodsBasics.TestMethods();
             CSharpBasics.LoopsTraining.TestLoops();
             CSharpBasics.SwitchTraining.TestSwitches();
             CSharpBasics.IfTraining.TestIfStatement();

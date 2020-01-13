@@ -66,7 +66,7 @@
     <Compile Include="CSharpBookTraining\CSharpBasics\ArraysTraining.cs" />
     <Compile Include="CSharpBookTraining\CSharpBasics\DataTypesBasics.cs" />
     <Compile Include="CSharpBookTraining\CSharpBasics\ControlFlowTraining.cs" />
-    <Compile Include="CSharpBookTraining\CSharpBasics\ClassesTraining.cs" />
+    <Compile Include="CSharpBookTraining\CSharpBasics\MethodsBasics.cs" />
     <Compile Include="CSharpBookTraining\CsharpCollections\CollectionsTraining.cs" />
     <Compile Include="CSharpBookTraining\CSharpGenerics\GenericsTraining.cs" />
     <Compile Include="CSharpBookTraining\OOPEamples\Employee.cs" />
