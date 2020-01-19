@@ -35,15 +35,15 @@ namespace ProCSharpBook.CSharpBasics
 
     public static class TuplesTraining
     {
-        static TuplesTraining(){ }
+        static TuplesTraining() { }
 
         public static void TestTuples()
         {
             // Notice that they don’t all have to be the same data type.
             (int, string, bool) values = (10, "Moamen", true);
 
-            // you can use Impicity typed var
-            var varValues = (Math.PI, "Math" , false);
+            // you can use Implicity typed var
+            var varValues = (Math.PI, "Math", false);
 
             // By default, the compiler assigns each property the name ItemX, 
             //      where X represents the one based position in the tuple.
@@ -57,8 +57,7 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine(values.Item2.GetType().FullName);
             Console.WriteLine(values.Item3.GetType().FullName);
 
-
-            #region Named and unnamed tuples
+            #region Named and unnamed tuples - Deconstruction Tuples
 
             // Named and unnamed tuples
             //------------------------------------------------------------------------------------------
@@ -128,8 +127,7 @@ namespace ProCSharpBook.CSharpBasics
             // var with Left Side Named Properties
             //------------------------------------------------------------------------------------------
             var (MyInt, MyStr, MyBool) = (10, "Moamen", true);
-
-            Logger.Title("leftSideTuple with ItemX call");
+            Logger.Title("leftSideTupleWithVar with ItemX call");
             Console.WriteLine(leftSideTupleWithVar.Item1);
             Console.WriteLine(leftSideTupleWithVar.Item2);
             Console.WriteLine(leftSideTupleWithVar.Item3);
@@ -220,7 +218,7 @@ namespace ProCSharpBook.CSharpBasics
 
             // There are two conditions where candidate field names are not projected onto the tuple field:
             // 1- When the candidate name is a reserved tuple name. 
-            //      Examples include Item3, ToString.or Rest.
+            //      Examples include Item3, ToString or Rest.
             // 2- When the candidate name is a duplicate of another tuple field name,
             //      either explicit or implicit.
 
@@ -229,13 +227,14 @@ namespace ProCSharpBook.CSharpBasics
             //      names projected for them.
 
             // Projection Failure First Case:
-           int num = 10;
+            int num = 10;
             int Item2 = 20;
             var tuple7 = (Item2, num);
             // projection failed as Item2 ia << Reserved Tuple Name >> , and now:
             // first element can be accessed only with implicit name (Item1)
             Console.WriteLine(tuple7.Item1);
             // second element can be accessed with projected name (num) and implicit name (Item2)
+            Console.WriteLine(tuple7.num);
             Console.WriteLine(tuple7.Item2);
 
             // Projection Failure Second Case:
@@ -306,6 +305,9 @@ namespace ProCSharpBook.CSharpBasics
             //      of nested tuples in order to compare them.
 
             #endregion
+
+
+            #region Assignment and tuples
             //The language supports assignment between tuple types that have the same number of elements, 
             //      where each right-hand side element can be implicitly converted to its corresponding 
             //      left hand side element. Other conversions aren't considered for assignments. 
@@ -350,7 +352,7 @@ namespace ProCSharpBook.CSharpBasics
             //var differentShape = (1, 2, 3);
             //named = differentShape;
 
-            #region Assignment and tuples
+            
 
 
 
@@ -420,8 +422,14 @@ namespace ProCSharpBook.CSharpBasics
 
             // deconstructing
             var pointValues = p1.Deconstruct();
-            Console.WriteLine($"px = {pointValues.XPos}");
-            Console.WriteLine($"py = {pointValues.YPos}");
+            Console.WriteLine($"pointValues.px = {pointValues.XPos}");
+            Console.WriteLine($"pointValues.py = {pointValues.YPos}");
+
+
+            // deconstructing
+            var (XPos2, YPos2) = p1.Deconstruct();
+            Console.WriteLine($"px = {XPos2}");
+            Console.WriteLine($"py = {YPos2}");
 
             #endregion
 
@@ -442,7 +450,7 @@ namespace ProCSharpBook.CSharpBasics
 
         private static (string first, string second, string last) SplitName(string name)
         {
-            string [] result = name.Split(new [] { ' ','.'});
+            string[] result = name.Split(new[] { ' ', '.' });
             if (result.Length == 1)
                 return (result[0], "", "");
             else if (result.Length == 2)
@@ -452,14 +460,14 @@ namespace ProCSharpBook.CSharpBasics
             else
             {
                 string middle = string.Join(" ", result, 1, result.Length - 2);
-                return (result[0], middle, result[2]);
+                return (result[0], middle, result[result.Length - 1]);
             }
 
         }
 
         private static void WriteName((string first, string second, string last) name)
         {
-            string result = name.first + (name.second == ""? "":" ") + name.second + (name.last == "" ? "" : " ") + name.last;
+            string result = name.first + (name.second == "" ? "" : " ") + name.second + (name.last == "" ? "" : " ") + name.last;
             Console.WriteLine(result);
         }
 

@@ -56,7 +56,7 @@ namespace ProCSharpBook.CSharpBasics
             #region String Escape Sequence
             //            String Escape Sequences
             //-------------------------------------------------------------------------------------------------------------------
-            //  Escape  sequence Character name         Unicode encoding
+            //  Escape sequence     Character name         Unicode encoding
             //-------------------------------------------------------------------------------------------------------------------
             //  \'      Single quote	                    0x0027
             //  \"      Double quote	                    0x0022
@@ -138,6 +138,24 @@ namespace ProCSharpBook.CSharpBasics
             #endregion
 
             #region String Interpolation
+            //            The curly bracket syntax illustrated within this chapter({ 0}, { 1}, and so on) has existed within the .NET
+            //platform since version 1.0.Starting with the release of C# 6, C# programmers can use an alternative syntax to
+            //build string literals that contain placeholders for variables.Formally, this is called string interpolation.While
+            //the output of the operation is identical to traditional string formatting syntax, this new approach allows you
+            //to directly embed the variables themselves, rather than tacking them on as a comma - delimited list
+
+
+            // Some local variables we will plug into our larger string
+            int age1 = 4;
+            string name1 = "Soren";
+            // Using curly bracket syntax.
+            string greeting2 = string.Format("Hello {0} you are {1} years old.", name1, age1);
+            // Using string interpolation
+            string greeting3 = $"Hello {name1} you are {age1} years old.";
+
+
+
+            // Another Example
             string fname = "Moamen";
             string lname = "Soroor";
             int age = 24;
@@ -180,12 +198,17 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine($"{string.Equals("MOAMEN", "moamen", StringComparison.Ordinal)}");
             Console.WriteLine($"{string.Equals("MOAMEN", "moamen", StringComparison.OrdinalIgnoreCase)}");
 
-            Logger.Title("public static String Join(String separator, params object[] values)");
+            Logger.Title("public static String Join<T>(String separator, IEnumerable<T> values);");
             Console.WriteLine($"{string.Join(",",new[] { 10, 20, 30, 40})}");
             Console.WriteLine($"{string.Join(", ",new[] { 10, 20, 30, 40})}");
+            Console.WriteLine($"{string.Join(", ", "0123456789".ToCharArray())}");
 
             Logger.Title("public static String Join(String separator, params object[] values)");
-            Console.WriteLine($"{string.Join(", ", "0123456789".ToCharArray())}");
+            Console.WriteLine($"{string.Join(", ", 10,20,30,40,50,60,70)}");
+            Console.WriteLine($"{string.Join(", ", 10, 20, 30, 40, 50, 60, 70)}");
+            Console.WriteLine($"{string.Join(", ", 10, "Moamen", 20, "Mohammed", 30, "Gamal", 40, "Soroor")}");
+
+
 
             Logger.Title("public static String Join(String separator, String[] value, int startIndex, int count)");
             var strArray = new[] { "A", "B", "C", "D", "E", "F", "G" };
@@ -322,6 +345,7 @@ namespace ProCSharpBook.CSharpBasics
             return builder.ToString();
         }
 
+        // The Best Approach
         public static string RepeatStringWithStringBuilderAndInsert(string str, int count)
         {
             return new StringBuilder(str.Length * count).Insert(0, str, count).ToString();

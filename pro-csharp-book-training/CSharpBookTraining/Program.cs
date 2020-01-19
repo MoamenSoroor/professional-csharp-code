@@ -10,32 +10,30 @@ namespace ProCSharpBook
     {
         static void Main(string[] args)
         {
-            CSharpBasics.DataTypesBasics.TestBasics();
-            CSharpBasics.MethodsBasics.TestMethods();
-            CSharpBasics.LoopsTraining.TestLoops();
-            CSharpBasics.SwitchTraining.TestSwitches();
-            CSharpBasics.IfTraining.TestIfStatement();
-            CSharpBasics.ArraysTraining.TestArrays();
-            CSharpBasics.StringsTraining.TestStrings();
+            //CSharpBasics.DataTypesBasics.TestBasics();
+            //CSharpBasics.MethodsBasics.TestMethods();
+            //CSharpBasics.ControlFlowTraining.TestControlFlow();
+            //CSharpBasics.ArraysTraining.TestArrays();
+            //CSharpBasics.StringsTraining.TestStrings();
 
 
 
 
-            CSharpBasics.EnumsTraining.TestEnums();
-            CSharpBasics.StructuresTraining.TestStructures();
+            //CSharpBasics.EnumsTraining.TestEnums();
+            //CSharpBasics.StructuresTraining.TestStructures();
             CSharpBasics.TuplesTraining.TestTuples();
-            CSharpBasics.NullablesTraining.TestNullables();
+            //CSharpBasics.NullablesTraining.TestNullables();
 
-            ExceptionHandling.ExceptionHandlingTraining.TestExceptionHandling();
-
-
-            OOPEncapsulation.OOPTraining.TestOOP();
-            OOPInheritanceAndPlymorphism.OOPTraining.TestOOP();
-            OOPInterfaces.OOPTraining.TestOOP();
+            //ExceptionHandling.ExceptionHandlingTraining.TestExceptionHandling();
 
 
-            CSharpGenerics.GenericsTraining.Test();
-            CSharpCollections.CollectionsTraining.TestCollections();
+            //OOPEncapsulation.OOPTraining.TestOOP();
+            //OOPInheritanceAndPlymorphism.OOPTraining.TestOOP();
+            //OOPInterfaces.OOPTraining.TestOOP();
+
+
+            //CSharpGenerics.GenericsTraining.Test();
+            //CSharpCollections.CollectionsTraining.TestCollections();
 
 
 

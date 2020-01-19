@@ -87,6 +87,11 @@ namespace ProCSharpBook.OOPExamples
         {
             this.JobTitle = "Manager";
         }
+
+        public Manager(string firstName, string lastName, int age) : base(firstName, lastName, age)
+        {
+            this.JobTitle = "Manager";
+        }
     }
 
     class SalesPerson : Employee
@@ -95,11 +100,21 @@ namespace ProCSharpBook.OOPExamples
         {
             this.JobTitle = "SalesPerson";
         }
+
+        public SalesPerson(string firstName, string lastName, int age) : base(firstName, lastName, age)
+        {
+            this.JobTitle = "SalesPerson";
+        }
     }
 
     class PTSalesPerson : SalesPerson
     {
         public PTSalesPerson() : base()
+        {
+            this.JobTitle = "PartTimeSalesPerson";
+        }
+
+        public PTSalesPerson(string firstName, string lastName, int age) : base(firstName, lastName, age)
         {
             this.JobTitle = "PartTimeSalesPerson";
         }

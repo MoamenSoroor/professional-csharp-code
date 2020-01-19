@@ -230,8 +230,8 @@ namespace ProCSharpBook.CSharpBasics
     public enum EmpType2
     {
         Manager = 100,  // = 100  UnderlayingType : Int32
-        SalesPersom,    // = 200  UnderlayingType : Int32
-        PTSalesPerson   // = 300  UnderlayingType : Int32
+        SalesPersom,    // = 101  UnderlayingType : Int32
+        PTSalesPerson   // = 102  UnderlayingType : Int32
     }
 
     public enum EmpType3
