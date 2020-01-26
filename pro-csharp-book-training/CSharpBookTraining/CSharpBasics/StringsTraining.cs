@@ -133,8 +133,6 @@ namespace ProCSharpBook.CSharpBasics
             string quote = @"Her name was ""Sara.""";
             //Output: Her name was "Sara."
 
-
-
             #endregion
 
             #region String Interpolation
@@ -182,7 +180,51 @@ namespace ProCSharpBook.CSharpBasics
             #endregion
 
             #region string class static Methods and Properties
-
+            // public static readonly String Empty;
+            // public static int Compare(String strA, String strB, bool ignoreCase);
+            // public static int Compare(String strA, int indexA, String strB, int indexB, int length, StringComparison comparisonType);
+            // public static int Compare(String strA, int indexA, String strB, int indexB, int length, CultureInfo culture, CompareOptions options);
+            // public static int Compare(String strA, int indexA, String strB, int indexB, int length, bool ignoreCase, CultureInfo culture);
+            // public static int Compare(String strA, int indexA, String strB, int indexB, int length, bool ignoreCase);
+            // public static int Compare(String strA, int indexA, String strB, int indexB, int length);
+            // public static int Compare(String strA, String strB, bool ignoreCase, CultureInfo culture);
+            // public static int Compare(String strA, String strB, CultureInfo culture, CompareOptions options);
+            // public static int Compare(String strA, String strB, StringComparison comparisonType);
+            // public static int Compare(String strA, String strB);
+            // public static int CompareOrdinal(String strA, int indexA, String strB, int indexB, int length);
+            // public static int CompareOrdinal(String strA, String strB);
+            // public static String Concat(String str0, String str1);
+            // public static String Concat(String str0, String str1, String str2);
+            // public static String Concat(object arg0);
+            // public static String Concat(String str0, String str1, String str2, String str3);
+            // public static String Concat(object arg0, object arg1);
+            // public static String Concat(params String[] values);
+            // public static String Concat(object arg0, object arg1, object arg2, object arg3);
+            // public static String Concat(params object[] args);
+            // public static String Concat<T>(IEnumerable<T> values);
+            // public static String Concat(IEnumerable<String> values);
+            // public static String Concat(object arg0, object arg1, object arg2);
+            // public static String Copy(String str);
+            // public static bool Equals(String a, String b);
+            // public static bool Equals(String a, String b, StringComparison comparisonType);
+            // public static String Format(String format, object arg0);
+            // public static String Format(String format, object arg0, object arg1, object arg2);
+            // public static String Format(String format, params object[] args);
+            // public static String Format(String format, object arg0, object arg1);
+            // public static String Format(IFormatProvider provider, String format, object arg0, object arg1, object arg2);
+            // public static String Format(IFormatProvider provider, String format, params object[] args);
+            // public static String Format(IFormatProvider provider, String format, object arg0, object arg1);
+            // public static String Format(IFormatProvider provider, String format, object arg0);
+            // public static String Intern(String str);
+            // public static String IsInterned(String str);
+            // public static bool IsNullOrEmpty(String value);
+            // public static bool IsNullOrWhiteSpace(String value);
+            // public static String Join<T>(String separator, IEnumerable<T> values);
+            // public static String Join(String separator, IEnumerable<String> values);
+            // public static String Join(String separator, String[] value, int startIndex, int count);
+            // public static String Join(String separator, params String[] value);
+            // public static String Join(String separator, params object[] values);
+            // ======================================================================================================================
 
             Logger.Title("public static int Compare(String strA, String strB)");
             Console.WriteLine($"{string.Compare("Moamen", "Soroor")}");

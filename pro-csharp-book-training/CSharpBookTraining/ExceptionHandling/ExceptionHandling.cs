@@ -6,13 +6,17 @@ using System.Text.RegularExpressions;
 
 namespace ProCSharpBook.ExceptionHandling
 {
+
+    #region Understanding Structured Exception Handling
+
+    // Understanding Structured Exception Handling
     // ======================================================================================
     // you will learn how to handle runtime anomalies in your C# code through the use of
     // structured exception handling.Not only will you examine the C# keywords that allow you 
     // to handle such matters(try, catch, throw, finally, when), but you will also come to
     // understand the distinction between application-level and system-level exceptions
     // ======================================================================================
-    //  it should be clear that .NET structured exception handling is a technique
+    // it should be clear that .NET structured exception handling is a technique
     // for dealing with runtime exceptions.
     // ======================================================================================
     // The C# programming language offers five keywords (try, catch, throw, finally, and when) 
@@ -84,7 +88,10 @@ namespace ProCSharpBook.ExceptionHandling
     // --------------------------------------------------------------------------------------
     // This read-only property returns the textual description of a given error. The
     // error message itself is set as a constructor parameter.
-    // Source This property gets or sets the name of the assembly, or the object, that threw
+
+    // Source 
+    // --------------------------------------------------------------------------------------
+    // This property gets or sets the name of the assembly, or the object, that threw
     // the current exception.
 
     // StackTrace Property
@@ -187,8 +194,9 @@ namespace ProCSharpBook.ExceptionHandling
     // errors thrown by the CLR. Last but not least, this chapter illustrated various tools within Visual Studio that
     // can be used to create custom exceptions (according to .NET best practices) as well as debug exceptions
 
+    #endregion
 
-
+    
     class ExceptionHandlingTraining
     {
         public static void TestExceptionHandling()
@@ -206,23 +214,113 @@ namespace ProCSharpBook.ExceptionHandling
         }
         public static void ExceptionHandlingCases()
         {
-            //ExampleCar1();
-            ExampleCar2(); // unhandled exception
-            //ExampleCar22();
-            //ExampleCar3();
-            //ExampleCar4();
-            //ExampleCar5();
-            //ExampleCar52();
-            //ExampleCar53();
-            //ExampleCar54();
-            //ExampleCar55();
+            TestCar1.ExampleCar1();
+            Console.WriteLine("===============================================================");
+            //TestCar2.ExampleCar2(); // unhandled exception
+            //Console.WriteLine("===============================================================");
+            TestCar2.ExampleCar22();
+            Console.WriteLine("===============================================================");
+            TestCar3.ExampleCar3();
+            Console.WriteLine("===============================================================");
+            TestCar4.ExampleCar4();
+            Console.WriteLine("===============================================================");
+            TestCar5.ExampleCar5();
+            Console.WriteLine("===============================================================");
+            TestCar5.ExampleCar52();
+            Console.WriteLine("===============================================================");
+            TestCar5.ExampleCar53();
+            Console.WriteLine("===============================================================");
+            TestCar5.ExampleCar54();
+            Console.WriteLine("===============================================================");
+            TestCar5.ExampleCar55();
+            Console.WriteLine("===============================================================");
 
         }
-        
 
+    }
+
+    public class Radio
+    {
+        public Radio() { }
+        public void TurnOn(bool on)
+        {
+            Console.WriteLine(on ? "Radio is Playing..." : "Radio is Stopped ...");
+        }
+    }
+
+    class CarBase
+    {
+        // Constant for maximum speed.
+        public const int MaxSpeed = 100;
+        // Car properties.
+        protected int CurrentSpeed { get; set; } = 0;
+        protected string PetName { get; set; } = "";
+        // Is the car still operational?
+        protected bool carIsDead;
+        // A car has-a radio.
+        private Radio theMusicBox = new Radio();
+        // Constructors.
+        public CarBase() { }
+        public CarBase(string name, int speed)
+        {
+            CurrentSpeed = speed;
+            PetName = name;
+        }
+
+        public void CrankTunes(bool state)
+        {
+            // Delegate request to inner object.
+            theMusicBox.TurnOn(state);
+        }
+
+        // See if Car has overheated.
+        public virtual void Accelerate(int delta)
+        {
+            Console.WriteLine("=> CurrentSpeed = {0}", CurrentSpeed);
+            
+        }
+    }
+
+
+    #region Without Exception Handling Mechanism
+    class Car1 : CarBase
+    {
+
+        public Car1() : base() { }
+        public Car1(string name, int speed) : base(name, speed) { }
+
+        public override void Accelerate(int delta)
+        {
+            if (carIsDead)
+                Console.WriteLine("{0} is out of order...", PetName);
+            else
+            {
+                CurrentSpeed += delta;
+                if (CurrentSpeed > MaxSpeed)
+                {
+                    Console.WriteLine("{0} has overheated!", PetName);
+                    CurrentSpeed = 0;
+                    carIsDead = true;
+                }
+                else
+                    base.Accelerate(delta);
+
+
+            }
+
+
+        }
+
+
+
+
+    }
+
+    class TestCar1
+    {
         // Without Exception Handling Mechanism
         // ---------------------------------------------------------------------------------------------------------------
-        private static void ExampleCar1()
+        public static void ExampleCar1()
         {
             Console.WriteLine("***** Simple Exception Example *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
@@ -232,14 +330,61 @@ namespace ProCSharpBook.ExceptionHandling
                 myCar.Accelerate(10);
 
             // separator
-            Console.WriteLine("".PadLeft(40,'='));
+            Console.WriteLine("".PadLeft(40, '='));
         }
 
+    }
+    #endregion
+
+    #region Throw Exception Without Handling - Catching Exceptions
+    class Car2 : CarBase
+    {
+
+        public Car2() : base() { }
+        public Car2(string name, int speed) : base(name, speed) { }
+
+        public override void Accelerate(int delta)
+        {
+            if (carIsDead)
+                Console.WriteLine("{0} is out of order...", PetName);
+            else
+            {
+                CurrentSpeed += delta;
+                if (CurrentSpeed > MaxSpeed)
+                {
+                    CurrentSpeed = 0;
+                    carIsDead = true;
+
+
+                    // create a local variable before throwing the Exception object.
+                    Exception ex = new Exception($"{PetName} has overheated!");
+                    // We need to call the HelpLink property
+                    ex.HelpLink = "www.google.com";
+                    // Stuff in custom data regarding the error.
+                    ex.Data.Add("ExceptionTimeStamp", $"The car exploded at {DateTime.Now}");
+                    ex.Data.Add("ExceptionCause", $"You have a leading Leg ...");
+                    throw ex;
+                }
+                else
+                    base.Accelerate(delta);
+
+
+            }
+
+
+        }
+
+
+
+    }
+
+    class TestCar2
+    {
         // Exception Handling Mechanism , but Throws Exception without Handling
         // ---------------------------------------------------------------------------------------------------------------
-        private static void ExampleCar2()
+        public static void ExampleCar2()
         {
-            Console.WriteLine("***** Simple Exception Example *****");
+            Console.WriteLine("***** Simple Exception Example 2*****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car2 myCar = new Car2("Zippy", 20);
             myCar.CrankTunes(true);
@@ -251,9 +396,9 @@ namespace ProCSharpBook.ExceptionHandling
 
         // Catching Exceptions
         // ---------------------------------------------------------------------------------------------------------------
-        private static void ExampleCar22()
+        public static void ExampleCar22()
         {
-            Console.WriteLine("***** Simple Exception Example *****");
+            Console.WriteLine("***** Simple Exception Example 22 *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car2 myCar = new Car2("Zippy", 20);
             myCar.CrankTunes(true);
@@ -267,7 +412,7 @@ namespace ProCSharpBook.ExceptionHandling
                 Console.WriteLine($"-------------- Exception --------------");
                 Console.WriteLine($"ex.TargetSite      : {ex.TargetSite}"); // the same as : ex.TargetSite.Name
                 Console.WriteLine($"ex.MemberType      : {ex.TargetSite.MemberType}");
-                Console.WriteLine($"ex.DeclaringType   : {ex.TargetSite.DeclaringType}");                
+                Console.WriteLine($"ex.DeclaringType   : {ex.TargetSite.DeclaringType}");
                 Console.WriteLine($"ex.Message         : {ex.Message}");
                 Console.WriteLine($"ex.Source          : {ex.Source}");
                 //Console.WriteLine($"ex.StackTrace      :\n{ex.StackTrace}");
@@ -282,21 +427,86 @@ namespace ProCSharpBook.ExceptionHandling
                 {
                     Console.WriteLine($"{entry.Key} , {entry.Value}");
                 }
-                
+
             }
             // The error has been handled, processing continues with the next statement.
             Console.WriteLine("\n----------- Out of exception logic ----------- ");
             // separator
             Console.WriteLine("".PadLeft(40, '='));
 
-            
+
         }
 
+    }
+    #endregion
+
+    #region Custom Exception Class With Strongly-Typed Prperties
+
+    // This custom exception describes the details of the car-is-dead condition.
+    // (Remember, you can also simply extend Exception.)
+    // override Message property
+    public class CarIsDeadException : ApplicationException
+    {
+        public string messageDetails = String.Empty;
+        public DateTime ErrorTimeStamp { get; set; }
+        public string CauseOfError { get; set; }
+        public CarIsDeadException() { }
+        public CarIsDeadException(string message, string cause, DateTime time)
+        {
+            messageDetails = message;
+            CauseOfError = cause;
+            ErrorTimeStamp = time;
+        }
+        // Override the Exception.Message property.
+        public override string Message => $"Car Error Message: {messageDetails}";
+    }
+
+    class Car3 : CarBase
+    {
+
+        public Car3() : base() { }
+        public Car3(string name, int speed) : base(name, speed) { }
+
+        public override void Accelerate(int delta)
+        {
+            if (carIsDead)
+                Console.WriteLine("{0} is out of order...", PetName);
+            else
+            {
+                CurrentSpeed += delta;
+                if (CurrentSpeed > MaxSpeed)
+                {
+                    CurrentSpeed = 0;
+                    carIsDead = true;
+
+
+                    // create a local variable before throwing the Exception object.
+                    CarIsDeadException ex =
+                        new CarIsDeadException($"{PetName} has overheated!", "You have a leading Leg ...", DateTime.Now);
+                    // call the HelpLink property
+                    ex.HelpLink = "www.google.com";
+                    throw ex;
+                }
+                else
+                    base.Accelerate(delta);
+
+
+            }
+
+
+        }
+
+
+
+    }
+
+    class TestCar3
+    {
         // Custom Exception Class With Strongly-Typed Prperties : Message Override
         // ---------------------------------------------------------------------------------------------------------------
-        private static void ExampleCar3()
+        public static void ExampleCar3()
         {
-            Console.WriteLine("***** Custom Exception Example *****");
+            Console.WriteLine("***** Custom Exception Example3 *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car3 myCar = new Car3("Zippy", 90);
             myCar.CrankTunes(true);
@@ -321,11 +531,73 @@ namespace ProCSharpBook.ExceptionHandling
 
         }
 
+    }
+    #endregion
+
+    #region Custom Exception Class With Strongly-Typed Prperties: Message Passed To base Constructor
+
+    // This custom exception describes the details of the car-is-dead condition.
+    // diff from CarIsDeadException is here we pass message to base class constructor
+    public class CarIsDeadException2 : ApplicationException
+    {
+        public string messageDetails = String.Empty;
+        public DateTime ErrorTimeStamp { get; set; }
+        public string CauseOfError { get; set; }
+        public CarIsDeadException2() { }
+        public CarIsDeadException2(string message, string cause, DateTime time)
+            : base(message)
+        {
+            CauseOfError = cause;
+            ErrorTimeStamp = time;
+        }
+
+    }
+
+    class Car4 : CarBase
+    {
+
+        public Car4() : base() { }
+        public Car4(string name, int speed) : base(name, speed) { }
+
+        public override void Accelerate(int delta)
+        {
+
+            if (carIsDead)
+                Console.WriteLine("{0} is out of order...", PetName);
+            else
+            {
+                CurrentSpeed += delta;
+                if (CurrentSpeed > MaxSpeed)
+                {
+                    CurrentSpeed = 0;
+                    carIsDead = true;
+
+
+                    // create a local variable before throwing the Exception object.
+                    CarIsDeadException2 ex =
+                        new CarIsDeadException2($"{PetName} has overheated!", "You have a leading Leg ...", DateTime.Now);
+                    // call the HelpLink property
+                    ex.HelpLink = "www.google.com";
+                    throw ex;
+                }
+                else
+                    base.Accelerate(delta);
+
+
+            }
+
+
+        }
+
+    }
+
+    class TestCar4
+    {
         // Custom Exception Class With Strongly-Typed Prperties: Message Passed To base Constructor
         // ---------------------------------------------------------------------------------------------------------------
-        private static void ExampleCar4()
+        public static void ExampleCar4()
         {
-            Console.WriteLine("***** Custom Exception Example *****");
+            Console.WriteLine("***** Custom Exception Example 4*****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car4 myCar = new Car4("Zippy", 90);
             myCar.CrankTunes(true);
@@ -350,11 +622,60 @@ namespace ProCSharpBook.ExceptionHandling
 
         }
 
+    }
+    #endregion
+
+    #region Multiple Catch Clauses - General Catch - Rethrowing Exceptions - The finally Block - Exception Filters
+    class Car5 : CarBase
+    {
+
+        public Car5() : base() { }
+        public Car5(string name, int speed) : base(name, speed) { }
+
+        public override void Accelerate(int delta)
+        {
+            if (delta < 0)
+                throw new ArgumentOutOfRangeException("delta", "Speed must be greater than zero!");
+
+            if (carIsDead)
+                Console.WriteLine("{0} is out of order...", PetName);
+            else
+            {
+                CurrentSpeed += delta;
+                if (CurrentSpeed > MaxSpeed)
+                {
+                    CurrentSpeed = 0;
+                    carIsDead = true;
+
+
+                    // create a local variable before throwing the Exception object.
+                    CarIsDeadException ex =
+                        new CarIsDeadException($"{PetName} has overheated!", "You have a leading Leg ...", DateTime.Now);
+                    // call the HelpLink property
+                    ex.HelpLink = "www.google.com";
+                    throw ex;
+                }
+                else
+                    base.Accelerate(delta);
+
+
+            }
+
+
+        }
+
+
+
+
+    }
+
+    class TestCar5
+    {
         // Multiple Catch Clauses
         // ---------------------------------------------------------------------------------------------------------------
-        private static void ExampleCar5()
+        public static void ExampleCar5()
         {
-            Console.WriteLine("***** Custom Exception Example *****");
+            Console.WriteLine("***** Custom Exception Example5 *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car5 myCar = new Car5("Zippy", 90);
             myCar.CrankTunes(true);
@@ -399,9 +720,9 @@ namespace ProCSharpBook.ExceptionHandling
         // meaningful data about the error that occurred(such as the method name, call stack, or custom message).
         //Nevertheless, C# does allow for such a construct, which can be helpful when you want to handle all errors in
         //a general fashion.
-        private static void ExampleCar52()
+        public static void ExampleCar52()
         {
-            Console.WriteLine("***** Custom Exception Example *****");
+            Console.WriteLine("***** Custom Exception Example52 *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car5 myCar = new Car5("Zippy", 90);
             myCar.CrankTunes(true);
@@ -433,9 +754,9 @@ namespace ProCSharpBook.ExceptionHandling
         // use of the throw keyword with no argument. You’re not creating a new exception object; you’re just
         // rethrowing the original exception object (with all its original information). Doing so preserves
         //  the context of the original target.
-        private static void ExampleCar53()
+        public static void ExampleCar53()
         {
-            Console.WriteLine("***** Custom Exception Example *****");
+            Console.WriteLine("***** Custom Exception Example53 *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car5 myCar = new Car5("Zippy", 90);
             myCar.CrankTunes(true);
@@ -444,7 +765,7 @@ namespace ProCSharpBook.ExceptionHandling
                 // trip exception
                 myCar.Accelerate(-10);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -464,7 +785,7 @@ namespace ProCSharpBook.ExceptionHandling
 
         // In a more real-world scenario, when you need to dispose of objects, close a file, or detach from
         // a database(or whatever), a finally block ensures a location for proper cleanup.
-        private static void ExampleCar54()
+        public static void ExampleCar54()
         {
             Console.WriteLine("***** Handling Multiple Exceptions *****\n");
             Car5 myCar = new Car5("Rusty", 90);
@@ -503,9 +824,9 @@ namespace ProCSharpBook.ExceptionHandling
         // obtained by using a simple code statement in the when definition itself or by calling an additional method in
         // your code.In a nutshell, this approach allows you to add “filters” to your exception logic.
         // First, assume you have added a few custom properties to your CarIsDeadException.
-        private static void ExampleCar55()
+        public static void ExampleCar55()
         {
-            Console.WriteLine("***** Exception Filtering with When Clause Test *****");
+            Console.WriteLine("***** Exception Filtering with When Clause Test55 *****");
             Console.WriteLine("=> Creating a car and stepping on it!");
             Car5 myCar = new Car5("Zippy", 90);
             myCar.CrankTunes(true);
@@ -543,276 +864,13 @@ namespace ProCSharpBook.ExceptionHandling
 
         }
 
-    }
+    } 
+    #endregion
 
 
 
-    public class Radio
-    {
-        public Radio() { }
-        public void TurnOn(bool on)
-        {
-            Console.WriteLine(on ? "Radio is Playing..." : "Radio is Stopped ...");
-        }
-    }
-
-    class CarBase
-    {
-        // Constant for maximum speed.
-        public const int MaxSpeed = 100;
-        // Car properties.
-        protected int CurrentSpeed { get; set; } = 0;
-        protected string PetName { get; set; } = "";
-        // Is the car still operational?
-        protected bool carIsDead;
-        // A car has-a radio.
-        private Radio theMusicBox = new Radio();
-        // Constructors.
-        public CarBase() { }
-        public CarBase(string name, int speed)
-        {
-            CurrentSpeed = speed;
-            PetName = name;
-        }
-
-        public void CrankTunes(bool state)
-        {
-            // Delegate request to inner object.
-            theMusicBox.TurnOn(state);
-        }
-
-        // See if Car has overheated.
-        public virtual void Accelerate(int delta)
-        {
-            Console.WriteLine("=> CurrentSpeed = {0}", CurrentSpeed);
-            
-        }
-    }
-
-    class Car1 : CarBase
-    {
-
-        public Car1() : base() { }
-        public Car1(string name, int speed) : base(name, speed) { }
-
-        public override void Accelerate(int delta)
-        {
-            if (carIsDead)
-                Console.WriteLine("{0} is out of order...", PetName);
-            else
-            {
-                CurrentSpeed += delta;
-                if (CurrentSpeed > MaxSpeed)
-                {
-                    Console.WriteLine("{0} has overheated!", PetName);
-                    CurrentSpeed = 0;
-                    carIsDead = true;
-                }
-                else
-                    base.Accelerate(delta);
 
 
-            }
-
-
-        }
-
-
-    }
-
-    class Car2 : CarBase
-    {
-
-        public Car2() : base() { }
-        public Car2(string name, int speed) : base(name, speed) { }
-
-        public override void Accelerate(int delta)
-        {
-            if (carIsDead)
-                Console.WriteLine("{0} is out of order...", PetName);
-            else
-            {
-                CurrentSpeed += delta;
-                if (CurrentSpeed > MaxSpeed)
-                {
-                    CurrentSpeed = 0;
-                    carIsDead = true;
-
-                    
-                    // create a local variable before throwing the Exception object.
-                    Exception ex = new Exception($"{PetName} has overheated!");
-                    // We need to call the HelpLink property
-                    ex.HelpLink = "www.google.com";
-                    // Stuff in custom data regarding the error.
-                    ex.Data.Add("ExceptionTimeStamp", $"The car exploded at {DateTime.Now}");
-                    ex.Data.Add("ExceptionCause", $"You have a leading Leg ...");
-                    throw ex;
-                }
-                else
-                    base.Accelerate(delta);
-
-
-            }
-
-
-        }
-
-
-    }
-
-    class Car3 : CarBase
-    {
-
-        public Car3() : base() { }
-        public Car3(string name, int speed) : base(name, speed) { }
-
-        public override void Accelerate(int delta)
-        {
-            if (carIsDead)
-                Console.WriteLine("{0} is out of order...", PetName);
-            else
-            {
-                CurrentSpeed += delta;
-                if (CurrentSpeed > MaxSpeed)
-                {
-                    CurrentSpeed = 0;
-                    carIsDead = true;
-
-
-                    // create a local variable before throwing the Exception object.
-                    CarIsDeadException ex = 
-                        new CarIsDeadException($"{PetName} has overheated!", "You have a leading Leg ...",DateTime.Now);
-                    // call the HelpLink property
-                    ex.HelpLink = "www.google.com";
-                    throw ex;
-                }
-                else
-                    base.Accelerate(delta);
-
-
-            }
-
-
-        }
-
-
-    }
-
-    class Car4 : CarBase
-    {
-
-        public Car4() : base() { }
-        public Car4(string name, int speed) : base(name, speed) { }
-
-        public override void Accelerate(int delta)
-        {
-
-            if (carIsDead)
-                Console.WriteLine("{0} is out of order...", PetName);
-            else
-            {
-                CurrentSpeed += delta;
-                if (CurrentSpeed > MaxSpeed)
-                {
-                    CurrentSpeed = 0;
-                    carIsDead = true;
-
-
-                    // create a local variable before throwing the Exception object.
-                    CarIsDeadException2 ex =
-                        new CarIsDeadException2($"{PetName} has overheated!", "You have a leading Leg ...", DateTime.Now);
-                    // call the HelpLink property
-                    ex.HelpLink = "www.google.com";
-                    throw ex;
-                }
-                else
-                    base.Accelerate(delta);
-
-
-            }
-
-
-        }
-
-
-    }
-
-    class Car5 : CarBase
-    {
-
-        public Car5() : base() { }
-        public Car5(string name, int speed) : base(name, speed) { }
-
-        public override void Accelerate(int delta)
-        {
-            if (delta < 0)
-                throw new ArgumentOutOfRangeException("delta", "Speed must be greater than zero!");
-
-            if (carIsDead)
-                Console.WriteLine("{0} is out of order...", PetName);
-            else
-            {
-                CurrentSpeed += delta;
-                if (CurrentSpeed > MaxSpeed)
-                {
-                    CurrentSpeed = 0;
-                    carIsDead = true;
-
-
-                    // create a local variable before throwing the Exception object.
-                    CarIsDeadException ex =
-                        new CarIsDeadException($"{PetName} has overheated!", "You have a leading Leg ...", DateTime.Now);
-                    // call the HelpLink property
-                    ex.HelpLink = "www.google.com";
-                    throw ex;
-                }
-                else
-                    base.Accelerate(delta);
-
-
-            }
-
-
-        }
-
-
-    }
-
-    // This custom exception describes the details of the car-is-dead condition.
-    // (Remember, you can also simply extend Exception.)
-    // override Message property
-    public class CarIsDeadException : ApplicationException
-    {
-        private string messageDetails = String.Empty;
-        public DateTime ErrorTimeStamp { get; set; }
-        public string CauseOfError { get; set; }
-        public CarIsDeadException() { }
-        public CarIsDeadException(string message, string cause, DateTime time)
-        {
-            messageDetails = message;
-            CauseOfError = cause;
-            ErrorTimeStamp = time;
-        }
-        // Override the Exception.Message property.
-        public override string Message => $"Car Error Message: {messageDetails}";
-    }
-
-    // This custom exception describes the details of the car-is-dead condition.
-    // diff from CarIsDeadException is here we pass message to base class constructor
-    public class CarIsDeadException2 : ApplicationException
-    {
-        private string messageDetails = String.Empty;
-        public DateTime ErrorTimeStamp { get; set; }
-        public string CauseOfError { get; set; }
-        public CarIsDeadException2() { }
-        public CarIsDeadException2(string message, string cause, DateTime time)
-            : base(message)
-        {
-            CauseOfError = cause;
-            ErrorTimeStamp = time;
-        }
-        
-    }
 
 }
 

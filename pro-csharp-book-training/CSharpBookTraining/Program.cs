@@ -21,7 +21,7 @@ namespace ProCSharpBook
 
             //CSharpBasics.EnumsTraining.TestEnums();
             //CSharpBasics.StructuresTraining.TestStructures();
-            CSharpBasics.TuplesTraining.TestTuples();
+            //CSharpBasics.TuplesTraining.TestTuples();
             //CSharpBasics.NullablesTraining.TestNullables();
 
             //ExceptionHandling.ExceptionHandlingTraining.TestExceptionHandling();
@@ -33,8 +33,7 @@ namespace ProCSharpBook
 
 
             //CSharpGenerics.GenericsTraining.Test();
-            //CSharpCollections.CollectionsTraining.TestCollections();
-
+            CSharpCollections.CollectionsTraining.TestCollections();
 
 
             Console.WriteLine("Press any key to continue . . .");
@@ -42,5 +41,6 @@ namespace ProCSharpBook
         }
 
     }
+
 
 }

@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using static System.Environment;
+
 namespace CSharpCollections
 {
+    #region Introduction to Collections and Generics
+
     // ==============================> Chapter 9: Collections and Generics <==============================
     // ===================================================================================================
 
@@ -34,7 +38,12 @@ namespace CSharpCollections
     // a collection class can belong to one of two broad categories:
     //•	 Nongeneric collections (primarily found in the System.Collections namespace)
     //•	 Generic collections(primarily found in the System.Collections.Generic
-    //   namespace)
+    //   namespace) 
+    #endregion
+
+    // Non-Generic Collections
+    // =======================
+    #region Nongeneric collections (System.Collections namespace)
 
     // The System.Collections Namespace
     // ================================
@@ -265,9 +274,10 @@ namespace CSharpCollections
     // ■ Note: there are two additional collection-centric namespaces(System.Collections.ObjectModel and
     // System.Collections.Concurrent) in the.net base class libraries. You will examine the former namespace
     // later in this chapter, after you are comfortable with the topic of generics.System.Collections.Concurrent
-    // provides collection classes well-suited to a multithreaded environment.
+    // provides collection classes well-suited to a multithreaded environment. 
+    #endregion
 
-
+    #region Boxing and Unboxing
     // Boxing and Unboxing
     // =========================================================================================================
     // you will seldom need to store a local value type in a local object variable,
@@ -313,8 +323,10 @@ namespace CSharpCollections
             return val;
         }
 
-    }
+    } 
+    #endregion
 
+    #region The Problems of Nongeneric Collections
 
     // The Problems of Nongeneric Collections
     // ==================================================================================
@@ -415,7 +427,7 @@ namespace CSharpCollections
             aStack = new Stack(col);
         }
 
-        public int Count 
+        public int Count
         {
             get
             {
@@ -478,11 +490,12 @@ namespace CSharpCollections
             }
         }
 
-    }
+    } 
+    #endregion
 
 
-
-
+    // Generic Collections
+    // ===================
     #region A First Look at Generic Collections
     // A First Look at Generic Collections
     // =====================================================================================================
@@ -491,19 +504,19 @@ namespace CSharpCollections
     // rare.Rather than having to build unique classes that can contain people, cars, and integers, you can use a
     // generic collection class and specify the type of type.
 
-    class Person
+    class Person0
     {
         public int ID { get; set; }
 
         public string Name { get; set; }
 
-        public Person(int iD, string name)
+        public Person0(int iD, string name)
         {
             ID = iD;
             Name = name;
         }
 
-        public Person() : this(0, string.Empty) { }
+        public Person0() : this(0, string.Empty) { }
 
         public override string ToString()
         {
@@ -529,14 +542,14 @@ namespace CSharpCollections
             // The First list of Person and wee don't need to make custom class for type safety, 
             // and it guarantees good performance.
 
-            List<Person> empsList = new List<Person>();
+            List<Person0> empsList = new List<Person0>();
 
             // you can add only Person objects and their Drived types
-            empsList.Add(new Person(10, "Mohammed"));
-            empsList.Add(new Person(20, "Ahmed"));
-            empsList.Add(new Person(30, "Kamal"));
-            empsList.Add(new Person(40, "Moamen"));
-            empsList.Add(new Person(50, "Waleed"));
+            empsList.Add(new Person0(10, "Mohammed"));
+            empsList.Add(new Person0(20, "Ahmed"));
+            empsList.Add(new Person0(30, "Kamal"));
+            empsList.Add(new Person0(40, "Moamen"));
+            empsList.Add(new Person0(50, "Waleed"));
 
             // you can get Persons without cast
             foreach (var item in empsList)
@@ -587,6 +600,7 @@ namespace CSharpCollections
     //   specify the “type of type” when creating the generic container. 
     #endregion
 
+    #region The Role of Generic Type Parameters
 
     // The Role of Generic Type Parameters
 
@@ -636,6 +650,7 @@ namespace CSharpCollections
             }
             Console.WriteLine();
 
+            // Generic Sort<>() Method
             Array.Sort<int>(intsArray);
 
             Console.WriteLine("sorted array: ");
@@ -647,21 +662,25 @@ namespace CSharpCollections
 
         }
 
-    }
+    } 
+    #endregion
 
+    #region Specifying Type Parameters for Generic Interfaces
 
     // Specifying Type Parameters for Generic Interfaces
     // =================================================================================================
     //    It is common to implement generic interfaces when you build classes or structures that need to support
-    //various framework behaviors(e.g., cloning, sorting, and enumeration).
-    //you learned about a number of nongeneric interfaces, such as IComparable, IEnumerable, IEnumerator, and IComparer.
+    // various framework behaviors(e.g., cloning, sorting, and enumeration).
+    // you learned about a number of nongeneric interfaces, such as IComparable, IEnumerable, IEnumerator, and IComparer.
 
     // you Note That: the code required several runtime checks and casting operations because the parameter was
     // a general System.Object.
 
+    // Defines a generalized type-specific comparison method that a value type or class
+    // implements to order or sort its instances.
     // public interface IComparable
     // {
-    //     int CompareTo(T other);
+    //     int CompareTo(object obj);
     // }
 
     // Now assume you use the generic counterpart of  interfaces.
@@ -671,21 +690,75 @@ namespace CSharpCollections
     //     int CompareTo(T other);
     // }
 
-    class Person2 : Person, IComparable<Person2>
+    class Person: Person0, IComparable<Person>
     {
-        public Person2()
+
+        public Person()
         {
         }
 
-        public Person2(int iD, string name) : base(iD, name)
+        public Person(int iD, string name) : base(iD, name)
         {
         }
 
 
-
-        public int CompareTo(Person2 other)
+        // Default Sorting is by ID : ASc
+        public int CompareTo(Person other)
         {
             return this.ID.CompareTo(other.ID);
+        }
+
+        // Strong-associated Property
+        public static IComparer<Person> IDAscendingSort { get => (IComparer<Person>)new PersonIDAscendingSort(); }
+        public static IComparer<Person> IDDescendingSort { get => (IComparer<Person>)new PersonIDDescendingSort(); }
+        public static IComparer<Person> NameAscendingSort { get => (IComparer<Person>)new PersonNameAscendingSort(); }
+        public static IComparer<Person> NameDescendingSort { get => (IComparer<Person>)new PersonNameDescendingSort(); }
+        public static IComparer<Person> NameAscendingSortIgnoreCase { get => (IComparer<Person>)new PersonNameAscendingSortIgnoreCase(); }
+        public static IComparer<Person> NameDescendingSortIgnoreCase { get => (IComparer<Person>)new PersonNameDescendingSortIgnoreCase(); }
+        
+
+        // Beginning of nested classes to sort Person by ID, and by Name.
+        private class PersonIDAscendingSort : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return x.ID.CompareTo(y.ID);
+            }
+        }
+        private class PersonIDDescendingSort : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return y.ID.CompareTo(x.ID);
+            }
+        }
+        private class PersonNameAscendingSort : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+            }
+        }
+        private class PersonNameDescendingSort : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return string.Compare(y.Name, x.Name, StringComparison.Ordinal);
+            }
+        }
+        private class PersonNameAscendingSortIgnoreCase : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+        private class PersonNameDescendingSortIgnoreCase : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return string.Compare(y.Name, x.Name, StringComparison.OrdinalIgnoreCase);
+            }
         }
 
     }
@@ -694,13 +767,13 @@ namespace CSharpCollections
     {
         public static void Test()
         {
-            List<Person2> people = new List<Person2>();
+            List<Person0> people = new List<Person0>();
 
-            people.Add(new Person2(70,"Ahmed"));
-            people.Add(new Person2(30,"Mohammed"));
-            people.Add(new Person2(10,"Waleed"));
-            people.Add(new Person2(40,"Kamal"));
-            people.Add(new Person2(30,"Sara"));
+            people.Add(new Person0(70, "Ahmed"));
+            people.Add(new Person0(30, "Mohammed"));
+            people.Add(new Person0(10, "Waleed"));
+            people.Add(new Person0(40, "Kamal"));
+            people.Add(new Person0(30, "Sara"));
 
 
             Console.WriteLine("Before sort");
@@ -720,9 +793,10 @@ namespace CSharpCollections
             Console.WriteLine();
         }
 
-    }
+    } 
+    #endregion
 
-
+    #region The System.Collections.Generic Namespace
     // ==============================> The System.Collections.Generic Namespace <==============================
     // ========================================================================================================
 
@@ -782,7 +856,10 @@ namespace CSharpCollections
     // LinkedList<T> 
     // -----------------------
     // ICollection<T>, IEnumerable<T> This represents a doubly linked list.
-    // List<T> ICollection<T>, IEnumerable<T>, IList<T>
+    // =============================================================================================
+    // List<T> 
+    // -----------------------
+    // ICollection<T>, IEnumerable<T>, IList<T>
     // ---------------------------------------------------------------------------------------------
     // This is a dynamically resizable sequential list of items.
     // =============================================================================================
@@ -802,7 +879,13 @@ namespace CSharpCollections
     // -----------------------
     // ICollection<T>, IEnumerable<T>,ISet<T>
     // ---------------------------------------------------------------------------------------------
-    // This represents a collection of  objects that is maintained in sorted order with no duplication.
+    // This represents a collection of  objects that is maintained in sorted order with no duplication
+    // =============================================================================================
+    // HashSet<T>
+    // -----------------------
+    // ICollection<T>, IEnumerable<T>, IEnumerable, ISerializable, IDeserializationCallback, ISet<T>, IReadOnlyCollection<T>
+    // ---------------------------------------------------------------------------------------------
+    //  Represents a set of values.
     // =============================================================================================
     // Stack<T> 
     // -----------------------
@@ -810,6 +893,8 @@ namespace CSharpCollections
     // ---------------------------------------------------------------------------------------------
     // This is a generic implementation of a last-in, first-out list.
     // =============================================================================================
+
+
 
     // The System.Collections.Generic namespace also defines many auxiliary classes and structures 
     // that work in conjunction with a specific container.
@@ -824,6 +909,9 @@ namespace CSharpCollections
     // ---------------------------------------------------------
     // 4- System.ServiceModel.dll
     // ---------------------------------------------------------
+    #endregion
+    
+    #region Understanding Collection Initialization Syntax
 
     // Understanding Collection Initialization Syntax
     // ================================================================================================
@@ -849,13 +937,13 @@ namespace CSharpCollections
             // Init a generic List<> of ints.
             List<int> myGenericList = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            List<Person> personsList = new List<Person> 
-            { 
-                new Person(10,"Ahmed"),
-                new Person(20,"Ali"),
-                new Person(30,"Kamal"),
-                new Person(40,"Shady"),
-                new Person(50,"Mohammed")
+            List<Person0> personsList = new List<Person0>
+            {
+                new Person0(10,"Ahmed"),
+                new Person0(20,"Ali"),
+                new Person0(30,"Kamal"),
+                new Person0(40,"Shady"),
+                new Person0(50,"Mohammed")
             };
 
             foreach (var item in personsList)
@@ -865,6 +953,590 @@ namespace CSharpCollections
         }
 
     }
+    #endregion
+
+    #region Working with the List<T> Class
+
+    //    The List<T> class is bound to be your most frequently used type in the System.Collections.Generic
+    //namespace because it allows you to resize the contents of the container dynamically.
+
+    class WorkingWithGenericList
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic List");
+            Console.WriteLine("".PadLeft(40,'='));
+
+            // Create List Object
+            List<int> alist0 = new List<int>();
+            // Create List Object With initial Capacity = 10
+            List<int> alist1 = new List<int>(10);
+
+            // use object initialization sytax
+            List<int> alist2 = new List<int>() { 10,20,30,40,50,60 };
+            List<int> alist3 = new List<int>(6) { 10,20,30,40,50,60 };
+            List<int> alist4 = new List<int> { 10,20,30,40,50,60 };
+
+            // Count Property
+            Console.WriteLine($"alist4.Count = {alist4.Count}");
+
+            // Capacity Property
+            Console.WriteLine($"alist4.Capacity = {alist4.Capacity}");
+
+            // Index [] Operator
+            Console.WriteLine($"alist4[0] : {alist4[0]}");
+            Console.WriteLine($"alist4[1] : {alist4[1]}");
+            Console.WriteLine($"alist4[2] : {alist4[2]}");
+            Console.WriteLine($"alist4[3] : {alist4[3]}");
+            Console.WriteLine($"alist4[4] : {alist4[4]}");
+            Console.WriteLine($"alist4[5] : {alist4[5]}");
+            Console.WriteLine();
+
+            // Add To List Method : public void Add(T item);
+            PrintList(alist4, "Add() Method List Before Add Three Items:");
+            alist4.Add(70);
+            alist4.Add(80);
+            alist4.Add(90);
+            // print list
+            PrintList(alist4, "Add() Method List After Add Three Items:");
+
+            // Add Range to List Method : public void AddRange(IEnumerable<T> collection);
+            PrintList(alist4, "AddRange() Method List Before AddRange:");
+
+            // add array
+            alist4.AddRange(new[] { 100,200,300});
+
+            // add another list
+            alist4.AddRange(new List<int> { 400,500,600,700});
+
+            // print list
+            PrintList(alist4, "AddRange() Method List After AddRange:");
+
+            // public void Clear();
+            Console.WriteLine("Clear All List Items");
+            alist4.Clear();
+
+            // add new members
+            alist4.AddRange(new[] { 100, 50, 70, 60, 90, 30, 40, 20, 10, 80 });
+
+            // public void Insert(int index, T item);
+            alist4.Insert(0, 99);
+            alist4.Insert(3, 69);
+
+            // public void InsertRange(int index, IEnumerable<T> collection);
+
+            alist4.InsertRange(0, new[] { 91, 92, 93, 94, 95 });
+
+            alist4.InsertRange(alist4.Count - 1, new List<int> { 81, 82, 83, 84 });
+
+            PrintList(alist4, "List After Insert Many Items:");
+
+            // public bool Remove(T item);
+            // public int RemoveAll(Predicate<T> match);
+            // public void RemoveAt(int index);
+            // public void RemoveRange(int index, int count);
+
+            alist4.Remove(84);
+            alist4.RemoveAt(0);
+            alist4.RemoveRange(0,3);
+            alist4.RemoveAll(x=> x % 10 != 0);
+
+            PrintList(alist4, "List After Remove Many Items:");
+
+
+            // public void Reverse(int index, int count);
+            // public void Reverse();
+
+            // Reverse Range of the list
+
+            alist4.Reverse(2, 5);
+            PrintList(alist4, "List After Reverse Items from 2 to 7 :");
+
+            alist4.Reverse();
+            PrintList(alist4, "List After Reverse All Items:");
+
+            // public T[] ToArray();
+
+            int[] arr = alist4.ToArray();
+
+            PrintList(arr, "Array From List:");
+
+
+            // public void CopyTo(T[] array, int arrayIndex);
+            // public void CopyTo(int index, T[] array, int arrayIndex, int count);
+            // public void CopyTo(T[] array);
+            // Summary:
+            //     Copies the entire System.Collections.Generic.List`1 to a compatible one-dimensional
+            //     array, starting at the beginning of the target array.
+
+            int[] array = new int[alist4.Count];
+            alist4.CopyTo(array);
+            PrintList(array, "Array Copied From List:");
+
+
+            int[] array2 = new int[alist4.Count + 4];
+
+            array2[0] = 1;
+            array2[1] = 2;
+            PrintList(array2, "Array Before Copy from List:");
+            alist4.CopyTo(array2,2);
+            PrintList(array2, "Array After Copy from List:");
+
+
+            Array.Clear(array2, 0, array2.Length);
+
+            alist4.CopyTo(2,array2, 1,5);
+            PrintList(array2, "Array After Clear it and Copy from List From specific Index with Count:");
+
+            // public List<T> GetRange(int index, int count);
+            // Creates a shallow copy of a range of elements in the source System.Collections.Generic.List`1.
+
+            List<int> myRange = alist4.GetRange(0, 5);
+            PrintList(myRange, "Get another list from the old one with Range from 0 to 4:");
+
+
+            // public List<TOutput> ConvertAll<TOutput>(Converter<T, TOutput> converter);
+            //     Converts the elements in the current System.Collections.Generic.List`1 to another
+            //     type, and returns a list containing the converted elements.
+
+            List<double> doubleList = alist4.ConvertAll(new Converter<int, double>(x => (double)x));
+
+            PrintList(doubleList, "A new List With new Type Parameter From the alist4:");
+
+
+            alist4.Clear();
+            alist4.AddRange(new[] { 100, 50, 70, 100, 60, 90, 30, 40, 20, 10, 80, 90, 40 });
+            PrintList(alist4, "My New List:");
+
+            
+
+            // public int IndexOf(T item, int index, int count);
+            // public int IndexOf(T item, int index);
+            // public int IndexOf(T item);
+            //     Searches for the specified object and returns the zero-based index of the first
+            //     occurrence within the entire System.Collections.Generic.List`1.
+
+            Console.WriteLine($"alist4.IndexOf(50) : {alist4.IndexOf(50)}");
+            Console.WriteLine($"alist4.IndexOf(50) : {alist4.IndexOf(60)}");
+            Console.WriteLine($"alist4.IndexOf(50) : {alist4.IndexOf(101)}");
+
+            // public int IndexOf(T item, int index);
+            // Start Search from Specific index to The End
+            Console.WriteLine($"alist4.IndexOf(20,2) : {alist4.IndexOf(20,2)}");
+            Console.WriteLine($"alist4.IndexOf(20,3) : {alist4.IndexOf(20,3)}");
+
+
+            // public int IndexOf(T item, int index, int count);
+            // Search In Range from Index to index + count
+            Console.WriteLine($"alist4.IndexOf(20,2,3) : {alist4.IndexOf(20, 2,3)}");
+            Console.WriteLine($"alist4.IndexOf(20,5,3) : {alist4.IndexOf(20, 5,3)}");
+
+            // public int LastIndexOf(T item);
+            // public int LastIndexOf(T item, int index);
+            // public int LastIndexOf(T item, int index, int count);
+            //     Searches for the specified object and returns the zero-based index of the last
+            //     occurrence within the entire System.Collections.Generic.List`1.
+            Console.WriteLine($"alist4.LastIndexOf(100) : {alist4.LastIndexOf(100)}");
+            Console.WriteLine($"alist4.LastIndexOf(90) : {alist4.LastIndexOf(90)}");
+            Console.WriteLine($"alist4.LastIndexOf(40) : {alist4.LastIndexOf(40)}");
+            Console.WriteLine($"alist4.LastIndexOf(101) : {alist4.LastIndexOf(101)}");
+
+
+            // public bool Contains(T item);
+            Console.WriteLine($"alist4.Contains(50) : {alist4.Contains(50)}");
+            Console.WriteLine($"alist4.Contains(60) : {alist4.Contains(60)}");
+            Console.WriteLine($"alist4.Contains(101) : {alist4.Contains(101)}");
+
+
+            // public bool Exists(Predicate<T> match);
+
+            // Check if number 50 Exists
+            Console.WriteLine($"alist4.Exists(x=> x == 50) : {alist4.Exists(x=> x == 50)}");
+
+            // Check if number 60 Exists
+            Console.WriteLine($"alist4.Exists(x=> x == 60) : {alist4.Exists(x=> x == 60)}");
+
+            // Check if number 101 Exists
+            Console.WriteLine($"alist4.Exists(x=> x == 101) : {alist4.Exists(x=> x == 101)}");
+
+            // Check if any Odd Number Exists in the list
+            Console.WriteLine($"alist4.Exists(x=> x % 2 != 0) : {alist4.Exists(x => x % 2 != 0)}");
+
+            // Check if any number Less Than 0 and more than 100 exists in the list
+            Console.WriteLine($"alist4.Exists(x=> x > 100 && x < 0) : {alist4.Exists(x => x > 100 && x < 0)}");
+
+            // Check if All Array Exists in the list
+            Console.WriteLine($"alist4.Exists(x=> x > 100 && x < 0) : {alist4.Exists(x => x > 100 && x < 0)}");
+
+
+            // Check if all array elements Exists in the list
+            int[] arr2 = { 10, 20, 101 };
+            bool[] exists = { false, false, false };
+            bool Exists(int x)
+            {
+                for (int i = 0; i < arr2.Length; i++)
+                {
+                    if (arr2[i] == x)
+                    {
+                        exists[i] = true;
+                    }
+                }
+                return !Array.Exists(exists, p => p == false);
+            }
+            Console.WriteLine($"alist4.Exists(Exists) : {alist4.Exists(Exists)}");
+
+
+            // public T Find(Predicate<T> match);
+            // Returns:
+            //     The first element that matches the conditions defined by the specified predicate,
+            //     if found; otherwise, the default value for type T.
+
+            // Find Number 40 in the list
+            Console.WriteLine($"alist4.Find(x=> x == 40) : {alist4.Find(x => x == 40)}");
+            // Find Number 100 in the list
+            Console.WriteLine($"alist4.Find(x=> x == 100) : {alist4.Find(x => x == 100)}");
+            // Find Number 101 in the list
+            Console.WriteLine($"alist4.Find(x=> x == 101) : {alist4.Find(x => x == 101)}");
+
+
+            // Find Number More Than 20 and Less Than 40
+            Console.WriteLine($"alist4.Find(x=> x > 20 && x < 40) : {alist4.Find(x => x > 20 && x < 40)}");
+
+            // Find Odd Number
+            Console.WriteLine($"alist4.Find(x=> x % 2 != 0) : {alist4.Find(x => x % 2 != 0)}");
+
+
+            // public List<T> FindAll(Predicate<T> match);
+            // public T FindLast(Predicate<T> match);
+
+
+            // public int FindIndex(Predicate<T> match);
+
+            // Find Index of Number that More Than 20 and Less Than 60
+            Console.WriteLine($"alist4.FindIndex(x => x > 20 && x < 60) : {alist4.FindIndex(x => x > 20 && x < 60)}");
+
+            // public int FindIndex(int startIndex, Predicate<T> match);
+            // public int FindIndex(int startIndex, int count, Predicate<T> match);
+
+            // public int FindLastIndex(Predicate<T> match);
+            // Find LastIndex of Number that More Than 20 and Less Than 60
+            Console.WriteLine($"alist4.FindLastIndex(x => x > 20 && x < 60) : {alist4.FindLastIndex(x => x > 20 && x < 60)}");
+
+            // public int FindLastIndex(int startIndex, Predicate<T> match);
+            // public int FindLastIndex(int startIndex, int count, Predicate<T> match);
+
+
+
+            Console.WriteLine("========================= Sorting =========================");
+            Console.WriteLine("".PadLeft(60,'='));
+            #region Sort List Elements Using Default Comparer
+            // -------------------------- Sort List Elements Using Default Comparer --------------------------
+            List<Person> alist5 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"Mohammed"),
+                new Person(107,"Kamal"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist5, "Unsorted List:");
+
+            // sort Ascending by ID 
+            alist5.Sort();
+
+            PrintList(alist5, "Ascending Sorted List By ID:");
+
+            #endregion
+
+            #region Sort List Descending by ID
+            // -------------------------- Sort List Descending by ID --------------------------
+            List<Person> alist6 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"Mohammed"),
+                new Person(107,"Kamal"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist6, "Unsorted List:");
+
+            // sort Descending by ID 
+            alist6.Sort(Person.IDDescendingSort);
+
+            PrintList(alist6, "Descending Sorted List By ID:");
+
+            #endregion
+
+            #region Sort List Ascending by Name
+            // -------------------------- Sort List Ascending by Name --------------------------
+            List<Person> alist7 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist7, "Unsorted List:");
+
+            // sort Descending by ID 
+            alist7.Sort(Person.NameAscendingSort);
+
+            PrintList(alist7, "Ascending Sorted List By Name:");
+            #endregion
+
+            #region Sort List Ascending by Name Ignore Case
+            // -------------------------- Sort List Ascending by Name Igone Case --------------------------
+            List<Person> alist8 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist8, "Unsorted List:");
+
+            // sort Descending by ID 
+            alist8.Sort(Person.NameAscendingSortIgnoreCase);
+
+            PrintList(alist8, "Ascending Sorted List By Name Igone Case:");
+            #endregion
+
+            #region Sort List Descending by Name
+            // -------------------------- Sort List Descending by Name --------------------------
+            List<Person> alist9 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist9, "Unsorted List:");
+
+            // sort Descending by ID 
+            alist9.Sort(Person.NameDescendingSort);
+
+            PrintList(alist9, "Descending Sorted List By Name:");
+            #endregion
+
+            #region Sort List Descending by Name Ignore Case
+            // -------------------------- Sort List Descending by Name Igone Case --------------------------
+            List<Person> alist10 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist10, "Unsorted List:");
+
+            // sort Descending by ID 
+            alist10.Sort(Person.NameDescendingSortIgnoreCase);
+
+            PrintList(alist10, "Descending Sorted List By Name Igone Case:");
+            Console.WriteLine();
+            #endregion
+
+            #region Find Person With Specific ID or Name or Char of Name
+            // -------------------------- Sort List Descending by Name Igone Case --------------------------
+            List<Person> alist11 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist11, "My Person List:");
+
+            // Find Person Whose ID 101
+            Console.WriteLine($"alist4.Find(pr=> pr.ID == 101) : {alist11.Find(pr => pr.ID == 101)}");
+            // Find Person Whose ID 120: it returns null default of Person Object
+            Console.WriteLine($"alist4.Find(pr=> pr.ID == 101) : {alist11.Find(pr => pr.ID == 120) ?? new Person(-1,"None")}");
+
+            // Find Person Whose Name is Mohammed
+            Console.WriteLine($@"alist4.Find(pr=> pr.Name == ""Mohammed"") : {alist11.Find(pr => pr.Name == "Mohammed") ?? new Person(-1, "None")}");
+            
+            // Find Person Whose Name is Mohammed but Ignore Case
+            Console.WriteLine($@"alist4.Find(pr=> pr.Name == ""Mohammed"") : {alist11.Find(pr => pr.Name.Equals("Mohammed",StringComparison.OrdinalIgnoreCase))}");
+
+
+            // Find Last Person Whose Name Starts With 'M'
+            Console.WriteLine($@"alist4.FindLast(pr=> pr.Name[0]=='M') : {alist11.FindLast(pr => pr.Name[0]=='M')}");
+
+
+            // Find All Person Whose Name Starts With Char M or m
+            List<Person> listOfM = alist11.FindAll(pr => pr.Name[0] == 'M' || pr.Name[0] == 'm');
+            PrintList(listOfM, $"{NewLine}alist4.Find(pr=> pr.Name[0] == 'M' || pr.Name[0] == 'm') :");
+
+
+
+            #endregion
+
+            #region Find Person Index With Specific ID or Name or Char of Name
+            // -------------------------- Sort List Descending by Name Igone Case --------------------------
+            List<Person> alist12 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+            PrintList(alist12, "My Person List To Find Specific Index:");
+
+
+            
+
+
+            #endregion
+        }
+
+        public static void PrintList<T>(IEnumerable<T> list , string title = "Print List:")
+        {
+            Console.WriteLine(title);
+            Console.WriteLine("".PadLeft(title.Length < 50 ? 50 : title.Length,'='));
+
+            int counter = 0;
+            foreach (var item in list)
+            {
+                Console.WriteLine($"Item[{counter++}] = {item}");
+            }
+            Console.WriteLine();
+        }
+
+
+
+    }
+
+
+    #endregion
+
+    #region Working with the LinkedList<T> Class
+
+    class WorkingWithGenericLinkedList
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic LinkedList");
+            Console.WriteLine("".PadLeft(40, '='));
+        }
+
+    }
+
+
+    #endregion
+
+    #region Working with the Stack<T> Class
+
+    class WorkingWithGenericStack
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic Stack");
+            Console.WriteLine("".PadLeft(40,'='));
+        }
+
+    }
+
+
+    #endregion
+
+    #region Working with the Queue<T> Class
+
+    class WorkingWithGenericQueue
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic Queue");
+            Console.WriteLine("".PadLeft(40,'='));
+        }
+
+    }
+    #endregion
+
+    #region Working with the SortedSet<T> Class
+
+    class WorkingWithGenericSortedSet
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic SortedSet");
+            Console.WriteLine("".PadLeft(40,'='));
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the Dictionary<T> Class
+
+    class WorkingWithGenericDictionary
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic Dictionary");
+            Console.WriteLine("".PadLeft(40,'='));
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the SortedDictionary<T> Class
+
+    class WorkingWithGenericSortedDictionary
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic Sorted Dictionary");
+            Console.WriteLine("".PadLeft(40, '='));
+        }
+
+    }
+
+    #endregion
+
 
     class CollectionsTraining
     {
@@ -878,9 +1550,15 @@ namespace CSharpCollections
             //TestCustomCollectionsType.Test();
             //TypeParameterForGenericMembers.Test();
             //TypeParameterForGenericInterfaces.Test();
+            //CollectionInitializationSyntax.Test();
 
-            CollectionInitializationSyntax.Test();
-
+            WorkingWithGenericList.Test();
+            WorkingWithGenericLinkedList.Test();
+            WorkingWithGenericStack.Test();
+            WorkingWithGenericQueue.Test();
+            WorkingWithGenericSortedSet.Test();
+            WorkingWithGenericDictionary.Test();
+            WorkingWithGenericSortedDictionary.Test();
 
 
 

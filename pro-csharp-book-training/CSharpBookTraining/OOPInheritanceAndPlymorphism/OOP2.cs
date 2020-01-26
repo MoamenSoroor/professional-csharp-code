@@ -18,7 +18,7 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
     #region Inheritance
     // Inheritance Notes
     // ==============================================================================================================
-    // - Ineritance represent is-a relationship
+    // - Inheritance represent is-a relationship
     // - C# is Single Inheritance Language, any class may inhert only one class, but it may inherit any numberr of interfaces.
 
     // - sealed keyword before class prevent it from being inherited
@@ -88,6 +88,9 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
             // Error can't access private members
             //Console.WriteLine(this.privateField);
 
+            // Error: Can't assign private field indirecty by non-private Property
+            //this.privateField = 20;
+
             // access private field indirecty by non-private Property
             Console.WriteLine(this.PrivateFieldProperty);
 
@@ -134,7 +137,6 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
     }
 
     #endregion
-
 
     #region Polymorphism, The virtual, override and sealed Keywords
 
@@ -295,7 +297,6 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
     }
     #endregion
 
-
     #region base keyword
 
     // ==============================> base Keyword <==============================
@@ -413,7 +414,6 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
 
     #endregion
 
-
     #region Understanding Abstract Classes
 
     // ==============================> Understanding Abstract Classes <============================== 
@@ -464,16 +464,7 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
             Console.WriteLine("Overridden of AbstractMethod()");
         }
 
-        class TestAbstractClasses
-        {
-            public static void Test()
-            {
-                AbstractClass abs = new SubClassOfAbstractClass();
-
-                abs.AbstractMethod();
-            }
-
-        }
+        
 
     }
 
@@ -544,7 +535,8 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
             Console.WriteLine("SubClass ShadowingMethod2");
         }
 
-        // shadowing, as base class method is not marked with virtual, even though, sub class method is marked as Override
+        // shadowing, as base class method is not marked with virtual, even though, sub class method is marked as Override 
+        // [NOTE Error will be thrown if you mark subclass version of a method wih override when base class version is not marked as virtual ]
         public void ShadowingMethod3()
         {
             Console.WriteLine("SubClass ShadowingMethod3");
@@ -972,7 +964,11 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
     // GetHashCode() 
     // ------------------------------------------------------------------------------------------
     // This method returns an int that identifies a specific object instance.
-    // ToString() This method returns a string representation of this object, using
+
+
+    // ToString() 
+    // ------------------------------------------------------------------------------------------
+    // This method returns a string representation of this object, using
     // the <namespace>.<type name> format(termed the fully qualified
     // name). This method will often be overridden by a subclass to return
     // a tokenized string of name/value pairs that represent the object’s

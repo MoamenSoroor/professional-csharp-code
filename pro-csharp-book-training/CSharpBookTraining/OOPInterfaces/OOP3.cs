@@ -37,7 +37,7 @@ namespace ProCSharpBook.OOPInterfaces
     // ==================================================================================================
 
     // ==============================> Defining Custom Interfaces <==============================
-    
+
     #region Defining Interfaces 0
     interface Interface0
     {
@@ -75,10 +75,20 @@ namespace ProCSharpBook.OOPInterfaces
         // default implementation will be available in c#8
 
         public int Prop { get; set; }
-        public int ReadOnlyProp { get; }
-        public int WriteOnlyProp { set; }
 
-        // Error can't define private/private protected/internal/protected/internal protected accessors or actuators
+        // Readonly Property in sight of the outside world but we can implement setter in the Implementation
+        public int ReadOnlyProp { get; }
+        public int ReadOnlyProp2 { get; }
+        public int ReadOnlyProp3 { get; }
+        public int ReadOnlyProp4 { get; }
+
+        // Writeonly Property in sight of the outside world but we can implement getter in the Implementation
+        public int WriteOnlyProp { set; }
+        public int WriteOnlyProp2 { set; }
+        public int WriteOnlyProp3 { set; }
+        public int WriteOnlyProp4 { set; }
+
+        // Error can't define private/private protected/internal/protected/internal protected accessors or actuators in interfaces but we can make that in the implementation.
         //public int PrivateWriteProp { get; private set; }
         //public int PrivateReadProp { private get; set; }
 
@@ -94,13 +104,22 @@ namespace ProCSharpBook.OOPInterfaces
 
     class MyClass1 : Interface1
     {
-        private int writeonlyVar;
+        private int myValue;
 
         public int Prop { get; set; }
 
+        // we can omit setter or we can make it public, private , protected, ...etc
         public int ReadOnlyProp { get; }
+        public int ReadOnlyProp2 { get; set; }
+        public int ReadOnlyProp3 { get; private set; }
+        public int ReadOnlyProp4 { get; protected set; }
 
-        public int WriteOnlyProp { set => writeonlyVar = value; }
+
+        // we can omit getter or we can make it public, private , protected, ...etc
+        public int WriteOnlyProp { set => myValue = value; }
+        public int WriteOnlyProp2 { get => myValue; set => myValue = value; }
+        public int WriteOnlyProp3 { private get => myValue; set => myValue = value; }
+        public int WriteOnlyProp4 { protected get => myValue; set => myValue = value; }
 
         public void AbsMethod()
         {
@@ -116,13 +135,22 @@ namespace ProCSharpBook.OOPInterfaces
     // another class implements Interface1 interface
     class MyClass2 : Interface1
     {
-        private int writeonlyVar;
+        private int myValue;
 
         public int Prop { get; set; }
 
+        // we can omit setter or we can make it public, private , protected, ...etc
         public int ReadOnlyProp { get; }
+        public int ReadOnlyProp2 { get; set; }
+        public int ReadOnlyProp3 { get; private set; }
+        public int ReadOnlyProp4 { get; protected set; }
 
-        public int WriteOnlyProp { set => writeonlyVar = value; }
+
+        // we can omit getter or we can make it public, private , protected, ...etc
+        public int WriteOnlyProp { set => myValue = value; }
+        public int WriteOnlyProp2 { get => myValue; set => myValue = value; }
+        public int WriteOnlyProp3 { private get => myValue; set => myValue = value; }
+        public int WriteOnlyProp4 { protected get => myValue; set => myValue = value; }
 
         public void AbsMethod()
         {
@@ -144,7 +172,7 @@ namespace ProCSharpBook.OOPInterfaces
             inter1.AbsMethod2();
             Console.WriteLine($"inter1.ReadOnlyProp: {inter1.ReadOnlyProp}");
             Console.WriteLine($"inter1.ReadOnlyProp: {inter1.Prop}");
-            
+
 
         }
 
@@ -359,7 +387,7 @@ namespace ProCSharpBook.OOPInterfaces
             }
 
             // ==============================> Casting with as Operator <==============================
-            
+
             Interface4 inter2 = myclass1 as Interface4;
             if (inter2 == null)
                 Console.WriteLine("NULL Reference, InvalidCast! ");
@@ -406,7 +434,7 @@ namespace ProCSharpBook.OOPInterfaces
         public string Name { get; set; }
         public float Salary { get; set; }
 
-        protected Employee():this("0000","Emp", 1000.0F)
+        protected Employee() : this("0000", "Emp", 1000.0F)
         {
 
         }
@@ -435,7 +463,7 @@ namespace ProCSharpBook.OOPInterfaces
             Department = department;
         }
 
-        public Manager(string sSN, string name, float salary, string department):base(sSN, name,salary)
+        public Manager(string sSN, string name, float salary, string department) : base(sSN, name, salary)
         {
             Department = department;
         }
@@ -482,7 +510,7 @@ namespace ProCSharpBook.OOPInterfaces
 
     class Worker : Employee
     {
-        
+
         public Worker(int workHours) : base()
         {
             WorkHours = workHours;
@@ -510,7 +538,7 @@ namespace ProCSharpBook.OOPInterfaces
     {
         public static void Test()
         {
-            Employee emp1 = new Manager("1111", "Moamen",5000.0F, "Software Engineering");
+            Employee emp1 = new Manager("1111", "Moamen", 5000.0F, "Software Engineering");
             Employee emp2 = new SalesPerson("2222", "Mohammed", 4000.0F, "Port Said");
             Employee emp3 = new Worker("3333", "Gamal", 3000.0F, 12);
 
@@ -520,7 +548,7 @@ namespace ProCSharpBook.OOPInterfaces
             printEmp(emp3);
 
             // interface as an array
-            IPrintable[] printableArray = { new Manager("Software"), new SalesPerson("Sers"), new Worker(10)};
+            IPrintable[] printableArray = { new Manager("Software"), new SalesPerson("Sers"), new Worker(10) };
             foreach (IPrintable item in printableArray)
             {
                 item.Print();
@@ -544,7 +572,7 @@ namespace ProCSharpBook.OOPInterfaces
 
 
         // interface as return type
-        public static IPrintable UpdateSalary (Employee emp)
+        public static IPrintable UpdateSalary(Employee emp)
         {
             emp.Salary += 200;
             return emp;
@@ -558,7 +586,7 @@ namespace ProCSharpBook.OOPInterfaces
     #region Explicit Interface Implementation
 
     // ==============================> Explicit Interface <==============================
-    // - Explicit Interface implementation, allow you t define a method for each interface if there are
+    // - Explicit Interface implementation, allow you to define a method for each interface if there are
     //   a name conflicts. but it doesn't allow to use methods with implementaion Type, and you should cast type
     //   to a specific interface to be able to use explicit methods of it.
 
@@ -604,7 +632,7 @@ namespace ProCSharpBook.OOPInterfaces
         }
     }
 
-    class Person : IFilePrintable, IDataPrintable, IConsolePrintable 
+    class Person : IFilePrintable, IDataPrintable, IConsolePrintable
     {
         public int ID { get; set; }
         public string Fname { get; set; }
@@ -637,7 +665,7 @@ namespace ProCSharpBook.OOPInterfaces
             Console.WriteLine("Write to File");
         }
 
-
+        
 
 
 
@@ -668,7 +696,7 @@ namespace ProCSharpBook.OOPInterfaces
 
 
             Person p2 = new Person();
-            
+
             // Error, we can't use explicit implementation without casting to the Interface type
             // p2.Print();
 
@@ -707,12 +735,12 @@ namespace ProCSharpBook.OOPInterfaces
     //    }
     //}
 
-    class Point: ICloneable
+    class Point : ICloneable
     {
         public float X { get; set; }
         public float Y { get; set; }
 
-        public Point() : this(0.0F,0.0F) { }
+        public Point() : this(0.0F, 0.0F) { }
         public Point(float x, float y)
         {
             X = x;
@@ -736,7 +764,7 @@ namespace ProCSharpBook.OOPInterfaces
     {
         public static void Test()
         {
-            Point p1 = new Point(10,20);
+            Point p1 = new Point(10, 20);
 
             Point p2 = p1;
 
@@ -794,7 +822,7 @@ namespace ProCSharpBook.OOPInterfaces
 
     // ==============================> shallow copy when there are References <==============================
 
-    class CoordinateInfo: ICloneable
+    class CoordinateInfo : ICloneable
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -815,7 +843,7 @@ namespace ProCSharpBook.OOPInterfaces
             Name: {Name};
             Description: {Description};
         }}";
-        
+
         }
 
         public object Clone()
@@ -912,7 +940,7 @@ namespace ProCSharpBook.OOPInterfaces
             return this.MemberwiseClone();
         }
 
-        
+
         public override string ToString()
         {
             return $@"Point
@@ -929,20 +957,20 @@ namespace ProCSharpBook.OOPInterfaces
     // ----------------------- Deep Copy using Clone() using nested Clone() -----------------------
     class Point4 : Point3
     {
-        public Point4(){ }
+        public Point4() { }
 
         public Point4(PointInfo pointInfo) : base(pointInfo) { }
 
-        public Point4(float x, float y) : base(x, y){ }
+        public Point4(float x, float y) : base(x, y) { }
 
-        public Point4(float x, float y, PointInfo pointInfo) : base(x, y, pointInfo){ }
+        public Point4(float x, float y, PointInfo pointInfo) : base(x, y, pointInfo) { }
 
 
         // Deep Copy
         public new object Clone()
         {
             // create Deep copy
-            Point4 newPoint =  (Point4)this.MemberwiseClone();
+            Point4 newPoint = (Point4)this.MemberwiseClone();
             newPoint.PointInfo = (PointInfo)this.PointInfo.Clone();
             newPoint.PointInfo.CoordinateInfo = (CoordinateInfo)this.PointInfo.CoordinateInfo.Clone();
 
@@ -978,7 +1006,7 @@ namespace ProCSharpBook.OOPInterfaces
                     Name = this.PointInfo.CoordinateInfo.Name,
                     Description = this.PointInfo.CoordinateInfo.Description
                 }
-                
+
             };
 
 
@@ -1083,7 +1111,9 @@ namespace ProCSharpBook.OOPInterfaces
             get { return (IComparer)new CarSpeedComparer(); }
         }
 
-        
+        public static IComparer SpeedComparer2 { get; } = new CarSpeedComparer();
+
+
         public string PetName { get; set; }
         public int Speed { get; set; }
 
@@ -1106,9 +1136,9 @@ namespace ProCSharpBook.OOPInterfaces
         {
             //return Speed.CompareTo(obj);
             Car aCar = obj as Car;
-            if(aCar != null)
+            if (aCar != null)
             {
-                return this.Speed > aCar.Speed ? 1 : this.Speed == aCar.Speed ? 0: -1;
+                return this.Speed > aCar.Speed ? 1 : this.Speed == aCar.Speed ? 0 : -1;
             }
             else
                 throw new ArgumentException("Parameter is not a Car!");
@@ -1125,6 +1155,7 @@ namespace ProCSharpBook.OOPInterfaces
                 if (car1 != null && car2 != null)
                 {
                     return string.Compare(car1.PetName, car2.PetName);
+                    //return car1.PetName.CompareTo(car2.PetName);
                 }
                 else
                     throw new ArgumentException("Parameter is not a Car!");
@@ -1179,7 +1210,7 @@ namespace ProCSharpBook.OOPInterfaces
             }
 
 
-            
+
             // ----------------------- Sorting Depends on IComparer Interface -----------------------
             carArray[0] = new Car("Hondai", 100);
             carArray[1] = new Car("Nissan", 50);
@@ -1194,7 +1225,7 @@ namespace ProCSharpBook.OOPInterfaces
             }
 
 
-            Array.Sort(carArray,new Car.CarSpeedComparer());
+            Array.Sort(carArray, new Car.CarSpeedComparer());
 
             Console.WriteLine();
             Console.WriteLine("After Sorting Array with Speed using IComparer Interface");
@@ -1228,7 +1259,6 @@ namespace ProCSharpBook.OOPInterfaces
             {
                 Console.WriteLine(item);
             }
-
 
             Array.Sort(carArray, Car.SpeedComparer);
 
@@ -1337,8 +1367,8 @@ namespace ProCSharpBook.OOPInterfaces
     }
 
     // another implementation of GetEnumerator()
-    
-    
+
+
     public class Garage2 : Garage, IEnumerable
     {
         IEnumerator IEnumerable.GetEnumerator()
@@ -1365,6 +1395,7 @@ namespace ProCSharpBook.OOPInterfaces
     {
         IEnumerator IEnumerable.GetEnumerator()
         {
+            // this code executed when MoveNext() Method is Called not when GetEnumerator Method is called
             yield return CarArray[0];
             yield return CarArray[1];
             yield return CarArray[2];
@@ -1385,7 +1416,7 @@ namespace ProCSharpBook.OOPInterfaces
                 Console.WriteLine("{0} is going {1} MPH",
                 c.PetName, c.Speed);
             }
-            
+
             // ----------------------------------------------------------------------------------------------
             Console.WriteLine();
             Console.WriteLine("***** Fun with IEnumerable / IEnumerator yield contextual keyword *****\n");
@@ -1417,32 +1448,50 @@ namespace ProCSharpBook.OOPInterfaces
     #endregion
 
     #region yield Contextual Keyword, with IEnumerable and IEnumerator
-    
+    // "The yield keyword signals to the compiler that the method in which it appears is an iterator block. 
+    // The compiler generates a class to implement the behavior that is expressed in the iterator block. 
+    // In the iterator block, the yield keyword is used together with the return keyword to provide a value 
+    // to the enumerator object. This is the value that is returned, for example, in each loop of a foreach statement. 
+    // The yield keyword is also used with break to signal the end of iteration."
     class Sequence
     {
 
+        public int Start { get; }
         public int Counter { get; set; }
 
         public int Max { get; set; }
 
         public int Step { get; set; }
 
-        public Sequence(int counter, int max, int step)
+        public Sequence(int start, int max, int step)
         {
-            Counter = counter;
+            Start = start;
+            Counter = start;
             Max = max;
             Step = step;
         }
 
-        public Sequence() :this(0,1000,1) { }
+        public Sequence() : this(0, 1000, 1) { }
+
+        public void Reset()
+        {
+            Counter = Start;
+        }
+
+
 
         public IEnumerator GetEnumerator()
         {
-            while(Counter < Max)
+            Console.WriteLine("Code In Enumerator Method");
+            for (; Counter < Max; Counter+=Step)
             {
-                yield return Counter++;
+                Console.WriteLine("One Yield Retrun Execution");
+                yield return Counter;
+
             }
-            
+
+            Console.WriteLine("End of Enumerator");
+
         }
 
     }
@@ -1452,8 +1501,21 @@ namespace ProCSharpBook.OOPInterfaces
     {
         public static void Test()
         {
-            Sequence seq = new Sequence();
+            Sequence seq = new Sequence(0,15,2);
+
+            Console.WriteLine("========== Enumerator Execution with MoveNext() and Current Property =============");
             IEnumerator en = seq.GetEnumerator();
+            Console.WriteLine("After GetEnumerator() Call");
+
+            while(en.MoveNext())
+                Console.WriteLine("Current = " + en.Current);
+
+            seq.Reset();
+            Console.WriteLine("========== Another Approach with foreach =============");
+            foreach (var item in seq)
+            {
+                Console.WriteLine($"next: {item}");
+            }
 
 
         }
@@ -1488,6 +1550,6 @@ namespace ProCSharpBook.OOPInterfaces
         }
 
     }
-    
+
 
 }

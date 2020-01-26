@@ -27,7 +27,7 @@ namespace ProCSharpBook.OOPEncapsulation
     // and members that operate on this data (such as constructors, properties, methods, events, and so forth).
 
     // A class is defined in C# using the class keyword. Here is the simplest possible declaration:
-    // ********************************************************************
+    // ********************************************************************************************
     class Car0 { }
 
     // ==============================> a Class With State <==============================
@@ -644,7 +644,7 @@ namespace ProCSharpBook.OOPEncapsulation
     //                                                          the defining assembly, within the defining class,
     //                                                          and by derived classes.
     // ------------------------------------------------------------------------------------------------------------
-    // private protected                                         Access is limited to the containing class or types 
+    // private protected         Type members or nested types    Access is limited to the containing class or types 
     //                                                           derived from the containing class within the current 
     //                                                           assembly.Available since C# 7.2.
     // ------------------------------------------------------------------------------------------------------------
@@ -672,8 +672,10 @@ namespace ProCSharpBook.OOPEncapsulation
     // By default, Type Members are implicitly private 
     // while Types are implicitly internal.
 
+    // Implicity internal
     class MyInternalClass { }
 
+    // Implicity internal
     class MyPrivateMembers
     {
         // implicity private
@@ -1648,7 +1650,7 @@ namespace ProCSharpBook.OOPEncapsulation
             readonlyStaticField2 = 40;
         }
 
-        // Static Method
+        // Static Method: here you can't change const or static readonly fields
         public void TestStatic()
         {
             //constField = 40;
@@ -1680,7 +1682,7 @@ namespace ProCSharpBook.OOPEncapsulation
             readonlyField2 = 10;
         }
 
-        // Method
+        // Method: here we can't change readonly fields
         public void TestFields()
         {
             //readonlyField = 10;
@@ -1883,7 +1885,7 @@ namespace ProCSharpBook.OOPEncapsulation
 
         // Inner Classes Notes:
         // - Inner class can access All Container Class Members like any other members in the class
-        // - Container Class cannot access Inner Class Static Member.
+        // - Container Class can access Inner Class Static Member, but it can't access Non-Static Members.
 
         // - Inner class can create any members inside it.
         // - Container Class can create instances of inner class,then use it, and can use it's static members.
