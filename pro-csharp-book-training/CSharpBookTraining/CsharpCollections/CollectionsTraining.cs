@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using static System.Environment;
+using static ProCSharpBook.Utils.CollectionUtils;
 
-namespace CSharpCollections
+namespace ProCSharpBook.CSharpCollections
 {
     #region Introduction to Collections and Generics
 
@@ -323,7 +324,7 @@ namespace CSharpCollections
             return val;
         }
 
-    } 
+    }
     #endregion
 
     #region The Problems of Nongeneric Collections
@@ -490,7 +491,7 @@ namespace CSharpCollections
             }
         }
 
-    } 
+    }
     #endregion
 
 
@@ -510,17 +511,26 @@ namespace CSharpCollections
 
         public string Name { get; set; }
 
-        public Person0(int iD, string name)
+        public int Age { get; set; }
+
+
+        public Person0(int iD, string name) : this(iD, name, 0)
+        {
+
+        }
+
+        public Person0() : this(0, string.Empty, 0) { }
+
+        public Person0(int iD, string name, int age)
         {
             ID = iD;
             Name = name;
+            Age = age;
         }
-
-        public Person0() : this(0, string.Empty) { }
 
         public override string ToString()
         {
-            return $"Person [ ID:{ID}, Name:{Name} ]";
+            return $"Person0 [ ID:{ID}, Name:{Name}, Age:{Age} ]";
         }
 
         public override bool Equals(object obj)
@@ -528,6 +538,9 @@ namespace CSharpCollections
             return this.ToString() == obj?.ToString();
         }
 
+
+        // It is Important to override GetHashCode() With Equals 
+        // To Work with Value-Based Semantic in Dictionary
         public override int GetHashCode()
         {
             return this.ToString().GetHashCode();
@@ -662,7 +675,7 @@ namespace CSharpCollections
 
         }
 
-    } 
+    }
     #endregion
 
     #region Specifying Type Parameters for Generic Interfaces
@@ -690,7 +703,7 @@ namespace CSharpCollections
     //     int CompareTo(T other);
     // }
 
-    class Person: Person0, IComparable<Person>
+    class Person : Person0, IComparable<Person>
     {
 
         public Person()
@@ -701,6 +714,20 @@ namespace CSharpCollections
         {
         }
 
+        public Person(int iD, string name, int age) : base(iD, name, age)
+        {
+        }
+
+        // overrides to work with value-based semantic
+        public override string ToString()
+        {
+            return $"Person [ ID:{ID}, Name:{Name}, Age:{Age} ]";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.ToString() == obj?.ToString();
+        }
 
         // Default Sorting is by ID : ASc
         public int CompareTo(Person other)
@@ -715,7 +742,12 @@ namespace CSharpCollections
         public static IComparer<Person> NameDescendingSort { get => (IComparer<Person>)new PersonNameDescendingSort(); }
         public static IComparer<Person> NameAscendingSortIgnoreCase { get => (IComparer<Person>)new PersonNameAscendingSortIgnoreCase(); }
         public static IComparer<Person> NameDescendingSortIgnoreCase { get => (IComparer<Person>)new PersonNameDescendingSortIgnoreCase(); }
-        
+        public static IComparer<Person> AgeAscendingSort { get => (IComparer<Person>)new PersonAgeAscendingSort(); }
+        public static IComparer<Person> AgeDescendingSort { get => (IComparer<Person>)new PersonAgeDescendingSort(); }
+        public static IEqualityComparer<Person> IDEquality { get => (IEqualityComparer<Person>)new PersonIDEquality(); }
+        public static IEqualityComparer<Person> NameEquality { get => (IEqualityComparer<Person>)new PersonNameEquality(); }
+        public static IEqualityComparer<Person> AgeEquality { get => (IEqualityComparer<Person>)new PersonAgeEquality(); }
+
 
         // Beginning of nested classes to sort Person by ID, and by Name.
         private class PersonIDAscendingSort : IComparer<Person>
@@ -761,6 +793,61 @@ namespace CSharpCollections
             }
         }
 
+        private class PersonAgeAscendingSort : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return x.Age.CompareTo(y.Age);
+            }
+        }
+        private class PersonAgeDescendingSort : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
+            {
+                return y.Age.CompareTo(x.Age);
+            }
+        }
+
+
+        private class PersonIDEquality : IEqualityComparer<Person>
+        {
+            public bool Equals(Person x, Person y)
+            {
+                return x.ID.Equals(y.ID);
+            }
+
+            public int GetHashCode(Person obj)
+            {
+                return obj.ID.GetHashCode();
+            }
+        }
+
+        private class PersonNameEquality : IEqualityComparer<Person>
+        {
+            public bool Equals(Person x, Person y)
+            {
+                return x.Name.Equals(y.Name);
+            }
+
+            public int GetHashCode(Person obj)
+            {
+                return obj.Name.GetHashCode();
+            }
+        }
+
+        private class PersonAgeEquality : IEqualityComparer<Person>
+        {
+            public bool Equals(Person x, Person y)
+            {
+                return x.Age.Equals(y.Age);
+            }
+
+            public int GetHashCode(Person obj)
+            {
+                return obj.Age.GetHashCode();
+            }
+        }
+
     }
 
     class TypeParameterForGenericInterfaces
@@ -793,7 +880,7 @@ namespace CSharpCollections
             Console.WriteLine();
         }
 
-    } 
+    }
     #endregion
 
     #region The System.Collections.Generic Namespace
@@ -910,7 +997,7 @@ namespace CSharpCollections
     // 4- System.ServiceModel.dll
     // ---------------------------------------------------------
     #endregion
-    
+
     #region Understanding Collection Initialization Syntax
 
     // Understanding Collection Initialization Syntax
@@ -966,7 +1053,7 @@ namespace CSharpCollections
         {
             Console.WriteLine();
             Console.WriteLine("Working With Generic List");
-            Console.WriteLine("".PadLeft(40,'='));
+            Console.WriteLine("".PadLeft(40, '='));
 
             // Create List Object
             List<int> alist0 = new List<int>();
@@ -974,9 +1061,9 @@ namespace CSharpCollections
             List<int> alist1 = new List<int>(10);
 
             // use object initialization sytax
-            List<int> alist2 = new List<int>() { 10,20,30,40,50,60 };
-            List<int> alist3 = new List<int>(6) { 10,20,30,40,50,60 };
-            List<int> alist4 = new List<int> { 10,20,30,40,50,60 };
+            List<int> alist2 = new List<int>() { 10, 20, 30, 40, 50, 60 };
+            List<int> alist3 = new List<int>(6) { 10, 20, 30, 40, 50, 60 };
+            List<int> alist4 = new List<int> { 10, 20, 30, 40, 50, 60 };
 
             // Count Property
             Console.WriteLine($"alist4.Count = {alist4.Count}");
@@ -1005,10 +1092,10 @@ namespace CSharpCollections
             PrintList(alist4, "AddRange() Method List Before AddRange:");
 
             // add array
-            alist4.AddRange(new[] { 100,200,300});
+            alist4.AddRange(new[] { 100, 200, 300 });
 
             // add another list
-            alist4.AddRange(new List<int> { 400,500,600,700});
+            alist4.AddRange(new List<int> { 400, 500, 600, 700 });
 
             // print list
             PrintList(alist4, "AddRange() Method List After AddRange:");
@@ -1039,8 +1126,8 @@ namespace CSharpCollections
 
             alist4.Remove(84);
             alist4.RemoveAt(0);
-            alist4.RemoveRange(0,3);
-            alist4.RemoveAll(x=> x % 10 != 0);
+            alist4.RemoveRange(0, 3);
+            alist4.RemoveAll(x => x % 10 != 0);
 
             PrintList(alist4, "List After Remove Many Items:");
 
@@ -1080,13 +1167,13 @@ namespace CSharpCollections
             array2[0] = 1;
             array2[1] = 2;
             PrintList(array2, "Array Before Copy from List:");
-            alist4.CopyTo(array2,2);
+            alist4.CopyTo(array2, 2);
             PrintList(array2, "Array After Copy from List:");
 
 
             Array.Clear(array2, 0, array2.Length);
 
-            alist4.CopyTo(2,array2, 1,5);
+            alist4.CopyTo(2, array2, 1, 5);
             PrintList(array2, "Array After Clear it and Copy from List From specific Index with Count:");
 
             // public List<T> GetRange(int index, int count);
@@ -1109,8 +1196,6 @@ namespace CSharpCollections
             alist4.AddRange(new[] { 100, 50, 70, 100, 60, 90, 30, 40, 20, 10, 80, 90, 40 });
             PrintList(alist4, "My New List:");
 
-            
-
             // public int IndexOf(T item, int index, int count);
             // public int IndexOf(T item, int index);
             // public int IndexOf(T item);
@@ -1123,14 +1208,14 @@ namespace CSharpCollections
 
             // public int IndexOf(T item, int index);
             // Start Search from Specific index to The End
-            Console.WriteLine($"alist4.IndexOf(20,2) : {alist4.IndexOf(20,2)}");
-            Console.WriteLine($"alist4.IndexOf(20,3) : {alist4.IndexOf(20,3)}");
+            Console.WriteLine($"alist4.IndexOf(20,2) : {alist4.IndexOf(20, 2)}");
+            Console.WriteLine($"alist4.IndexOf(20,3) : {alist4.IndexOf(20, 3)}");
 
 
             // public int IndexOf(T item, int index, int count);
             // Search In Range from Index to index + count
-            Console.WriteLine($"alist4.IndexOf(20,2,3) : {alist4.IndexOf(20, 2,3)}");
-            Console.WriteLine($"alist4.IndexOf(20,5,3) : {alist4.IndexOf(20, 5,3)}");
+            Console.WriteLine($"alist4.IndexOf(20,2,3) : {alist4.IndexOf(20, 2, 3)}");
+            Console.WriteLine($"alist4.IndexOf(20,5,3) : {alist4.IndexOf(20, 5, 3)}");
 
             // public int LastIndexOf(T item);
             // public int LastIndexOf(T item, int index);
@@ -1152,13 +1237,13 @@ namespace CSharpCollections
             // public bool Exists(Predicate<T> match);
 
             // Check if number 50 Exists
-            Console.WriteLine($"alist4.Exists(x=> x == 50) : {alist4.Exists(x=> x == 50)}");
+            Console.WriteLine($"alist4.Exists(x=> x == 50) : {alist4.Exists(x => x == 50)}");
 
             // Check if number 60 Exists
-            Console.WriteLine($"alist4.Exists(x=> x == 60) : {alist4.Exists(x=> x == 60)}");
+            Console.WriteLine($"alist4.Exists(x=> x == 60) : {alist4.Exists(x => x == 60)}");
 
             // Check if number 101 Exists
-            Console.WriteLine($"alist4.Exists(x=> x == 101) : {alist4.Exists(x=> x == 101)}");
+            Console.WriteLine($"alist4.Exists(x=> x == 101) : {alist4.Exists(x => x == 101)}");
 
             // Check if any Odd Number Exists in the list
             Console.WriteLine($"alist4.Exists(x=> x % 2 != 0) : {alist4.Exists(x => x % 2 != 0)}");
@@ -1226,10 +1311,42 @@ namespace CSharpCollections
             // public int FindLastIndex(int startIndex, Predicate<T> match);
             // public int FindLastIndex(int startIndex, int count, Predicate<T> match);
 
+            // public bool TrueForAll(Predicate<T> match);
+
+            // Check if All List Items is >= 0 or <= 100
+            Console.WriteLine($"alist4.TrueForAll(x => x >= 0 && x <= 100) : {alist4.TrueForAll(x => x >= 0 && x <= 100)}");
+
+            // Check if All List Items is Even
+            Console.WriteLine($"alist4.TrueForAll(x => x % 2 == 0) : {alist4.TrueForAll(x => x % 2 == 0)}");
+
+            // Check if All List Items is Dividable on 10 
+            Console.WriteLine($"alist4.TrueForAll(x => x % 2 == 0) : {alist4.TrueForAll(x => x % 2 == 0)}");
+
+            // Check if All List Items is From Specific Numbers
+
+            int[] array3 = new int[] { 10, 20, 30 };
+            List<int> intList = new List<int> { 10, 20, 30, 20, 30, 10, 10, 20, 30, 10, 20 };
+
+            bool Check(int x)
+            {
+                foreach (var item in array3)
+                {
+                    if (item == x)
+                        return true;
+                }
+                return false;
+            }
+
+
+            Console.WriteLine($"intList.TrueForAll(Check) : {intList.TrueForAll(Check)}");
+
+
+
 
 
             Console.WriteLine("========================= Sorting =========================");
-            Console.WriteLine("".PadLeft(60,'='));
+            Console.WriteLine("".PadLeft(60, '='));
+
             #region Sort List Elements Using Default Comparer
             // -------------------------- Sort List Elements Using Default Comparer --------------------------
             List<Person> alist5 = new List<Person>
@@ -1363,6 +1480,43 @@ namespace CSharpCollections
             Console.WriteLine();
             #endregion
 
+            #region Binary Search On a List
+            // -------------------------- Binary Search On a List --------------------------
+            // public int BinarySearch(T item);
+            // public int BinarySearch(T item, IComparer<T> comparer);
+            // public int BinarySearch(int index, int count, T item, IComparer<T> comparer);
+
+            // Returns:
+            //     The zero-based index of item in the sorted System.Collections.Generic.List`1,
+            //     if item is found; otherwise, a negative number that is the bitwise complement
+            //     of the index of the next element that is larger than item or, if there is no
+            //     larger element, the bitwise complement of System.Collections.Generic.List`1.Count.
+
+            List<Person> alist13 = new List<Person>
+            {
+                new Person(104,"Moamen"),
+                new Person(103,"mohammed"),
+                new Person(107,"Kamal"),
+                new Person(108,"Kareem"),
+                new Person(101,"Mostafa"),
+                new Person(102,"Ali"),
+                new Person(106,"Waleed"),
+                new Person(105,"Helmy")
+            };
+
+
+            // Default Sort
+            alist13.Sort();
+            PrintList(alist13, "Sorted List:");
+
+            Console.WriteLine($@"alist13.BinarySearch(new Person(103,"""")) : {alist13.BinarySearch(new Person(103, ""))}");
+
+            // Search by using different Sort type Comparer
+            Console.WriteLine($@"alist13.BinarySearch(new Person(-1,""Moamen""), Person.NameAscendingSort) : {alist13.BinarySearch(new Person(-1, "Moamen"), Person.NameAscendingSort)}");
+
+
+            #endregion
+
             #region Find Person With Specific ID or Name or Char of Name
             // -------------------------- Sort List Descending by Name Igone Case --------------------------
             List<Person> alist11 = new List<Person>
@@ -1382,17 +1536,17 @@ namespace CSharpCollections
             // Find Person Whose ID 101
             Console.WriteLine($"alist4.Find(pr=> pr.ID == 101) : {alist11.Find(pr => pr.ID == 101)}");
             // Find Person Whose ID 120: it returns null default of Person Object
-            Console.WriteLine($"alist4.Find(pr=> pr.ID == 101) : {alist11.Find(pr => pr.ID == 120) ?? new Person(-1,"None")}");
+            Console.WriteLine($"alist4.Find(pr=> pr.ID == 101) : {alist11.Find(pr => pr.ID == 120) ?? new Person(-1, "None")}");
 
             // Find Person Whose Name is Mohammed
             Console.WriteLine($@"alist4.Find(pr=> pr.Name == ""Mohammed"") : {alist11.Find(pr => pr.Name == "Mohammed") ?? new Person(-1, "None")}");
-            
+
             // Find Person Whose Name is Mohammed but Ignore Case
-            Console.WriteLine($@"alist4.Find(pr=> pr.Name == ""Mohammed"") : {alist11.Find(pr => pr.Name.Equals("Mohammed",StringComparison.OrdinalIgnoreCase))}");
+            Console.WriteLine($@"alist4.Find(pr=> pr.Name == ""Mohammed"") : {alist11.Find(pr => pr.Name.Equals("Mohammed", StringComparison.OrdinalIgnoreCase))}");
 
 
             // Find Last Person Whose Name Starts With 'M'
-            Console.WriteLine($@"alist4.FindLast(pr=> pr.Name[0]=='M') : {alist11.FindLast(pr => pr.Name[0]=='M')}");
+            Console.WriteLine($@"alist4.FindLast(pr=> pr.Name[0]=='M') : {alist11.FindLast(pr => pr.Name[0] == 'M')}");
 
 
             // Find All Person Whose Name Starts With Char M or m
@@ -1420,29 +1574,13 @@ namespace CSharpCollections
             PrintList(alist12, "My Person List To Find Specific Index:");
 
 
-            
+
 
 
             #endregion
         }
 
-        public static void PrintList<T>(IEnumerable<T> list , string title = "Print List:")
-        {
-            Console.WriteLine(title);
-            Console.WriteLine("".PadLeft(title.Length < 50 ? 50 : title.Length,'='));
-
-            int counter = 0;
-            foreach (var item in list)
-            {
-                Console.WriteLine($"Item[{counter++}] = {item}");
-            }
-            Console.WriteLine();
-        }
-
-
-
     }
-
 
     #endregion
 
@@ -1455,6 +1593,8 @@ namespace CSharpCollections
             Console.WriteLine();
             Console.WriteLine("Working With Generic LinkedList");
             Console.WriteLine("".PadLeft(40, '='));
+
+            LinkedList<int> list;
         }
 
     }
@@ -1463,14 +1603,45 @@ namespace CSharpCollections
     #endregion
 
     #region Working with the Stack<T> Class
-
+    // The Stack<T> class represents a collection that maintains items using a last-in, first-out manner.
+    // As you might expect, Stack<T> defines members named Push() and Pop() to place items onto 
+    // or remove items from the stack.
     class WorkingWithGenericStack
     {
         public static void Test()
         {
             Console.WriteLine();
             Console.WriteLine("Working With Generic Stack");
-            Console.WriteLine("".PadLeft(40,'='));
+            Console.WriteLine("".PadLeft(40, '='));
+
+            Stack<Person> stackOfPersons = new Stack<Person>();
+
+            // Push Items To Stack
+            stackOfPersons.Push(new Person(104, "Moamen"));
+            stackOfPersons.Push(new Person(103, "Mohammed"));
+            stackOfPersons.Push(new Person(107, "Kamal"));
+
+
+            Console.WriteLine("First person is: {0}", stackOfPersons.Peek());
+            Console.WriteLine("Popped off {0}", stackOfPersons.Pop());
+            Console.WriteLine("\nFirst person is: {0}", stackOfPersons.Peek());
+            Console.WriteLine("Popped off {0}", stackOfPersons.Pop());
+            Console.WriteLine("\nFirst person item is: {0}", stackOfPersons.Peek());
+            Console.WriteLine("Popped off {0}", stackOfPersons.Pop());
+
+            try
+            {
+                Console.WriteLine("\nFirst person item is: {0}", stackOfPersons.Peek());
+                Console.WriteLine("Popped off {0}", stackOfPersons.Pop());
+            }
+            catch (InvalidOperationException ex)
+            {
+                //Console.WriteLine("Pop From Empty Stack!!");
+                Console.WriteLine("Error! {0}", ex.Message);
+            }
+
+
+
         }
 
     }
@@ -1479,29 +1650,412 @@ namespace CSharpCollections
     #endregion
 
     #region Working with the Queue<T> Class
+    // Working with the Queue<T> Class
+    // Queues are containers that ensure items are accessed in a first-in, first-out manner.Sadly, we humans
+    // are subject to queues all day long: lines at the bank, lines at the movie theater, and lines at the morning
+    // coffeehouse. When you need to model a scenario in which items are handled on a first-come, first- served
+    // basis, you will find the Queue<T> class fits the bill.In addition to the functionality provided by the supported
+    // interfaces, Queue defines the key members shown in Table 9-6.
 
+    // Table 9-6. Members of the Queue<T> Type
+    // Select Member of Queue<T>            Meaning in Life
+    // ===========================================================================
+    // Dequeue()    Removes and returns the object at the beginning of the Queue<T>
+    // ---------------------------------------------------------------------------
+    // Enqueue()    Adds an object to the end of the Queue<T>
+    // ---------------------------------------------------------------------------
+    // Peek()       Returns the object at the beginning of the Queue<T> without removing it
+    // ---------------------------------------------------------------------------
     class WorkingWithGenericQueue
     {
         public static void Test()
         {
             Console.WriteLine();
             Console.WriteLine("Working With Generic Queue");
-            Console.WriteLine("".PadLeft(40,'='));
+            Console.WriteLine("".PadLeft(40, '='));
+
+            // Make a Q with three people.
+            Queue<Person> peopleQ = new Queue<Person>();
+            peopleQ.Enqueue(new Person(104, "Moamen"));
+            peopleQ.Enqueue(new Person(103, "Mohammed"));
+            peopleQ.Enqueue(new Person(107, "Kamal"));
+            // Peek at first person in Q.
+            Console.WriteLine("{0} is first in line!", peopleQ.Peek().Name);
+            // Remove each person from Q.
+            GetCoffee(peopleQ.Dequeue());
+            GetCoffee(peopleQ.Dequeue());
+            GetCoffee(peopleQ.Dequeue());
+            // Try to de-Q again?
+            try
+            {
+                GetCoffee(peopleQ.Dequeue());
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Error! {0}", e.Message);
+            }
+        }
+
+        static void GetCoffee(Person p)
+        {
+            Console.WriteLine("{0} got coffee!", p.Name);
         }
 
     }
     #endregion
 
-    #region Working with the SortedSet<T> Class
+    #region Working with the HashSet<T> Class
+    // The SortedSet<T> class is useful because it automatically ensures that the items in the set are sorted when
+    // you insert or remove items.However, you do need to inform the SortedSet<T> class exactly how you
+    // want it to sort the objects, by passing in as a constructor argument an object that implements the generic
+    // IComparer<T> interface.
+    class WorkingWithGenericHashSet
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic HashSet");
+            Console.WriteLine("".PadLeft(40, '='));
 
+            // HashSet Constructors
+            HashSet<int> intset1 = new HashSet<int>();
+
+            // public HashSet(IEnumerable<T> collection);
+            // From Array
+            HashSet<int> intset2 = new HashSet<int>(new[] { 10, 20, 30, 40, 50 });
+
+            // public HashSet(IEnumerable<T> collection);
+            // From List<>
+            HashSet<int> intset3 = new HashSet<int>(new List<int> { 10, 20, 30, 40, 50 });
+
+            // public HashSet(IEnumerable<T> collection);
+            // From Another HashSet
+            HashSet<int> intset4 = new HashSet<int>(intset2);
+
+            // Make HashSet Depends on Hashing and Equality of Person Class, 
+            // that doesn't allows To Repeate Persons with the same GetHashCode()
+            HashSet<Person> people1 = new HashSet<Person>();
+            // Add new Entries
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people1.Add(new Person(100, "Moamen", 25))); // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people1.Add(new Person(100, "Moamen", 25)));  // false
+            Console.WriteLine(@"Add Person(200, ""Moamen"", 25):{0}", people1.Add(new Person(200, "Moamen", 25)));  // true
+            Console.WriteLine(@"Add Person(100, ""Kamal"", 25):{0}", people1.Add(new  Person(100, "Kamal", 25)));   // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 30):{0}", people1.Add(new Person(100, "Moamen", 30)));  // true
+            Console.WriteLine(@"Add Person(300, ""Mohammed"", 59):{0}", people1.Add(new Person(300, "Mohammed", 59)));  // true
+            PrintSet(people1, "Default Constructor with Default Equality");
+
+
+            // public HashSet(IEqualityComparer<T> comparer);
+            // --------------------------------------------------------------------
+            // Make HashSet Depends on Hashing and Equality of Age, 
+            // that doesn't allows To Repeate Persons with the same Age
+            HashSet<Person> people2 = new HashSet<Person>(Person.AgeEquality);
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people2.Add(new Person(100, "Moamen", 25))); // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people2.Add(new Person(100, "Moamen", 25)));  // false
+            Console.WriteLine(@"Add Person(200, ""Moamen"", 25):{0}", people2.Add(new Person(200, "Moamen", 25)));  // true
+            Console.WriteLine(@"Add Person(100, ""Kamal"", 25):{0}", people2.Add(new Person(100, "Kamal", 25)));   // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 30):{0}", people2.Add(new Person(100, "Moamen", 30)));  // true
+            Console.WriteLine(@"Add Person(300, ""Mohammed"", 59):{0}", people2.Add(new Person(300, "Mohammed", 59)));  // true
+            PrintSet(people2, "IEqualityComparer<T> Constructor with AgeEquality");
+
+
+            // Make HashSet Depends on Hashing and Equality of Name, 
+            // that doesn't allows To Repeate Persons with the same Name
+            HashSet<Person> people3 = new HashSet<Person>(Person.NameEquality);
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people3.Add(new Person(100, "Moamen", 25))); // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people3.Add(new Person(100, "Moamen", 25)));  // false
+            Console.WriteLine(@"Add Person(200, ""Moamen"", 25):{0}", people3.Add(new Person(200, "Moamen", 25)));  // true
+            Console.WriteLine(@"Add Person(100, ""Kamal"", 25):{0}", people3.Add(new Person(100, "Kamal", 25)));   // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 30):{0}", people3.Add(new Person(100, "Moamen", 30)));  // true
+            Console.WriteLine(@"Add Person(300, ""Mohammed"", 59):{0}", people3.Add(new Person(300, "Mohammed", 59)));  // true
+            PrintSet(people3, "IEqualityComparer<T> Constructor with NameEquality");
+
+            // Make HashSet Depends on Hashing and Equality of ID, 
+            // that doesn't allows To Repeate Persons with the same ID
+            HashSet<Person> people4 = new HashSet<Person>(Person.IDEquality);
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people4.Add(new Person(100, "Moamen", 25))); // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 25):{0}", people4.Add(new Person(100, "Moamen", 25)));  // false
+            Console.WriteLine(@"Add Person(200, ""Moamen"", 25):{0}", people4.Add(new Person(200, "Moamen", 25)));  // true
+            Console.WriteLine(@"Add Person(100, ""Kamal"", 25):{0}", people4.Add(new Person(100, "Kamal", 25)));   // true
+            Console.WriteLine(@"Add Person(100, ""Moamen"", 30):{0}", people4.Add(new Person(100, "Moamen", 30)));  // true
+            Console.WriteLine(@"Add Person(300, ""Mohammed"", 59):{0}", people4.Add(new Person(300, "Mohammed", 59)));  // true
+            PrintSet(people4, "IEqualityComparer<T> Constructor with IDEquality");
+
+
+
+            // Create Object of HashSet With Default Constructor
+            HashSet<Person> setOfPeople = new HashSet<Person>()
+            {
+                // use of Object init Syntax as HashSet<t> has Add() Function
+                new Person(104,"Moamen",25),
+                new Person(103,"Mohammed",27),
+                new Person(107,"Kamal",24),
+                new Person(101,"Mostafa",23),
+                new Person(102,"Ali",30),
+                new Person(106,"Waleed",15),
+                new Person(107,"Helmy",31),
+                new Person(120,"Samy",35),
+                new Person(122,"Malek",41)
+            };
+
+            PrintSet(setOfPeople, "Print HashSet Items:");
+
+            // Count Property
+            Console.WriteLine($"setOfPeople.Count = {setOfPeople.Count}");
+            Console.WriteLine();
+
+            // public bool Add(T item);
+            // Add 3 new Entries
+            Console.WriteLine(@"Add Person(108, ""Shady"", 25):{0}", setOfPeople.Add(new Person(108, "Shady", 25)));
+            Console.WriteLine(@"Add Person(109, ""Gamal"", 59):{0}", setOfPeople.Add(new Person(109, "Gamal", 59)));
+            Console.WriteLine(@"Add Person(110, ""Ahmed"", 41):{0}", setOfPeople.Add(new Person(110, "Ahmed", 41)));
+            // Print After Add Three Entries to HashSet
+            PrintSet(setOfPeople, "HashSet After Add 3 Items:");
+
+            // NOTE: that if you add entry that is exist's before in the set, it will not be added
+            // Add the Same Last 3 Entries
+            Console.WriteLine(@"Add Person(108, ""Shady"", 25):{0}", setOfPeople.Add(new Person(108, "Shady", 25)));
+            Console.WriteLine(@"Add Person(109, ""Gamal"", 59):{0}", setOfPeople.Add(new Person(109, "Gamal", 59)));
+            Console.WriteLine(@"Add Person(110, ""Ahmed"", 41):{0}", setOfPeople.Add(new Person(110, "Ahmed", 41)));
+            // Print After Add Three Entries to HashSet
+            PrintSet(setOfPeople, "HashSet After Add The Same 3 Items:");
+
+
+            // public bool Contains(T item);
+            Console.WriteLine(@"Contains Person(109, ""Gamal"", 59) = {0}", setOfPeople.Contains(new Person(109, "Gamal", 59)));
+            Console.WriteLine(@"Contains Person(108, ""Shady"", 25) = {0}", setOfPeople.Contains(new Person(108, "Shady", 25)));
+            // False Cases
+            Console.WriteLine(@"Contains Person(-1, ""Shady"", 25) = {0}", setOfPeople.Contains(new Person(-1, "Shady", 25)));
+            Console.WriteLine(@"Contains Person(108, ""Kemo"", 25) = {0}", setOfPeople.Contains(new Person(108, "Kemo", 25)));
+            Console.WriteLine(@"Contains Person(108, ""Shady"", 10) = {0}", setOfPeople.Contains(new Person(108, "Shady", 10)));
+
+            // public bool Remove(T item);
+            Console.WriteLine(@"Remove Person(108, ""Shady"", 25):{0}", setOfPeople.Remove(new Person(108, "Shady", 25)));
+            Console.WriteLine(@"Remove Person(109, ""Gamal"", 59):{0}", setOfPeople.Remove(new Person(109, "Gamal", 59)));
+            Console.WriteLine(@"Remove Person(110, ""Ahmed"", 41):{0}", setOfPeople.Remove(new Person(110, "Ahmed", 41)));
+            // Print After Remove 3 Entries to HashSet
+            PrintSet(setOfPeople, "HashSet After Remove 3 Items:");
+
+            // public int RemoveWhere(Predicate<T> match);
+            // Remove Persons Where more than 29 and less than 41
+            int removed = setOfPeople.RemoveWhere(x => x.Age >= 30 && x.Age <= 40);
+            Console.WriteLine($"Remove {removed} Items From the HashSet");
+            // Print After Remove 3 Entries to HashSet
+            PrintSet(setOfPeople, "HashSet After Remove Persons Where more than 29 and less than 41:");
+
+            // public void Clear();
+            Console.WriteLine("Clear All Items in the Hashset...");
+            setOfPeople.Clear();
+            PrintSet(setOfPeople, "HashSet After Clear() Method Call:");
+            Console.WriteLine("----------------------------------------------------------------");
+
+            
+
+
+
+            // ==================================================================================
+            HashSet<int> integers = new HashSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "Set Of Integers");
+
+            integers.UnionWith(new[] { 10, 20, 30, 40, 50, 60 });
+            PrintSetLine(integers, "After UnionWith(new[] { 10, 20, 30, 40, 50, 60 })");
+
+
+            integers = new HashSet<int>() { 10, 20, 30, 40, 50, 60 };
+            integers.ExceptWith(new[] { 40, 50, 60, 70});
+            PrintSetLine(integers, "After ExceptWith(new[] { 40, 50, 60 })");
+
+
+
+            // public void SymmetricExceptWith(IEnumerable<T> other);
+            // Summary:
+            //     Modifies the current System.Collections.Generic.HashSet`1 object to contain only
+            //     elements that are present either in that object or in the specified collection,
+            //     but not both.
+            integers = new HashSet<int>() { 10, 20, 30 };
+            integers.SymmetricExceptWith(new[] { 30, 40, 50 });
+            PrintSetLine(integers, "After SymmetricExceptWith(new[] { 30, 40, 50 })");
+
+            //public void IntersectWith(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 ,40 };
+            integers.IntersectWith(new[] { 30, 40, 50, 60 });
+            PrintSetLine(integers, "After IntersectWith(new[] { 30, 40, 50, 60 })");
+
+
+
+            // public bool SetEquals(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 };
+
+            bool result = integers.SetEquals(new[] { 10, 20, 30 });
+            Console.WriteLine($@"SetEquals(new[] {{ 10,20, 30 }}) : {result}"); // true
+
+            result = integers.SetEquals(new[] { 10, 20, 30, 10, 20, 30 });
+            Console.WriteLine($@"SetEquals(new[] {{ 10,20, 30, 10, 20, 30 }}) : {result}"); // true
+
+            result = integers.SetEquals(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"SetEquals(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");    // false
+
+
+            //public bool IsProperSubsetOf(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My HashSet");
+
+            result = integers.IsProperSubsetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");     //true
+
+            result = integers.IsProperSubsetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{ 10, 20, 30 }}) : {result}");     // false
+
+            result = integers.IsProperSubsetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{ 10, 40, 50 }}) : {result}");     // false
+
+            result = integers.IsProperSubsetOf(new[] { 40, 50 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{  40, 50 }}) : {result}");        // false
+
+
+            //public bool IsProperSupersetOf(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My HashSet");
+
+            result = integers.IsProperSupersetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // false
+            
+            result = integers.IsProperSupersetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 20, 30 }}) : {result}"); // false
+
+            result = integers.IsProperSupersetOf(new[] { 10, 20 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 20 }}) : {result}");   // true
+
+            result = integers.IsProperSupersetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 40, 50 }}) : {result}");   // false
+
+
+            //public bool IsSubsetOf(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My HashSet");
+
+            result = integers.IsSubsetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // true
+
+            result = integers.IsSubsetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{ 10, 20, 30 }}) : {result}");   // true
+
+            result = integers.IsSubsetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{ 10, 40, 50 }}) : {result}");   // false
+
+            result = integers.IsSubsetOf(new[] { 40, 50 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{  40, 50 }}) : {result}");  // false
+
+
+            //public bool IsSupersetOf(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My HashSet");
+
+            result = integers.IsSupersetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // false
+
+            result = integers.IsSupersetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 20, 30 }}) : {result}"); // true
+
+            result = integers.IsSupersetOf(new[] { 10, 20 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 20 }}) : {result}");   // true
+
+            result = integers.IsSupersetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 40, 50 }}) : {result}");   // false
+
+            //public bool Overlaps(IEnumerable<T> other);
+            //public bool Overlaps(IEnumerable<T> other);
+            integers = new HashSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My HashSet");
+
+            result = integers.Overlaps(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // true
+
+            result = integers.Overlaps(new[] { 10, 20, 30 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 20, 30 }}) : {result}"); // true
+
+            result = integers.Overlaps(new[] { 10, 20 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 20 }}) : {result}");   // true
+
+            result = integers.Overlaps(new[] { 10, 40, 50 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 40, 50 }}) : {result}");   // tue
+
+            result = integers.Overlaps(new[] { 40, 50 });
+            Console.WriteLine($@"Overlaps(new[] {{ 40, 50 }}) : {result}");   // false
+
+            // public void CopyTo(T[] array, int arrayIndex);
+            // public void CopyTo(T[] array, int arrayIndex, int count);
+            // public void CopyTo(T[] array);
+
+            integers = new HashSet<int>() { 10, 20, 30 };
+            int [] arr1 = new int[integers.Count];
+            PrintSetLine(integers, "My HashSet");
+            integers.CopyTo(arr1);
+            PrintListLine(arr1, "My Copied Array");
+
+        }
+
+
+
+    }
+
+    #endregion
+
+    #region Working with the SortedSet<T> Class
+    // The SortedSet<T> class is useful because it automatically ensures that the items in the set are sorted when
+    // you insert or remove items.However, you do need to inform the SortedSet<T> class exactly how you
+    // want it to sort the objects, by passing in as a constructor argument an object that implements the generic
+    // IComparer<T> interface.
     class WorkingWithGenericSortedSet
     {
         public static void Test()
         {
             Console.WriteLine();
             Console.WriteLine("Working With Generic SortedSet");
-            Console.WriteLine("".PadLeft(40,'='));
+            Console.WriteLine("".PadLeft(40, '='));
+
+            
+            // Create Object of Sorted Set With Constructor With IComparer<> 
+            SortedSet<Person> setOfPeople = new SortedSet<Person>(Person.AgeAscendingSort)
+            {
+                // use of Object init Syntax as SortedSet<t> has Add() Function
+                new Person(104,"Moamen",25),
+                new Person(103,"Mohammed",27),
+                new Person(107,"Kamal",24),
+                new Person(101,"Mostafa",23),
+                new Person(102,"Ali",30),
+                new Person(106,"Waleed",15),
+                new Person(105,"Helmy",31)
+            };
+
+            // Note the items are sorted by age!
+            PrintSet(setOfPeople, "Print Set Items:");
+            Console.WriteLine($"setOfPeople.Count---: {setOfPeople.Count}");
+            Console.WriteLine($"setOfPeople.Min-----: {setOfPeople.Min}");
+            Console.WriteLine($"setOfPeople.Max-----: {setOfPeople.Max}");
+            Console.WriteLine($"setOfPeople.Comparer: {setOfPeople.Comparer}");
+
+
+            // Add a few new people, with various ages.
+            setOfPeople.Add(new Person(110, "Gamal", 12));
+            setOfPeople.Add(new Person(112, "Ahmed", 40));
+
+
+            // Note Still sorted by age!
+            PrintSet(setOfPeople, "Sorted Set After Add Two Items:");
+            Console.WriteLine($"setOfPeople.Count---: {setOfPeople.Count}");
+            Console.WriteLine($"setOfPeople.Min-----: {setOfPeople.Min}");
+            Console.WriteLine($"setOfPeople.Max-----: {setOfPeople.Max}");
+            Console.WriteLine($"setOfPeople.Comparer: {setOfPeople.Comparer}");
+
         }
+
 
     }
 
@@ -1515,10 +2069,134 @@ namespace CSharpCollections
         {
             Console.WriteLine();
             Console.WriteLine("Working With Generic Dictionary");
-            Console.WriteLine("".PadLeft(40,'='));
+            Console.WriteLine("".PadLeft(40, '='));
+
+
+            Dictionary<string, Array> numberGroups = new Dictionary<string, Array>();
+            // Add() Method
+            numberGroups.Add("integers", new int[] { 10, 20, 30, 40 });
+            numberGroups.Add("doubles", new double[] { 10.45, 20.45, 30.45, 40.45 });
+            numberGroups.Add("characters", new char[] { 'A', 'B', 'C', 'D' });
+
+            PrintDictionary(numberGroups);
+
+
+            // Create Object of Dictionary With Object Init Syntax
+            Dictionary<string, Array> numberGroups2 = new Dictionary<string, Array>()
+            {
+                { "integers", new int[] { 10, 20, 30, 40 } },
+                { "doubles", new double[] { 10.45, 20.45, 30.45, 40.45 }  },
+                { "characters", new char[] { 'A', 'B', 'C', 'D' }}
+            };
+
+            PrintDictionary(numberGroups2);
+
+
+            // Create Object of Dictionary With Dictionary Initialization Syntax
+            Dictionary<string, Person> dictionaryInitSyntax = new Dictionary<string, Person>()
+            {
+                ["Kamal"] = new Person() { ID = 100, Name = "Kamal", Age = 20 },
+                ["Ahmed"] = new Person() { ID = 200, Name = "Ahmed", Age = 24 },
+                ["Shady"] = new Person() { ID = 300, Name = "Shady", Age = 29 }
+
+            };
+
+            PrintDictionary(dictionaryInitSyntax);
+
+
+            // Create Object of Dictionary With Object Init Syntax
+            Dictionary<string, Person> dictionaryOfPeople = new Dictionary<string, Person>()
+            {
+                // use of Object init Syntax as Dictionary<TKey, TValue> has Add() Function
+                { "Moamen" , new Person(104, "Moamen", 25)},
+                { "Mohammed" , new Person(103,"Mohammed",27)},
+                { "Kamal" , new Person(107,"Kamal",24)},
+                { "Mostafa" , new Person(101,"Mostafa",23)},
+                { "Ali" , new Person(102,"Ali",30)},
+                { "Waleed" , new Person(106,"Waleed",15)},
+
+
+            };
+
+            // Use KeyValuePair<TKey, TValue> to get Dictionary items item by item.
+            Console.WriteLine("Print Dictionary: ");
+            Console.WriteLine("".PadLeft(50, '='));
+
+            foreach (KeyValuePair<string, Person> item in dictionaryOfPeople)
+            {
+                Console.WriteLine($"Item[{item.Key}] = {item.Value}");
+            }
+            Console.WriteLine();
+
+            // Call Item From Dictionary With Key using [] Operator
+            Person p1 = dictionaryOfPeople["Kamal"];
+            Console.WriteLine($@"dictionaryOfPeople[""Kamal""] : {p1}");
+            Console.WriteLine(@$"dictionaryOfPeople[""Moamen""] : {dictionaryOfPeople["Moamen"]}");
+            try
+            {
+                // Try To Use a Key Not Found in Dictionary will Throw Exception
+                Console.WriteLine(@$"dictionaryOfPeople[""Hammad""] : {dictionaryOfPeople["Hammad"]}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error, {0}", ex.Message);
+            }
+
+            // To avoid exceptions in getting a value with key may be not found, you can use:
+            // public bool TryGetValue(TKey key, out TValue value);
+            Console.WriteLine($@"dictionaryOfPeople.TryGetValue(""Moamen"", out Person p) : {dictionaryOfPeople.TryGetValue("Moamen", out Person p2)}, {p2}");
+            Console.WriteLine($@"dictionaryOfPeople.TryGetValue(""Hammad"", out Person p) : {dictionaryOfPeople.TryGetValue("Hammad", out Person p3)}, {p3}");
+
+            // public void Add(TKey key, TValue value);
+            dictionaryOfPeople.Add("Helmy", new Person(105, "Helmy", 31));
+            dictionaryOfPeople.Add("Sameer", new Person(109, "Sameer", 27));
+            PrintDictionary(dictionaryOfPeople, "People After Add Two Entries");
+
+            // public bool Remove(TKey key);
+            dictionaryOfPeople.Remove("Helmy");
+            dictionaryOfPeople.Remove("Sameer");
+            PrintDictionary(dictionaryOfPeople, "People After Remove Two new Entries");
+
+            // Count Property
+            Console.WriteLine($@"dictionaryOfPeople has : {dictionaryOfPeople.Count} Person");
+
+            // public bool ContainsKey(TKey key);
+            Console.WriteLine($@"dictionaryOfPeople.ContainsKey(""Moamen"") : {dictionaryOfPeople.ContainsKey("Moamen")}");
+            Console.WriteLine($@"dictionaryOfPeople.ContainsKey(""Mostafa"") : {dictionaryOfPeople.ContainsKey("Mostafa")}");
+            Console.WriteLine($@"dictionaryOfPeople.ContainsKey(""Kemo"") : {dictionaryOfPeople.ContainsKey("Kemo")}");
+
+
+            // public bool ContainsValue(TValue value);
+            Console.WriteLine($@"dictionaryOfPeople.ContainsValue(new Person(104,""""): {dictionaryOfPeople.ContainsValue(new Person(104, ""))}");
+            Console.WriteLine($@"dictionaryOfPeople.ContainsValue(new Person(-1,""Moamen""): {dictionaryOfPeople.ContainsValue(new Person(-1, "Moamen"))}");
+            Console.WriteLine($@"dictionaryOfPeople.ContainsValue(new Person(104,""Moamen"",25): {dictionaryOfPeople.ContainsValue(new Person(104, "Moamen", 25))}");
+
+            // Get All Keys
+            // public ValueCollection Values { get; }
+            Dictionary<string, Person>.ValueCollection values = dictionaryOfPeople.Values;
+            PrintList(values, "Print Values Of Dictionary");
+
+            // Get All Values
+            // public KeyCollection Keys { get; }
+            Dictionary<string, Person>.KeyCollection keys = dictionaryOfPeople.Keys;
+            PrintList(keys, "Print Keys Of Dictionary");
+
+            // Clear all Entries of the dictionary
+            // public void Clear();
+            dictionaryOfPeople.Clear();
+
+
+
+
+
+
+
+
+
         }
 
     }
+
 
     #endregion
 
@@ -1526,11 +2204,30 @@ namespace CSharpCollections
 
     class WorkingWithGenericSortedDictionary
     {
+        // Summary:
+        //     Represents a collection of key/value pairs that are sorted on the key.
+
         public static void Test()
         {
             Console.WriteLine();
             Console.WriteLine("Working With Generic Sorted Dictionary");
             Console.WriteLine("".PadLeft(40, '='));
+
+            // Create Object of SortedDictionary With Object Init Syntax
+            // Using Default TKey Comparer
+            SortedDictionary<string, Person> sortedDictionary2 = new SortedDictionary<string, Person>()
+            {
+                // use of Object init Syntax as Dictionary<TKey, TValue> has Add() Function
+                { "Moamen" , new Person(104, "Moamen", 25)},
+                { "Mohammed" , new Person(103,"Mohammed",27)},
+                { "Kamal" , new Person(107,"Kamal",24)},
+                { "Mostafa" , new Person(101,"Mostafa",23)},
+                { "Ali" , new Person(102,"Ali",30)},
+                { "Waleed" , new Person(106,"Waleed",15)},
+            };
+
+            PrintDictionary(sortedDictionary2, "Print SortedDictionary Items:");
+
         }
 
     }
@@ -1543,7 +2240,7 @@ namespace CSharpCollections
 
         public static void TestCollections()
         {
-            
+
             //WorkingWithArrayList.Test();
             //BoxingAndUnboxing.Test();
             //TestTypeSafety.Test();
@@ -1552,13 +2249,14 @@ namespace CSharpCollections
             //TypeParameterForGenericInterfaces.Test();
             //CollectionInitializationSyntax.Test();
 
-            WorkingWithGenericList.Test();
+            //WorkingWithGenericList.Test();
             WorkingWithGenericLinkedList.Test();
-            WorkingWithGenericStack.Test();
-            WorkingWithGenericQueue.Test();
+            //WorkingWithGenericStack.Test();
+            //WorkingWithGenericQueue.Test();
+            //WorkingWithGenericHashSet.Test();
             WorkingWithGenericSortedSet.Test();
-            WorkingWithGenericDictionary.Test();
-            WorkingWithGenericSortedDictionary.Test();
+            //WorkingWithGenericDictionary.Test();
+            //WorkingWithGenericSortedDictionary.Test();
 
 
 
