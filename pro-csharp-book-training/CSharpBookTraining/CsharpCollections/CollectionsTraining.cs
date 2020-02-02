@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 using static System.Environment;
@@ -204,30 +206,6 @@ namespace ProCSharpBook.CSharpCollections
 
 
 
-    class WorkingWithArrayList
-    {
-
-        public static void Test()
-        {
-            ArrayList arList = new ArrayList();
-
-            arList.AddRange(new[] { "Moamen", "Mohammed", "Gamal" });
-
-            arList.Add("Soroor");
-
-            Console.Write("List Items {");
-            foreach (var item in arList)
-            {
-                Console.Write($" {item} ");
-            }
-            Console.WriteLine("}\n");
-
-
-        }
-
-    }
-
-
 
     // A Survey of System.Collections.Specialized Namespace
     // =====================================================
@@ -278,6 +256,223 @@ namespace ProCSharpBook.CSharpCollections
     // provides collection classes well-suited to a multithreaded environment. 
     #endregion
 
+    #region Working with the ArrayList Class
+
+    class WorkingWithArrayList
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With ArrayList ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            ArrayList arList = new ArrayList();
+
+            arList.AddRange(new[] { "Moamen", "Mohammed", "Gamal" });
+
+            arList.Add("Soroor");
+
+            Console.Write("List Items {");
+            foreach (var item in arList)
+            {
+                Console.Write($" {item} ");
+            }
+            Console.WriteLine("}\n");
+
+
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the Stack Class
+
+    class WorkingWithStack
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Stack ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            Stack arList = new Stack();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the Queue Class
+
+    class WorkingWithQueue
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Queue ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            Queue arList = new Queue();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the SortedList Class
+
+    class WorkingWithSortedList
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With SortedList ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            SortedList arList = new SortedList();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the Hashtable Class
+
+    class WorkingWithHashtable
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Hashtable ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            Hashtable arList = new Hashtable();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    #region Working with the BitArray Class
+
+    class WorkingWithBitArray
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With BitArray ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            BitArray arList = new BitArray(64);
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    // ================================================
+    // The System.Collections.Specialized Namespace
+    // ================================================
+    // Requires System.Collections.Specialized;
+    #region Working with the HybridDictionary Class
+    class WorkingWithHybridDictionary
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With HybridDictionary ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            HybridDictionary arList = new HybridDictionary();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    // Requires System.Collections.Specialized;
+    #region Working with the ListDictionary Class
+    // Requires System.Collections.Specialized
+    class WorkingWithListDictionary
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With ListDictionary ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            ListDictionary arList = new ListDictionary();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    // Requires System.Collections.Specialized;
+    #region Working with the StringCollection Class
+    // Requires System.Collections.Specialized
+    class WorkingWithStringCollection
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With StringCollection ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            StringCollection arList = new StringCollection();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    // Requires System.Collections.Specialized;
+    #region Working with the BitVector32 Class
+    // Requires System.Collections.Specialized
+    class WorkingWithBitVector32
+    {
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With BitVector32 ");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            BitVector32 arList = new BitVector32();
+
+
+
+        }
+
+    }
+
+    #endregion
+
+    
     #region Boxing and Unboxing
     // Boxing and Unboxing
     // =========================================================================================================
@@ -1849,10 +2044,6 @@ namespace ProCSharpBook.CSharpCollections
             PrintSet(setOfPeople, "HashSet After Clear() Method Call:");
             Console.WriteLine("----------------------------------------------------------------");
 
-            
-
-
-
             // ==================================================================================
             HashSet<int> integers = new HashSet<int>() { 10, 20, 30 };
 
@@ -1862,9 +2053,9 @@ namespace ProCSharpBook.CSharpCollections
             PrintSetLine(integers, "After UnionWith(new[] { 10, 20, 30, 40, 50, 60 })");
 
 
-            integers = new HashSet<int>() { 10, 20, 30, 40, 50, 60 };
-            integers.ExceptWith(new[] { 40, 50, 60, 70});
-            PrintSetLine(integers, "After ExceptWith(new[] { 40, 50, 60 })");
+            integers = new HashSet<int>() { 10, 20, 30 };
+            integers.ExceptWith(new[] { 20, 30, 40, 50, 60, 70});
+            PrintSetLine(integers, "After ExceptWith(new[] { 20, 30, 40, 50, 60 })");
 
 
 
@@ -1878,9 +2069,9 @@ namespace ProCSharpBook.CSharpCollections
             PrintSetLine(integers, "After SymmetricExceptWith(new[] { 30, 40, 50 })");
 
             //public void IntersectWith(IEnumerable<T> other);
-            integers = new HashSet<int>() { 10, 20, 30 ,40 };
-            integers.IntersectWith(new[] { 30, 40, 50, 60 });
-            PrintSetLine(integers, "After IntersectWith(new[] { 30, 40, 50, 60 })");
+            integers = new HashSet<int>() { 10, 20, 30 };
+            integers.IntersectWith(new[] { 20, 30, 40, 50, 60 });
+            PrintSetLine(integers, "After IntersectWith(new[] { 20, 30, 40, 50, 60 })");
 
 
 
@@ -2031,11 +2222,11 @@ namespace ProCSharpBook.CSharpCollections
                 new Person(101,"Mostafa",23),
                 new Person(102,"Ali",30),
                 new Person(106,"Waleed",15),
-                new Person(105,"Helmy",31)
+                new Person(105,"Helmy",15) // will not be added as age exists before
             };
 
             // Note the items are sorted by age!
-            PrintSet(setOfPeople, "Print Set Items:");
+            PrintSet(setOfPeople, "Print SortedSet Items depends on Age:");
             Console.WriteLine($"setOfPeople.Count---: {setOfPeople.Count}");
             Console.WriteLine($"setOfPeople.Min-----: {setOfPeople.Min}");
             Console.WriteLine($"setOfPeople.Max-----: {setOfPeople.Max}");
@@ -2045,14 +2236,202 @@ namespace ProCSharpBook.CSharpCollections
             // Add a few new people, with various ages.
             setOfPeople.Add(new Person(110, "Gamal", 12));
             setOfPeople.Add(new Person(112, "Ahmed", 40));
+            // will not be added as age is exists before
+            setOfPeople.Add(new Person(113, "Kemo", 40));
 
 
             // Note Still sorted by age!
-            PrintSet(setOfPeople, "Sorted Set After Add Two Items:");
-            Console.WriteLine($"setOfPeople.Count---: {setOfPeople.Count}");
-            Console.WriteLine($"setOfPeople.Min-----: {setOfPeople.Min}");
-            Console.WriteLine($"setOfPeople.Max-----: {setOfPeople.Max}");
-            Console.WriteLine($"setOfPeople.Comparer: {setOfPeople.Comparer}");
+            PrintSet(setOfPeople, "Sorted Set After Add 3 Items:");
+            PrintSetInfo(setOfPeople);
+
+            // -----------------------------------------------------------------------------------------
+            // Create Object of Sorted Set With Constructor With IComparer<> 
+            SortedSet<Person> sortedPeopleWithID = new SortedSet<Person>(Person.IDAscendingSort)
+            {
+                // use of Object init Syntax as SortedSet<t> has Add() Function
+                new Person(104,"Moamen",25),
+                new Person(103,"Mohammed",27),
+                new Person(107,"Kamal",24),
+                new Person(101,"Mostafa",23),
+                new Person(102,"Ali",30),
+                new Person(106,"Waleed",15),
+                new Person(106,"Helmy",31) // will not be added because of ID was exists before in the list
+            };
+
+            // Note the items are sorted by ID!
+            PrintSet(sortedPeopleWithID, "Print Set Items:");
+            PrintSetInfo(sortedPeopleWithID);
+
+            // Add a few new people, with various ID.
+            sortedPeopleWithID.Add(new Person(110, "Gamal", 12));
+            sortedPeopleWithID.Add(new Person(112, "Ahmed", 40));
+            // repeated ID will not be added
+            sortedPeopleWithID.Add(new Person(112, "Kemo", 41));
+
+            // Note Still sorted by ID!
+            PrintSet(sortedPeopleWithID, "Sorted Set After Add Two Items:");
+            PrintSetInfo(sortedPeopleWithID);
+
+
+
+
+            // ==================================================================================
+            SortedSet<int> integers = new SortedSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "Set Of Integers");
+
+            integers.UnionWith(new[] { 10, 20, 30, 40, 50, 60 });
+            PrintSetLine(integers, "After UnionWith(new[] { 10, 20, 30, 40, 50, 60 })");
+
+
+            integers = new SortedSet<int>() { 10, 20, 30 };
+            integers.ExceptWith(new[] { 20, 30, 40, 50, 60, 70 });
+            PrintSetLine(integers, "After ExceptWith(new[] { 20, 30, 40, 50, 60, 70 })");
+
+
+
+            // public void SymmetricExceptWith(IEnumerable<T> other);
+            // Summary:
+            //     Modifies the current System.Collections.Generic.SortedSet`1 object to contain only
+            //     elements that are present either in that object or in the specified collection,
+            //     but not both.
+            integers = new SortedSet<int>() { 10, 20, 30 };
+            integers.SymmetricExceptWith(new[] { 30, 40, 50 });
+            PrintSetLine(integers, "After SymmetricExceptWith(new[] { 30, 40, 50 })");
+
+            //public void IntersectWith(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30};
+            integers.IntersectWith(new[] { 20, 30, 40, 50, 60 });
+            PrintSetLine(integers, "After IntersectWith(new[] { 20, 30, 40, 50, 60 })");
+
+
+
+            // public bool SetEquals(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30 };
+
+            bool result = integers.SetEquals(new[] { 10, 20, 30 });
+            Console.WriteLine($@"SetEquals(new[] {{ 10,20, 30 }}) : {result}"); // true
+
+            result = integers.SetEquals(new[] { 10, 20, 30, 10, 20, 30 });
+            Console.WriteLine($@"SetEquals(new[] {{ 10,20, 30, 10, 20, 30 }}) : {result}"); // true
+
+            result = integers.SetEquals(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"SetEquals(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");    // false
+
+
+            //public bool IsProperSubsetOf(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My SortedSet");
+
+            result = integers.IsProperSubsetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");     //true
+
+            result = integers.IsProperSubsetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{ 10, 20, 30 }}) : {result}");     // false
+
+            result = integers.IsProperSubsetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{ 10, 40, 50 }}) : {result}");     // false
+
+            result = integers.IsProperSubsetOf(new[] { 40, 50 });
+            Console.WriteLine($@"IsProperSubsetOf(new[] {{  40, 50 }}) : {result}");        // false
+
+
+            //public bool IsProperSupersetOf(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My SortedSet");
+
+            result = integers.IsProperSupersetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // false
+
+            result = integers.IsProperSupersetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 20, 30 }}) : {result}"); // false
+
+            result = integers.IsProperSupersetOf(new[] { 10, 20 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 20 }}) : {result}");   // true
+
+            result = integers.IsProperSupersetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsProperSupersetOf(new[] {{ 10, 40, 50 }}) : {result}");   // false
+
+
+            //public bool IsSubsetOf(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My SortedSet");
+
+            result = integers.IsSubsetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // true
+
+            result = integers.IsSubsetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{ 10, 20, 30 }}) : {result}");   // true
+
+            result = integers.IsSubsetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{ 10, 40, 50 }}) : {result}");   // false
+
+            result = integers.IsSubsetOf(new[] { 40, 50 });
+            Console.WriteLine($@"IsSubsetOf(new[] {{  40, 50 }}) : {result}");  // false
+
+
+            //public bool IsSupersetOf(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My SortedSet");
+
+            result = integers.IsSupersetOf(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // false
+
+            result = integers.IsSupersetOf(new[] { 10, 20, 30 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 20, 30 }}) : {result}"); // true
+
+            result = integers.IsSupersetOf(new[] { 10, 20 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 20 }}) : {result}");   // true
+
+            result = integers.IsSupersetOf(new[] { 10, 40, 50 });
+            Console.WriteLine($@"IsSupersetOf(new[] {{ 10, 40, 50 }}) : {result}");   // false
+
+            //public bool Overlaps(IEnumerable<T> other);
+            //public bool Overlaps(IEnumerable<T> other);
+            integers = new SortedSet<int>() { 10, 20, 30 };
+
+            PrintSetLine(integers, "My SortedSet");
+
+            result = integers.Overlaps(new[] { 10, 20, 30, 40, 50 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 20, 30, 40, 50 }}) : {result}");   // true
+
+            result = integers.Overlaps(new[] { 10, 20, 30 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 20, 30 }}) : {result}"); // true
+
+            result = integers.Overlaps(new[] { 10, 20 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 20 }}) : {result}");   // true
+
+            result = integers.Overlaps(new[] { 10, 40, 50 });
+            Console.WriteLine($@"Overlaps(new[] {{ 10, 40, 50 }}) : {result}");   // tue
+
+            result = integers.Overlaps(new[] { 40, 50 });
+            Console.WriteLine($@"Overlaps(new[] {{ 40, 50 }}) : {result}");   // false
+
+            // public void CopyTo(T[] array, int arrayIndex);
+            // public void CopyTo(T[] array, int arrayIndex, int count);
+            // public void CopyTo(T[] array);
+
+            integers = new SortedSet<int>() { 10, 20, 30 };
+            int[] arr1 = new int[integers.Count];
+            PrintSetLine(integers, "My SortedSet");
+            integers.CopyTo(arr1);
+            PrintListLine(arr1, "My Copied Array");
+
+            // public virtual SortedSet<T> GetViewBetween(T lowerValue, T upperValue);
+
+            integers = new SortedSet<int> { 10, 20, 30, 40, 50, 60, 70 };
+            PrintSetLine(integers);
+            SortedSet<int> viewSet = integers.GetViewBetween(30, 50);
+            PrintSetLine(viewSet, "View From integers.GetViewBetween(T lowerValue, T upperValue)");
+
+
+            // public IEnumerable<T> Reverse();
+
+            PrintSetLine(integers.Reverse(), "Print SortedSet With Reverse Enumerator");
 
         }
 
@@ -2235,6 +2614,120 @@ namespace ProCSharpBook.CSharpCollections
     #endregion
 
 
+    // ================================================
+    // The System.Collections.ObjectModel Namespace
+    // ================================================
+    // namespace of it is System.Collections.ObjectModel;
+    #region Working with the ObservableCollection<T> Class
+    class WorkingWithGenericObservableCollection
+    {
+        // The ObservableCollection<T> class is useful in that it has the ability to inform external 
+        // objects when its contents have changed in some way(as you might guess, working with 
+        // ReadOnlyObservableCollection <T> is similar but read-only in nature).
+
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic ObservableCollection");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            // Create Object of ObservableCollection
+            ObservableCollection<Person> people = new ObservableCollection<Person>()
+            {
+                new Person(){ ID=100, Name="Moamen", Age=25},
+                new Person(){ ID=200, Name="Mohammed", Age=59},
+                new Person(){ ID=300, Name="Gamal", Age=59},
+                new Person(){ ID=400, Name="Ahmed", Age=90},
+                
+            };
+
+            people.CollectionChanged += peopleCollectionChanged;
+
+            people.Add(new Person() { ID = 500, Name = "Soroor", Age = 100 });
+            people.Add(new Person() { ID = 600, Name = "Rahma", Age = 30 });
+
+            people.Remove(new Person(300, "Soroor", 100));
+            people.RemoveAt(0);
+
+            people.Insert(0, new Person(700, "Kamal", 29));
+
+            people.Move(0, 1);
+
+            people.Clear();
+
+        }
+
+        private static void peopleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Console.WriteLine("==================== Collection Observer ====================");
+            Console.WriteLine($"Sender: {sender}");
+            Console.WriteLine($"Action for Event: {e.Action}");
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    PrintList(e.NewItems, "New Items Added To ObservableCollection");
+                    Console.WriteLine($"e.OldItemIndex : {e.OldStartingIndex}");
+                    Console.WriteLine($"e.NewItemIndex : {e.NewStartingIndex}");
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    PrintList(e.OldItems, "Items Removed From ObservableCollection");
+                    Console.WriteLine($"e.OldStartingIndex : {e.OldStartingIndex}");
+                    Console.WriteLine($"e.NewStartingIndex : {e.NewStartingIndex}");
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    PrintList(e.OldItems, "Replace Action OldItems ObservableCollection");
+                    PrintList(e.NewItems, "Replace Action newItems  ObservableCollection");
+                    Console.WriteLine($"e.OldStartingIndex : {e.OldStartingIndex}");
+                    Console.WriteLine($"e.NewStartingIndex : {e.NewStartingIndex}");
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    PrintList(e.OldItems, "Move Action OldItems ObservableCollection");
+                    PrintList(e.NewItems, "Move Action newItems  ObservableCollection");
+                    Console.WriteLine($"e.OldStartingIndex : {e.OldStartingIndex}");
+                    Console.WriteLine($"e.NewStartingIndex : {e.NewStartingIndex}");
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    PrintList(e.OldItems, "Reset Action OldItems ObservableCollection");
+                    PrintList(e.NewItems, "Reset Action newItems  ObservableCollection");
+                    Console.WriteLine($"e.OldStartingIndex : {e.OldStartingIndex}");
+                    Console.WriteLine($"e.NewStartingIndex : {e.NewStartingIndex}");
+                    break;
+                default:
+                    break;
+
+            }
+            
+            Console.WriteLine("=============================================================");
+
+        }
+    }
+
+    #endregion
+
+    // namespace of it is System.Collections.ObjectModel;
+    #region Working with the ReadOnlyObservableCollection<T> Class
+    // namespace of it is System.Collections.ObjectModel;
+    class WorkingWithGenericReadOnlyObservableCollection
+    {
+
+
+        public static void Test()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Working With Generic ReadOnlyObservableCollection");
+            Console.WriteLine("".PadLeft(40, '='));
+
+            // Create Object of ObservableCollection
+            ObservableCollection<string> list = new ObservableCollection<string>();
+
+            ReadOnlyObservableCollection<string> list2 = new ReadOnlyObservableCollection<string>(list);
+
+        }
+
+    }
+
+    #endregion
+
     class CollectionsTraining
     {
 
@@ -2242,22 +2735,37 @@ namespace ProCSharpBook.CSharpCollections
         {
 
             //WorkingWithArrayList.Test();
+            //WorkingWithStack.Test();
+            //WorkingWithQueue.Test();
+            //WorkingWithSortedList.Test();
+            //WorkingWithHashtable.Test();
+            //WorkingWithBitArray.Test();
+            //WorkingWithHybridDictionary.Test();
+            //WorkingWithListDictionary.Test();
+            //WorkingWithStringCollection.Test();
+            //WorkingWithBitVector32.Test();
+
             //BoxingAndUnboxing.Test();
             //TestTypeSafety.Test();
             //TestCustomCollectionsType.Test();
+
+
+            // -------------------------------------------------------------------
+
             //TypeParameterForGenericMembers.Test();
             //TypeParameterForGenericInterfaces.Test();
             //CollectionInitializationSyntax.Test();
 
-            //WorkingWithGenericList.Test();
-            WorkingWithGenericLinkedList.Test();
+            WorkingWithGenericList.Test();
+            //WorkingWithGenericLinkedList.Test();
             //WorkingWithGenericStack.Test();
             //WorkingWithGenericQueue.Test();
             //WorkingWithGenericHashSet.Test();
-            WorkingWithGenericSortedSet.Test();
+            //WorkingWithGenericSortedSet.Test();
             //WorkingWithGenericDictionary.Test();
             //WorkingWithGenericSortedDictionary.Test();
-
+            //WorkingWithGenericObservableCollection.Test();
+            //WorkingWithGenericReadOnlyObservableCollection.Test();
 
 
         }

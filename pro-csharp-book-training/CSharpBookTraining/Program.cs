@@ -33,13 +33,17 @@ namespace ProCSharpBook
 
 
             //CSharpGenerics.GenericsTraining.Test();
-            CSharpCollections.CollectionsTraining.TestCollections();
+            //CSharpCollections.CollectionsTraining.TestCollections();
+
+            CSharpDelegates.DelegateTraining.Test();
+
 
 
             Console.WriteLine("Press any key to continue . . .");
             Console.ReadLine();
         }
 
+        
     }
 
 
