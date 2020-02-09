@@ -35,8 +35,12 @@ namespace ProCSharpBook
             //CSharpGenerics.GenericsTraining.Test();
             //CSharpCollections.CollectionsTraining.TestCollections();
 
-            CSharpDelegates.DelegateTraining.Test();
+            //CSharpDelegates.DelegateTraining.Test();
+            //EventListenerSystem.TestEventListenerSystem.Test();
 
+            //CSharpOperatorOverloading.OperatorOverloadingTraining.Test();
+            //ExtensionMethods.MyExtensionMethods.Test();
+            AnonymousTypes.MyAnonymousTypes.Test();
 
 
             Console.WriteLine("Press any key to continue . . .");
