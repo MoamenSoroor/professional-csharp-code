@@ -156,6 +156,148 @@ namespace ProCSharpBook.CSharpGenerics
 
     #endregion
 
+    #region Inference of Type Parameters
+    // ------------------------ Inference of Type Parameters -------------------------
+    // When you invoke generic methods such as Swap<T>, you can optionally omit the type parameter if
+    // (and only if) the generic method requires arguments because the compiler can infer the type parameter
+    // based on the member parameters.
+    class TestInferenceOfTypeParameter
+    {
+
+        public static void GenericMethod0<T>()
+        {
+            Console.WriteLine("============== Generic Method0 ============== ");
+            Console.WriteLine($"Type Parameter: {typeof(T)}");
+        }
+
+        public static void GenericMethod1<T>(T arg1)
+        {
+            Console.WriteLine("============== Generic Method1 ============== ");
+            Console.WriteLine($"Type Parameter: {typeof(T)}");
+            Console.WriteLine($"Arg1 Value: {arg1}");
+        }
+
+        public static void GenericMethod2<T>(T arg1, T arg2)
+        {
+            Console.WriteLine("============== Generic Method2 ============== ");
+            Console.WriteLine($"Type Parameter: {typeof(T)}");
+            Console.WriteLine($"Arg1 Value: {arg1}");
+            Console.WriteLine($"Arg2 Value: {arg2}");
+        }
+
+        public static void GenericMethod3<T>(T arg1, T arg2, T arg3)
+        {
+            Console.WriteLine("============== Generic Method3 ============== ");
+            Console.WriteLine($"Type Parameter: {typeof(T)}");
+            Console.WriteLine($"Arg1 Value: {arg1}");
+            Console.WriteLine($"Arg2 Value: {arg2}");
+            Console.WriteLine($"Arg3 Value: {arg3}");
+        }
+
+        public static void GenericMethod4<T1, T2>(T1 arg1, T2 arg2)
+        {
+            Console.WriteLine("============== Generic Method4 ============== ");
+            Console.WriteLine($"Type Parameter1: {typeof(T1)}");
+            Console.WriteLine($"Arg1 Value: {arg1}");
+            Console.WriteLine($"Type Parameter2: {typeof(T2)}");
+            Console.WriteLine($"Arg2 Value: {arg2}");
+        }
+
+        public static void GenericMethod5<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3)
+        {
+            Console.WriteLine("============== Generic Method5 ============== ");
+            Console.WriteLine($"Type Parameter1: {typeof(T1)}");
+            Console.WriteLine($"Arg1 Value: {arg1}");
+            Console.WriteLine($"Type Parameter2: {typeof(T2)}");
+            Console.WriteLine($"Arg2 Value: {arg2}");
+            Console.WriteLine($"Type Parameter3: {typeof(T3)}");
+            Console.WriteLine($"Arg3 Value: {arg3}");
+        }
+
+        public static T GenericMethod6<T>(T arg1)
+        {
+            Console.WriteLine("============== Generic Method6 ============== ");
+            Console.WriteLine($"Type Parameter: {typeof(T)}");
+            Console.WriteLine($"Arg1 Value: {arg1}");
+            return arg1;
+        }
+
+
+        public static void Test()
+        {
+            Console.WriteLine("Test Generic Methods");
+            Console.WriteLine("".PadLeft(50, '-'));
+
+            GenericMethod0<int>();
+            GenericMethod0<string>();
+
+            GenericMethod1<int>(10);
+            GenericMethod1<string>("Moamen");
+
+
+            GenericMethod2<int>(10, 20);
+            GenericMethod2<string>("Moamen", "Mohammed");
+
+
+            GenericMethod3<int>(10, 20, 30);
+            GenericMethod3<string>("Moamen", "Mohammed", "Gamal");
+
+            GenericMethod4<int, string>(10, "Moamen");
+            GenericMethod4<string, int>("Moamen", 10);
+            GenericMethod4<string, string>("Moamen", "Mohammed");
+            GenericMethod4<int, int>(10, 20);
+
+            GenericMethod5<int, int, int>(10, 20, 30);
+            GenericMethod5<string, string, string>("Moamen", "Mohammed", "Gamal");
+            GenericMethod5<string, int, DateTime>("Moamen", 20, DateTime.Now);
+
+            Console.WriteLine(GenericMethod6<int>(10));
+            Console.WriteLine(GenericMethod6<string>("Helmy"));
+            Console.WriteLine(GenericMethod6<DateTime>(DateTime.Now));
+
+            // Inference of Type Parameters
+            // When you invoke generic methods such as Swap<T>, you can optionally omit the type parameter if
+            // (and only if) the generic method requires arguments because the compiler can infer the type parameter
+            // based on the member parameters.
+
+            // Compiler Error: The Type Arguments Can't be inferred from the usage of the method
+            //GenericMethod0();
+            //GenericMethod0();
+
+            GenericMethod1(10);
+            GenericMethod1("Moamen");
+
+
+            GenericMethod2(10, 20);
+            GenericMethod2("Moamen", "Mohammed");
+
+
+            GenericMethod3(10, 20, 30);
+            GenericMethod3("Moamen", "Mohammed", "Gamal");
+
+            GenericMethod4(10, "Moamen");
+            GenericMethod4("Moamen", 10);
+            GenericMethod4("Moamen", "Mohammed");
+            GenericMethod4(10, 20);
+
+            GenericMethod5(10, 20, 30);
+            GenericMethod5("Moamen", "Mohammed", "Gamal");
+            GenericMethod5("Moamen", 20, DateTime.Now);
+
+            Console.WriteLine(GenericMethod6(10));
+            Console.WriteLine(GenericMethod6("Helmy"));
+            Console.WriteLine(GenericMethod6(DateTime.Now));
+
+
+
+        }
+
+    }
+
+    // --------------------------------------------------------------
+    #endregion
+
+
     #region Creating Custom Generic Structures
     // Creating Custom Generic Structures
     // =========================================================================================
@@ -670,6 +812,7 @@ namespace ProCSharpBook.CSharpGenerics
         public static void Test()
         {
             //TestCustomGenericMethods.Test();
+            //TestInferenceOfTypeParameter.Test();
             //TestGenericStructures.Test();
             //TestGenericClasses.Test();
             //TestDefaultKeyword.Test();

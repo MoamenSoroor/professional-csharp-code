@@ -80,6 +80,15 @@ namespace ProCSharpBook.ExtensionMethods
             return new StringBuilder(str.Length * count).Insert(0, str, count).ToString();
         }
 
+        public static string Padding(this string str, int count = 10 , string padding = "=")
+        {
+            string space = str.Length == 0 ? "" : " ";
+            StringBuilder builder =  new StringBuilder(str.Length * count + padding.Length * count * 2);
+            builder.Insert(0, padding, count).Append($"{space}{str}{space}").Insert(builder.Length, padding, count);
+            return builder.ToString();
+
+        }
+
         public static string GetObjectInfo(this object obj)
         {
             StringBuilder builder = new StringBuilder();
@@ -121,6 +130,51 @@ namespace ProCSharpBook.ExtensionMethods
             }
         }
 
+
+        public static void ReflectOverLinq<T>(this IEnumerable<T> resultSet, string queryType = "Query Expression")
+        {
+            Console.WriteLine($"========= Info about your query using {queryType} =========");
+            Console.WriteLine($@"resultSet Type------: {resultSet.GetType().Name}");
+            Console.WriteLine($@"resultSet Assembly--: {resultSet.GetType().Assembly.GetName().Name}");
+            Console.WriteLine("".Padding(30, "-"));
+            Console.WriteLine();
+        }
+
+        
+        /// <summary>
+        /// Extension Method of The Generic IEnumerable Interface to Execute Linq Queries With for each and print result to Console
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="resultSet"></param>
+        /// <param name="title">Header name to print it to console</param>
+        public static void Execute<T>(this IEnumerable<T> resultSet, string title = "")
+        {
+            // Print out the results.
+            Console.WriteLine($"Execute {title} Query".Padding());
+            foreach (T item in resultSet)
+            {
+                if (item != null)
+                    Console.WriteLine($@"Item: {item}");
+            }
+            Console.WriteLine("".Padding(30, "-"));
+            Console.WriteLine();
+        }
+
+
+        /// <summary>
+        /// alike in operator in python programming language, that checks if an item is exists in an array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static bool In<T>(this T item, params T[] items)
+        {
+            if (items == null)
+                throw new ArgumentNullException("items");
+
+            return items.Contains(item);
+        }
     }
 
     static class MyExtensionMethods

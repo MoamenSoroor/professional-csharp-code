@@ -53,6 +53,10 @@
     <StartupObject>ProCSharpBook.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CarLibrary, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a965fe4d3aba4aec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\pro-csharp-7-master\Chapter_14\CarLibrary\CarLibrary\bin\Debug\CarLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -64,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProCSharpBook\AnonymousTypes\AnonymousTypes.cs" />
+    <Compile Include="ProCSharpBook\Attributes\AttributesTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\ArraysTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\DataTypesBasics.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\ControlFlowTraining.cs" />
@@ -74,6 +79,8 @@
     <Compile Include="ProCSharpBook\EventListenerSystem\EventListenerSystem.cs" />
     <Compile Include="ProCSharpBook\CSharpGenerics\GenericsTraining.cs" />
     <Compile Include="ProCSharpBook\ExtensionMethods\MyExtensionMethods.cs" />
+    <Compile Include="ProCSharpBook\LINQTraining\LinqToObjectTraining.cs" />
+    <Compile Include="ProCSharpBook\ObjectLifeTime\ObjectLifeTimeTraining.cs" />
     <Compile Include="ProCSharpBook\OOPEamples\Employee.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\EnumsTraining.cs" />
     <Compile Include="ProCSharpBook\ExceptionHandling\ExceptionHandling.cs" />
@@ -82,6 +89,9 @@
     <Compile Include="ProCSharpBook\OOPInheritanceAndPlymorphism\OOP2.cs" />
     <Compile Include="ProCSharpBook\OOPInterfaces\OOP3.cs" />
     <Compile Include="ProCSharpBook\Program.cs" />
+    <Compile Include="ProCSharpBook\book.cs" />
+    <Compile Include="ProCSharpBook\QuickTest.cs" />
+    <Compile Include="ProCSharpBook\ReflectionTraining\ReflectionTraining.cs" />
     <Compile Include="ProCSharpBook\Utils\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\StringsTraining.cs" />
