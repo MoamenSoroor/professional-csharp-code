@@ -122,6 +122,4 @@ namespace ProCSharpBook.OOPExamples
 
 
 
-
-
 }

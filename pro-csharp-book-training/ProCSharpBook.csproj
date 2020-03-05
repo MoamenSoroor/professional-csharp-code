@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\pro-csharp-7-master\Chapter_14\CarLibrary\CarLibrary\bin\Debug\CarLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -76,6 +79,7 @@
     <Compile Include="ProCSharpBook\CsharpCollections\CollectionsTraining.cs" />
     <Compile Include="ProCSharpBook\CsharpDelegates\DelegatesTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpOperatorOverloading\OperatorOverloadingTraining.cs" />
+    <Compile Include="ProCSharpBook\DynamicProgramming\DynamicProgramming.cs" />
     <Compile Include="ProCSharpBook\EventListenerSystem\EventListenerSystem.cs" />
     <Compile Include="ProCSharpBook\CSharpGenerics\GenericsTraining.cs" />
     <Compile Include="ProCSharpBook\ExtensionMethods\MyExtensionMethods.cs" />
@@ -88,6 +92,7 @@
     <Compile Include="ProCSharpBook\OOPEncapsulation\OOP1.cs" />
     <Compile Include="ProCSharpBook\OOPInheritanceAndPlymorphism\OOP2.cs" />
     <Compile Include="ProCSharpBook\OOPInterfaces\OOP3.cs" />
+    <Compile Include="ProCSharpBook\ProcessesTraining\Processes.cs" />
     <Compile Include="ProCSharpBook\Program.cs" />
     <Compile Include="ProCSharpBook\book.cs" />
     <Compile Include="ProCSharpBook\QuickTest.cs" />

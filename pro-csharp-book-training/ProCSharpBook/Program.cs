@@ -54,7 +54,7 @@ namespace ProCSharpBook
             var subjects = book.Index.ToSubjects();
 
             var result = from subject in subjects
-                         where subject.Chapter.ID == 15 && subject.ID == 6
+                         where subject.Chapter.ID == 17 && subject.ID == 1
                          select subject;
 
             book.Index.ExecuteSubjects(result);
@@ -104,6 +104,25 @@ namespace ProCSharpBook
             chapter15.Subjects.Add(new Subject(04, "Understanding Late Binding", chapter15, ReflectionTraining.LateBinding.Test));
             chapter15.Subjects.Add(new Subject(05, "Reflecting on Attributes Using Early Binding", chapter15, Attributes.ReflectOnAttributesUsingEarlyBinding.Test));
             chapter15.Subjects.Add(new Subject(06, "Reflecting on Attributes Using Late Binding", chapter15, Attributes.ReflectOnAttributesUsingLateBinding.Test));
+            #endregion
+
+            #region Chapter 16 : Dynamic Types and the Dynamic Language Runtime
+            Chapter chapter16 = new Chapter(16, "Dynamic Types and the Dynamic Language Runtime");
+            book.Index.Chapters.Add(chapter16);
+            chapter16.Subjects.Add(new Subject(01, "implicity typing - var keyword", chapter16, DynamicProgramming.ImplicityTyping.Test));
+            chapter16.Subjects.Add(new Subject(02, "object Reference - object keyword", chapter16, DynamicProgramming.ObjectReferenceVariable.Test));
+            chapter16.Subjects.Add(new Subject(03, "The Role of C# dynamic keyword", chapter16, DynamicProgramming.CSharpDynamicKeyword.Test));
+            chapter16.Subjects.Add(new Subject(04, "Calling Members on Dynamically Declared Data", chapter16, DynamicProgramming.InvokeMembersOnDynamicData.Test));
+            chapter16.Subjects.Add(new Subject(05, "The Role of the Microsoft.CSharp.dll Assembly", chapter16, DynamicProgramming.MicrosoftCSharpAssembly.Test));
+            chapter16.Subjects.Add(new Subject(06, "Simplifying Late-Bound Calls Using Dynamic Types", chapter16, DynamicProgramming.SimplifyingLateBoundCallsUsingDynamicTypes.Test));
+            chapter16.Subjects.Add(new Subject(07, "COM Interop Using C# Dynamic Data", chapter16, DynamicProgramming.COMInteropUsingDynamic.Test));
+            #endregion
+
+            #region Chapter 17 : Processes, AppDomains, and Object Contexts
+            Chapter chapter17 = new Chapter(17, "Processes, AppDomains, and Object Contexts");
+            book.Index.Chapters.Add(chapter17);
+            chapter17.Subjects.Add(new Subject(01, "Processes Manipulator", chapter17, ProcessesTraining.Processes.Test));
+
             #endregion
 
             return book;
