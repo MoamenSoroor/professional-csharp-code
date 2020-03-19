@@ -70,6 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookSystem\BookIndex.cs" />
+    <Compile Include="BookSystem\Chapter.cs" />
+    <Compile Include="BookSystem\IExecutable.cs" />
+    <Compile Include="BookSystem\Subject.cs" />
     <Compile Include="ProCSharpBook\AnonymousTypes\AnonymousTypes.cs" />
     <Compile Include="ProCSharpBook\Attributes\AttributesTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\ArraysTraining.cs" />
@@ -94,8 +98,7 @@
     <Compile Include="ProCSharpBook\OOPInterfaces\OOP3.cs" />
     <Compile Include="ProCSharpBook\ProcessesTraining\Processes.cs" />
     <Compile Include="ProCSharpBook\Program.cs" />
-    <Compile Include="ProCSharpBook\book.cs" />
-    <Compile Include="ProCSharpBook\QuickTest.cs" />
+    <Compile Include="BookSystem\Book.cs" />
     <Compile Include="ProCSharpBook\ReflectionTraining\ReflectionTraining.cs" />
     <Compile Include="ProCSharpBook\Utils\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +122,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="BookSystem\book.xml" />
+    <Content Include="BookSystem\bookChapters.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace ProCSharpBook.ProcessesTraining
 {
     #region Processes Manipulator
+
+
+
     class Processes
     {
 
@@ -51,7 +56,7 @@ namespace ProCSharpBook.ProcessesTraining
             {
                 theProc = Process.GetProcessById(id);
 
-                Console.WriteLine($" Process:[ ID:{theProc.Id},Name: {theProc.ProcessName} ]");
+                Console.WriteLine($" Process:[ ID: {theProc.Id},Name: {theProc.ProcessName} ]");
             }
             catch (ArgumentException ex)
             {
@@ -142,10 +147,156 @@ namespace ProCSharpBook.ProcessesTraining
             }
         }
 
-    } 
+    }
     #endregion
 
+    #region Interacting with the Default Application Domain
+    // ------------------------ Interacting with the Default Application Domain -------------------------
 
+    public class DefaultAppDomain
+    {
+        // Test Method
+        public static void Test()
+        {
+            Console.WriteLine("***** Fun with the default app domain *****\n");
+            InitDefaultAppDomain();
+            DisplayDefaultAppDomainStats();
+            ListAllAssembliesInAppDomain();
+            Console.WriteLine("---------------------- end ---------------------- ");
+        }
+
+
+
+        #region Display stats of default app domain
+        private static void DisplayDefaultAppDomainStats()
+        {
+            // Get access to the app domain for the current thread.
+
+            AppDomain defaultAD = AppDomain.CurrentDomain;
+
+            // Print out various stats about this domain.
+            Console.WriteLine("Name of this domain: {0}", defaultAD.FriendlyName);
+            Console.WriteLine("ID of domain in this process: {0}", defaultAD.Id);
+            Console.WriteLine("Is this the default domain?: {0}", defaultAD.IsDefaultAppDomain());
+            Console.WriteLine("Base directory of this domain: {0}", defaultAD.BaseDirectory);
+        }
+        #endregion
+
+        #region List All Assemblies In AppDomain
+        static void ListAllAssembliesInAppDomain()
+        {
+            // Get access to the app domain for the current thread.
+            AppDomain defaultAD = AppDomain.CurrentDomain;
+
+            var assemblies = from asm in defaultAD.GetAssemblies()
+                             orderby asm.GetName().Name
+                             select asm;
+            Console.WriteLine("***** Here are the assemblies loaded in {0} *****\n", defaultAD.FriendlyName);
+            foreach (Assembly item in assemblies)
+            {
+                Console.WriteLine($"Name----: {item.GetName().Name}");
+                Console.WriteLine($"Version-: {item.GetName().Version}");
+                Console.WriteLine();
+            }
+
+        }
+        #endregion
+
+
+        public static void InitDefaultAppDomain()
+        {
+            // This logic will print out the name of any assembly
+            // loaded into the applicaion domain, after it has been
+            // created. 
+            AppDomain defaultAD = AppDomain.CurrentDomain;
+            defaultAD.AssemblyLoad += (o, s) =>
+            {
+                Console.WriteLine("{0} has been loaded!", s.LoadedAssembly.GetName().Name);
+            };
+        }
+
+        private static void DefaultAD_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+        {
+            Console.WriteLine("{0} has been loaded!", args.LoadedAssembly.GetName().Name);
+        }
+    }
+
+    // --------------------------------------------------------------
+    #endregion
+
+    #region  Interacting with Custom AppDomains
+    // ------------------------  Interacting with Custom AppDomains -------------------------
+
+    public class CustomAppDomains
+    {
+        // Test Method
+        public static void Test()
+        {
+            Console.WriteLine("***** Fun with Custom App Domains *****\n");
+
+            // Show all loaded assemblies in default app domain.
+            AppDomain defaultAD = AppDomain.CurrentDomain;
+            defaultAD.ProcessExit += (o, s) =>
+            {
+                Console.WriteLine("Default AD unloaded!");
+            };
+
+            ListAllAssembliesInAppDomain(defaultAD);
+
+            MakeNewAppDomain();
+
+        }
+
+        #region Make new AD
+        static void MakeNewAppDomain()
+        {
+            // Make a new AppDomain in the current process.
+            AppDomain newAD = AppDomain.CreateDomain("SecondAppDomain");
+            newAD.DomainUnload += (o, s) =>
+            {
+                Console.WriteLine("The second app domain has been unloaded!");
+            };
+
+            try
+            {
+                // Now load CarLibrary.dll into this new domain.
+                newAD.Load("CarLibrary");
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            // List all assemblies. 
+            ListAllAssembliesInAppDomain(newAD);
+
+            // Now tear down this app domain.
+            AppDomain.Unload(newAD);
+        }
+        #endregion
+
+        #region List ASMS in AD
+        static void ListAllAssembliesInAppDomain(AppDomain ad)
+        {
+            // Now get all loaded assemblies in the default app domain. 
+            var loadedAssemblies = from a in ad.GetAssemblies()
+                                   orderby a.GetName().Name
+                                   select a;
+
+            Console.WriteLine("***** Here are the assemblies loaded in {0} *****\n",
+              ad.FriendlyName);
+            foreach (var a in loadedAssemblies)
+            {
+                Console.WriteLine("-> Name: {0}", a.GetName().Name);
+                Console.WriteLine("-> Version: {0}\n", a.GetName().Version);
+            }
+        }
+        #endregion
+
+    }
+
+    // --------------------------------------------------------------
+    #endregion
 
 
 }
