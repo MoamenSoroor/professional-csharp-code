@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
+using System.Runtime.Remoting.Contexts;
 
 namespace ProCSharpBook.ProcessesTraining
 {
@@ -294,6 +296,125 @@ namespace ProCSharpBook.ProcessesTraining
         #endregion
 
     }
+
+    // --------------------------------------------------------------
+    #endregion
+
+    #region Understanding Object Context Boundaries
+    // ------------------------ Understanding Object Context Boundaries -------------------------
+    // In a nutshell, a.NET context provides a way for a single AppDomain to establish 
+    // a “specific home” for a given object.
+    //
+    //
+    // Using context, the CLR is able to ensure that objects that have special runtime requirements are
+    // handled in an appropriate and consistent manner by intercepting method invocations into and out of a
+    // given context.
+
+    // For example, if you define a C# class type that requires automatic
+    // thread safety(using the [Synchronization] attribute), the CLR will 
+    // create a “synchronized context” during allocation.
+
+    // Just as a process defines a default AppDomain, every application domain has a default context. This
+    // default context(sometimes referred to as context 0, given that it is always the first context created within an
+    // application domain) is used to group together.NET objects that have no specific or unique contextual needs.
+    // As you might expect, a vast majority of .NET objects are loaded into context 0. If the CLR determines a newly
+    // created object has special needs, a new context boundary is created within the hosting application domain.
+
+    // Context-Agile and Context-Bound Types:
+    // --------------------------------------
+    // Context-Agile: 
+    // .NET objects that do not demand any special contextual treatment are termed context-agile objects.These
+    // objects can be accessed from anywhere within the hosting AppDomain without interfering with the
+    // object’s runtime requirements.Building context-agile objects is easy, given that you simply do nothing
+    // (specifically, you do not adorn the type with any contextual attributes and do not derive from the System.
+    // ContextBoundObject base class). Here’s an example:
+    // 
+    // A context-agile object is loaded into context zero.
+    class SportsCar0 { }
+    // 
+    // Context-Bound:
+    // --------------
+    // On the other hand, objects that do demand contextual allocation are termed context-bound objects, and
+    // they must derive from the System.ContextBoundObject base class. 
+    // 
+    // In addition to deriving from System.ContextBoundObject, a context-sensitive type will also be adorned
+    // by a special category of.NET attributes termed (not surprisingly) context attributes.All context attributes
+    // derive from the ContextAttribute base class.
+
+    // Defining a Context-Bound Object
+    // -------------------------------
+    // Assume that you want to define a class (SportsCarTS) that is automatically thread safe in nature.
+    //  To do so, derive from ContextBoundObject and apply the[Synchronization] attribute as follows:
+
+    [Synchronization]
+    public class SportsCarTS0 : ContextBoundObject
+    {
+        public SportsCarTS0() { }
+    }
+
+    // Types that are attributed with the [Synchronization] attribute 
+    // are loaded into a thread-safe context.
+    // --------------------------------------------------------------
+    #endregion
+
+    #region Inspecting an Object’s Context
+    // ------------------------ Inspecting an Object’s Context -------------------------
+
+    class SportsCar 
+    {
+        public SportsCar()
+        {
+            Context ctx = Thread.CurrentContext;
+            Console.WriteLine("{0} object in Context ID: {1}", this.ToString(), ctx.ContextID);
+
+            foreach (IContextProperty property in ctx.ContextProperties)
+            {
+                Console.WriteLine(" Ctx Prop: {0}", property.Name);
+            }
+            Console.WriteLine();
+        }
+    
+    }
+
+    // SportsCarTS demands to be loaded in
+    // a synchronization context.
+    [Synchronization]
+    public class SportsCarTS : ContextBoundObject
+    {
+        public SportsCarTS() 
+        {
+            Context ctx = Thread.CurrentContext;
+            Console.WriteLine("{0} object in Context ID: {1}", this.ToString(), ctx.ContextID);
+
+            foreach (IContextProperty property in ctx.ContextProperties)
+            {
+                Console.WriteLine(" Ctx Prop: {0}", property.Name);
+            }
+            Console.WriteLine();
+        }
+    }
+
+
+
+    public class InspectingContexts
+    {
+        // Test Method
+        public static void Test()
+        {
+            // Context-agile objects
+            SportsCar car1 = new SportsCar();
+            SportsCar car2 = new SportsCar();
+
+            // Context-bound objects
+            SportsCarTS carTS = new SportsCarTS();
+
+        }
+
+
+    }
+
+    
+
 
     // --------------------------------------------------------------
     #endregion

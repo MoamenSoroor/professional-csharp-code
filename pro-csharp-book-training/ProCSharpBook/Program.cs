@@ -13,22 +13,22 @@ namespace ProCSharpBook
     {
         static void Main(string[] args)
         {
-            
+
             Book book = BuildBook();
 
-            Console.WriteLine(book);
+            //Console.WriteLine(book);
 
             var subjects = book.Index.ToSubjects();
 
             var result = from subject in subjects
-                         where subject.Chapter.ID == -1
+                         where subject.Chapter.In(19) && subject.In(6)
                          select subject;
 
             book.Index.ExecuteSubjects(result);
 
             //book.Index.ExecuteAll();
             //Console.WriteLine("Press any key to continue . . .");
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
 
@@ -49,10 +49,10 @@ namespace ProCSharpBook
             #region Chapter 4 : Core C# Programming Constructs, Part II
             Chapter chapter4 = new Chapter(4, "4 - Core C# Programming Constructs, Part II");
             book.Index.Chapters.Add(chapter4);
-            chapter4.Subjects.Add(new Subject(01, "Enums Training",       chapter4, CSharpBasics.EnumsTraining.TestEnums));
-            chapter4.Subjects.Add(new Subject(02, "Structures Training",         chapter4, CSharpBasics.StructuresTraining.TestStructures));
-            chapter4.Subjects.Add(new Subject(03, "Tuples Training",   chapter4, CSharpBasics.TuplesTraining.TestTuples));
-            chapter4.Subjects.Add(new Subject(04, "Nullables Training",        chapter4, CSharpBasics.NullablesTraining.TestNullables));
+            chapter4.Subjects.Add(new Subject(01, "Enums Training", chapter4, CSharpBasics.EnumsTraining.TestEnums));
+            chapter4.Subjects.Add(new Subject(02, "Structures Training", chapter4, CSharpBasics.StructuresTraining.TestStructures));
+            chapter4.Subjects.Add(new Subject(03, "Tuples Training", chapter4, CSharpBasics.TuplesTraining.TestTuples));
+            chapter4.Subjects.Add(new Subject(04, "Nullables Training", chapter4, CSharpBasics.NullablesTraining.TestNullables));
 
             #endregion
 
@@ -104,7 +104,7 @@ namespace ProCSharpBook
             chapter11.Subjects.Add(new Subject(04, "Extension Methods", chapter11, ExtensionMethods.MyExtensionMethods.Test));
             chapter11.Subjects.Add(new Subject(05, "Anonymous Types", chapter11, AnonymousTypes.MyAnonymousTypes.Test));
             #endregion
-           
+
             #region Chapter 12 : LINQ To Objects
             Chapter chapter12 = new Chapter(12, "12- LINQ TO Object");
             book.Index.Chapters.Add(chapter12);
@@ -161,10 +161,42 @@ namespace ProCSharpBook
             chapter17.Subjects.Add(new Subject(03, "Interacting with Custom Application Domain", chapter17, ProcessesTraining.CustomAppDomains.Test));
             #endregion
 
+            #region Chapter 19 : Multithreaded, Parallel, and Async Programming
+            Chapter chapter19 = new Chapter(19, "Chapter 19: Multithreaded, Parallel, and Async Programming");
+            book.Index.Chapters.Add(chapter19);
+            chapter19.Subjects.Add(new Subject(01, "Threading", chapter19, MultiThreading.CreateThread.Test));
+            chapter19.Subjects.Add(new Subject(02, "Sleep And Yield", chapter19, MultiThreading.SleepAndYield.Test));
+            chapter19.Subjects.Add(new Subject(03, "Join And Sleep", chapter19, MultiThreading.JoinAndSleep.Test));
+            chapter19.Subjects.Add(new Subject(04, "Join With Timeout", chapter19, MultiThreading.JoinWithTimeout.Test));
+            chapter19.Subjects.Add(new Subject(05, "Blocking, and ThreadState property, and IsAlive Property", chapter19, MultiThreading.Blocking.Test));
+            chapter19.Subjects.Add(new Subject(06, "Foreground Versus Background Threads", chapter19, MultiThreading.BackgroundThread.Test));
+
+            chapter19.Subjects.Add(new Subject(20, "Start Tasks", chapter19, MultiThreading.StartTask.Test));
+            chapter19.Subjects.Add(new Subject(21, "Wait Tasks", chapter19, MultiThreading.WaitTask.Test));
+            chapter19.Subjects.Add(new Subject(22, "Return Value From a Task", chapter19, MultiThreading.TaskReturnValue.Test));
+
+            #endregion
+
             return book;
 
         }
 
+        public static void AssignTitles(Book book)
+        {
+            // print title of each subject when executed
+            foreach (var subject in book.Index.ToSubjects())
+            {
+
+                subject.OnStart += () =>
+                {
+                    var title = $"Execute Subject[ID: { subject.ID}, Name: {subject.Name} ] in Chapter:[ID: { subject.Chapter.ID}, Name: { subject.Chapter.Name}]";
+                    Console.WriteLine();
+                    Console.WriteLine(title);
+                    Console.WriteLine("".PadLeft(title.Length, '-'));
+
+                };
+            }
+        }
 
         public static void RunOldStyle()
         {

@@ -28,6 +28,16 @@ namespace ProCSharpBook.BookSystem
             return allSub;
         }
 
+        public static string GetSubjectsInfo(IEnumerable<Subject> subjects)
+        {
+            StringBuilder builder = new StringBuilder();
+            if (subjects != null)
+                foreach (var subject in subjects)
+                {
+                    builder.AppendLine(subject.ToString());
+                }
+            return builder.ToString();
+        }
 
 
         public void ExecuteAll()

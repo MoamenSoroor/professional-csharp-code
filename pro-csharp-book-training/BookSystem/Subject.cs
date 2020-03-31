@@ -15,6 +15,8 @@ namespace ProCSharpBook.BookSystem
         public Chapter Chapter { get; set; }
 
         public event Action Run;
+        public event Action OnStart;
+        public event Action OnFinish;
 
         public Subject()
         {
@@ -34,7 +36,7 @@ namespace ProCSharpBook.BookSystem
 
         public override string ToString()
         {
-            return $"\t\tSubject[ ID:{ID} ,Name:{Name} ]";
+            return $"Subject[ ID:{ID} ,Name:{Name} ]";
         }
 
         public override bool Equals(object obj)
@@ -49,10 +51,21 @@ namespace ProCSharpBook.BookSystem
 
         public void Execute()
         {
+            OnStart?.Invoke();
             Run?.Invoke();
+            OnFinish?.Invoke();
+        }
+
+        public bool In(params Subject[] subjects)
+        {
+            return subjects.Any(sub => this.Equals(sub));
         }
 
 
+        public bool In(params int[] IDs)
+        {
+            return IDs.Any(id => this.ID.Equals(id));
+        }
 
 
 
