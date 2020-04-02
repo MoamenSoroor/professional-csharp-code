@@ -206,7 +206,7 @@ namespace ProCSharpBook.MultiThreading
                 return Enumerable.Range(2, 3000000).Count(n
                     => Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0));
             });
-            
+
 
             Console.WriteLine("Task running...");
             Console.WriteLine("The answer is " + primeNumberTask.Result);
@@ -340,7 +340,7 @@ namespace ProCSharpBook.MultiThreading
     //
     //
 
-    
+
     class UnobservedExceptions1
     {
         public static void Test()
@@ -431,7 +431,7 @@ namespace ProCSharpBook.MultiThreading
             // unobserved exception if the faults occurs after the timeout interval.
             task.Wait();
 
-            
+
         }
 
     }
@@ -441,15 +441,15 @@ namespace ProCSharpBook.MultiThreading
     {
         public static void Test()
         {
-            
-            Task<int> task  = Task.Run(() =>
-            {
-                Console.WriteLine("Task Running...");
+
+            Task<int> task = Task.Run(() =>
+           {
+               Console.WriteLine("Task Running...");
                 // unobserved exception if the faults occurs after the timeout interval.
                 throw new NullReferenceException();
 
-                return 10;
-            });
+               return 10;
+           });
 
             Console.WriteLine("Result{0}", task.Result);
 
@@ -511,10 +511,10 @@ namespace ProCSharpBook.MultiThreading
 
             awaiter.OnCompleted(() =>
             {
-                
+
                 Console.WriteLine("Task Completed.");
                 int result = awaiter.GetResult();
-                Console.WriteLine("Result: {0}",result);
+                Console.WriteLine("Result: {0}", result);
             });
 
             Console.WriteLine("I am Free not tied with task ^_^");
@@ -563,8 +563,9 @@ namespace ProCSharpBook.MultiThreading
     // --------------------------------------------------------------
     #endregion
 
-    #region Continuation With TaskAwaiter<TResult> and Synchronization
-    // ------------------------ Continuation With TaskAwaiter<TResult> and Synchronization -------------------------
+    #region Continuation With TaskAwaiter<TResult> and ConfigureAwait Method
+    // ------------------------ Continuation With TaskAwaiter<TResult> and ConfigureAwait Method -------------------------
+
     // If a synchronization context is present, OnCompleted automatically captures it and
     // posts the continuation to that context.This is very useful in rich-client applications,
     // as it bounces the continuation back to the UI thread.In writing libraries, however,
@@ -577,6 +578,59 @@ namespace ProCSharpBook.MultiThreading
     // If no synchronization context is present—or you use ConfigureAwait(false)—the
     // continuation will(in general) execute on the same thread as the antecedent, avoiding 
     // unnecessary overhead.
+
+    public class ContinuationsAndConfigureAwait
+    {
+        // Test Method
+        public static void Test()
+        {
+            Console.WriteLine(CurrentInfo());
+
+            Task<int> primeNumberTask = Task.Run(() =>
+            {
+                Console.WriteLine(CurrentInfo());
+                return Enumerable.Range(2, 3000000).Count(n =>
+                    Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0));
+            });
+
+
+            // -------------------------------------------------------------------------
+            // ConfigureAwait(false):
+            //     - make continuation in the same thread of Task, avoiding unnecessary overhead
+            // ConfigureAwait(true): default // or SyncronizationContext Recognized
+            //     - make continuation in thread that calls Task.
+            var awaiter = primeNumberTask.ConfigureAwait(false).GetAwaiter();
+
+            awaiter.OnCompleted(() =>
+            {
+                Console.WriteLine("Task Completed.");
+                Console.WriteLine(CurrentInfo());
+                int result = awaiter.GetResult();
+                Console.WriteLine("Result: {0}", result);
+            });
+
+
+            Console.WriteLine("I am Free not tied with task ^_^");
+
+        }
+
+        public static string CurrentInfo()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine($"Current Thread: {Thread.CurrentThread.ManagedThreadId}");
+            builder.Append($"Current Context Prop: ");
+            var prop = Thread.CurrentContext.ContextProperties;
+            foreach (var item in prop)
+            {
+                builder.Append($" {item.Name}");
+
+            }
+            builder.AppendLine();
+
+            return builder.ToString();
+        }
+
+    }
 
     // --------------------------------------------------------------
     #endregion
@@ -621,7 +675,7 @@ namespace ProCSharpBook.MultiThreading
                 return result * 0.1;
             });
 
-            
+
             // -------------------------------------------------------------------------
             // note that this task doen't have a return type
             Task lastTask = theNewTask.ContinueWith(antecedent =>
@@ -647,7 +701,7 @@ namespace ProCSharpBook.MultiThreading
     // drive—by indicating when the operation finishes or faults. This is ideal for I/Obound work: you get all the benefits of tasks (with their ability to propagate return
     // values, exceptions, and continuations) without blocking a thread for the duration of
     // the operation.
-    
+
     // The task, however, is controlled entirely by the TaskCompletionSource object 
     // via the following methods:
     // public class TaskCompletionSource<TResult>
@@ -705,7 +759,7 @@ namespace ProCSharpBook.MultiThreading
         public static void Test()
         {
             Task<int> task = Run(() => { Thread.Sleep(5000); return 42; });
-            Console.WriteLine("Task Result: {0}",task.Result);
+            Console.WriteLine("Task Result: {0}", task.Result);
 
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProCSharpBook.Multithreading
+namespace ProCSharpBook.MultiThreading
 {
 
     #region Principles of Asynchrony
@@ -185,6 +185,9 @@ namespace ProCSharpBook.Multithreading
 
 
         }
+
+
+
 
 
     }
