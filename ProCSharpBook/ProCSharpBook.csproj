@@ -86,11 +86,15 @@
     <Compile Include="ProCSharpBook\ProcessesTraining\Processes.cs" />
     <Compile Include="ProCSharpBook\Program.cs" />
     <Compile Include="ProCSharpBook\ReflectionTraining\ReflectionTraining.cs" />
+    <Compile Include="ProCSharpBook\SystemIO\Serialization.cs" />
+    <Compile Include="ProCSharpBook\SystemIO\Streams.cs" />
+    <Compile Include="ProCSharpBook\SystemIO\SystemIO.cs" />
     <Compile Include="ProCSharpBook\Utils\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BookSystem\book.xml" />
