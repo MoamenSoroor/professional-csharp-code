@@ -55,7 +55,7 @@ namespace ProCSharpBook.EventListenerSystem
     public interface EventListener<TEventArgs>
         where TEventArgs : EventArgs
     {
-        public void Listen(object sender, TEventArgs e);
+        void Listen(object sender, TEventArgs e);
 
     }
 
@@ -149,7 +149,7 @@ namespace ProCSharpBook.EventListenerSystem
         public override string ToString()
         {
             //return base.ToString();
-            return @$"Salary Value: {Value} After {SalaryChange} with {Delta}";
+            return $@"Salary Value: {Value} After {SalaryChange} with {Delta}";
         }
     }
 

@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,7 +81,7 @@
     <Compile Include="ProCSharpBook\Multithreading\HighLevelThreading.cs" />
     <Compile Include="ProCSharpBook\Multithreading\LowLevelThreading.cs" />
     <Compile Include="ProCSharpBook\ObjectLifeTime\ObjectLifeTimeTraining.cs" />
-    <Compile Include="ProCSharpBook\OOPEamples\Employee.cs" />
+    <Compile Include="ProCSharpBook\OOPExamples\Employee.cs" />
     <Compile Include="ProCSharpBook\OOPEncapsulation\OOP1.cs" />
     <Compile Include="ProCSharpBook\OOPInheritanceAndPlymorphism\OOP2.cs" />
     <Compile Include="ProCSharpBook\OOPInterfaces\OOP3.cs" />

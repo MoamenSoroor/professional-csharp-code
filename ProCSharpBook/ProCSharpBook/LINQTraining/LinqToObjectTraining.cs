@@ -523,10 +523,14 @@ namespace ProCSharpBook.LINQTraining
     // -----------------------------------------------------------------------------------------------------------
     // from, in                          Used to define the backbone for any LINQ expression, which allows
     //                                   you to extract a subset of data from a fitting container.
+    // 
     // Where                             Used to define a restriction for which items to extract from a container.
+    //
     // Select                            Used to select a sequence from the container.
+    // 
     // join, on, equals, into            Performs joins based on specified key.Remember, these “joins” do
     //                                   not need to have anything to do with data in a relational database.
+    // 
     // orderby, ascending, descending    Allows the resulting subset to be ordered in ascending or descending order.
     // group, by                         Yields a subset with data grouped by a specified value.
     // -----------------------------------------------------------------------------------------------------------
@@ -538,7 +542,8 @@ namespace ProCSharpBook.LINQTraining
         public string Description { get; set; } = "";
         public int NumberInStock { get; set; }
 
-        public override string ToString() => $"Name={Name}, Description={Description}, Number in Stock={NumberInStock}";
+        public override string ToString() => $@"
+ProductInfo: Name={Name}, Description={Description}, Number in Stock={NumberInStock}";
     }
 
     #region Test Linq Query Operators

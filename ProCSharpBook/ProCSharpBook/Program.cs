@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 using ProCSharpBook.BookSystem;
 
+
+
 namespace ProCSharpBook
 {
     class Program
     {
         static void Main(string[] args)
         {
+            ExecuteTests();
 
             Book book = BuildBook();
 
@@ -31,6 +34,20 @@ namespace ProCSharpBook
             //Console.ReadLine();
         }
 
+        private static void ExecuteTests()
+        {
+            //ProCSharpBook.SystemIO.SerializingUsingSoapFormatter.
+
+            //ProCSharpBook.SystemIO.SerializingUsingSoapFormatter.Test();
+            //ProCSharpBook.SystemIO.SerializingUsingXmlSerializer.Test();
+            //ProCSharpBook.SystemIO.SerializingCollections.Test();
+            //ProCSharpBook.SystemIO.CustomizingSerialization.Test();
+            ProCSharpBook.SystemIO.CustomizingSerializationUsingAttributes.Test();
+
+
+            //ProCSharpBook.SystemIO..Test();
+
+        }
 
         public static Book BuildBook()
         {
@@ -234,6 +251,8 @@ namespace ProCSharpBook
 
         }
 
+
+        
 
     }
 

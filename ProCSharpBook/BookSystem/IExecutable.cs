@@ -8,7 +8,7 @@ namespace ProCSharpBook.BookSystem
 {
     public interface IExecutable
     {
-        public void ExecuteAll();
-        public void Execute();
+        void ExecuteAll();
+        void Execute();
     }
 }

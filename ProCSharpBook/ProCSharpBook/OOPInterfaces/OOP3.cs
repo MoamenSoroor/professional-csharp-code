@@ -74,19 +74,19 @@ namespace ProCSharpBook.OOPInterfaces
         // it can't have static and const members or have default implementation
         // default implementation will be available in c#8
 
-        public int Prop { get; set; }
+        int Prop { get; set; }
 
         // Readonly Property in sight of the outside world but we can implement setter in the Implementation
-        public int ReadOnlyProp { get; }
-        public int ReadOnlyProp2 { get; }
-        public int ReadOnlyProp3 { get; }
-        public int ReadOnlyProp4 { get; }
+        int ReadOnlyProp { get; }
+        int ReadOnlyProp2 { get; }
+        int ReadOnlyProp3 { get; }
+        int ReadOnlyProp4 { get; }
 
         // Writeonly Property in sight of the outside world but we can implement getter in the Implementation
-        public int WriteOnlyProp { set; }
-        public int WriteOnlyProp2 { set; }
-        public int WriteOnlyProp3 { set; }
-        public int WriteOnlyProp4 { set; }
+        int WriteOnlyProp { set; }
+        int WriteOnlyProp2 { set; }
+        int WriteOnlyProp3 { set; }
+        int WriteOnlyProp4 { set; }
 
         // Error can't define private/private protected/internal/protected/internal protected accessors or actuators in interfaces but we can make that in the implementation.
         //public int PrivateWriteProp { get; private set; }
@@ -96,7 +96,7 @@ namespace ProCSharpBook.OOPInterfaces
         void AbsMethod();
 
         // by default all methods and properties, are public abstract
-        public abstract void AbsMethod2();
+        void AbsMethod2();
 
 
 

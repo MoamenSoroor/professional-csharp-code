@@ -2510,11 +2510,11 @@ namespace ProCSharpBook.CSharpCollections
             // Call Item From Dictionary With Key using [] Operator
             Person p1 = dictionaryOfPeople["Kamal"];
             Console.WriteLine($@"dictionaryOfPeople[""Kamal""] : {p1}");
-            Console.WriteLine(@$"dictionaryOfPeople[""Moamen""] : {dictionaryOfPeople["Moamen"]}");
+            Console.WriteLine($@"dictionaryOfPeople[""Moamen""] : {dictionaryOfPeople["Moamen"]}");
             try
             {
                 // Try To Use a Key Not Found in Dictionary will Throw Exception
-                Console.WriteLine(@$"dictionaryOfPeople[""Hammad""] : {dictionaryOfPeople["Hammad"]}");
+                Console.WriteLine($@"dictionaryOfPeople[""Hammad""] : {dictionaryOfPeople["Hammad"]}");
             }
             catch (Exception ex)
             {

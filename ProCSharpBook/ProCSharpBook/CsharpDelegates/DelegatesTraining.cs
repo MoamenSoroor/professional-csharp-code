@@ -318,7 +318,7 @@ namespace ProCSharpBook.CSharpDelegates
     // ------------------------ Callback by Interface - Simple Example -------------------------
     public interface IBinaryOperation
     {
-        public int BinaryOp(int x, int y);
+        int BinaryOp(int x, int y);
 
     }
 
@@ -362,7 +362,7 @@ namespace ProCSharpBook.CSharpDelegates
 
     public interface IOperationHandler
     {
-        public void Handle(string msg, int result);
+        void Handle(string msg, int result);
     }
 
     class SimpleOperation
@@ -436,7 +436,7 @@ namespace ProCSharpBook.CSharpDelegates
             {
                 Console.WriteLine();
                 Console.WriteLine("Handling Add Operation Event:-");
-                Console.WriteLine(@$"{msg}: {result}");
+                Console.WriteLine($@"{msg}: {result}");
                 Console.WriteLine("".PadLeft(40, '-'));
             }
         }
@@ -447,7 +447,7 @@ namespace ProCSharpBook.CSharpDelegates
             {
                 Console.WriteLine();
                 Console.WriteLine("Handling Sub Operation Event:-");
-                Console.WriteLine(@$"{msg}: {result}");
+                Console.WriteLine($@"{msg}: {result}");
                 Console.WriteLine("".PadLeft(40, '-'));
             }
         }

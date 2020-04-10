@@ -10,7 +10,7 @@ namespace ProCSharpBook.OOPExamples
 
     class Test1
     {
-        public static void Main(string[] args)
+        public static void AlternativeMain(string[] args)
         {
             Employee emp1 = new Manager();
             Employee emp2 = new SalesPerson();
