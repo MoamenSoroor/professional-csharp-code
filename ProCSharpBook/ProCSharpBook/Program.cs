@@ -42,9 +42,8 @@ namespace ProCSharpBook
             //ProCSharpBook.SystemIO.SerializingUsingXmlSerializer.Test();
             //ProCSharpBook.SystemIO.SerializingCollections.Test();
             //ProCSharpBook.SystemIO.CustomizingSerialization.Test();
-            ProCSharpBook.SystemIO.CustomizingSerializationUsingAttributes.Test();
-
-
+            //ProCSharpBook.SystemIO.CustomizingSerializationUsingAttributes.Test();
+            //ProCSharpBook.SystemIO.CountCharactersProblem.Test();
             //ProCSharpBook.SystemIO..Test();
 
         }
@@ -252,6 +251,8 @@ namespace ProCSharpBook
         }
 
 
+
+        
         
 
     }

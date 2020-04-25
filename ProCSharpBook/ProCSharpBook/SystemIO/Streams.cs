@@ -92,7 +92,7 @@ namespace ProCSharpBook.SystemIO
                 Console.WriteLine();
 
 
-                // another way to read
+                // another fast way to read
                 fs.Position = 0;
 
                 StringBuilder builder = new StringBuilder();

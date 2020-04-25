@@ -98,7 +98,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="System.IO.MemoryStream" Collapsed="true">
-    <Position X="7.5" Y="5" Width="1.5" />
+    <Position X="8.5" Y="5" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="System.IO.Path" Collapsed="true">
@@ -146,7 +146,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="System.IO.UnmanagedMemoryStream" Collapsed="true">
-    <Position X="5.25" Y="5" Width="1.5" />
+    <Position X="5.25" Y="5" Width="2.25" />
     <TypeIdentifier />
   </Class>
   <Struct Name="System.IO.WaitForChangedResult" Collapsed="true">

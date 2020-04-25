@@ -1526,7 +1526,9 @@ namespace ProCSharpBook.OOPInterfaces
     #endregion
 
 
-
+    // Some Interfaces to discuss
+    // IFormatProvider
+    // 
 
 
     // ==============================> The Whole Training Call <==============================

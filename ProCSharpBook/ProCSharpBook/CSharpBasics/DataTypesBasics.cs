@@ -78,14 +78,14 @@ namespace ProCSharpBook.CSharpBasics
     //      - Struct types: All Structures are Derived from Object -> ValueType Class
     //          # User-defined types of the form struct S {...}
 
-    //      - Nullable value types: All Nullable are Derived from Object -> ValueType -> Nullable<T> Struct
+    //      - Nullable value types: All Nullable are Created from Object -> ValueType -> Nullable<T> Struct
     //          # Extensions of all other value types with a null value
 
     //      - Tuple Types: 
     //          types that you define using a lightweight syntax. 
     //          Drived from TupleValue Structure (that is drived from ValueType)
     //          # user-defined types of the form 
-    //              (Type [Name1], Type [Name2] ,..., Type [NameX]) TupleName = (Value1, Value2, ...,ValueX);
+    //              (Type1 [Name1], Type2 [Name2] ,..., TypeX [NameX]) TupleName = (Value1, Value2, ...,ValueX);
     //              var TupleName = ([Name1:] Value1, [Name2:] Value2, ..., [NameX:]ValueX);
     //              
 
@@ -514,6 +514,38 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine("10D.Equals(10D) = " + 10D.Equals(10D));
             Console.WriteLine("true.Equals(true) = " + true.Equals(true));
             Console.WriteLine("'a'.ToString() = " + 'a'.ToString());
+
+
+            // literals in Hex and Binary Fromat
+            // ---------------------------------------------------
+
+            // Binary Fromat
+            mysbytevar = 0b1011_110;        // max 7 bits as last bit is for sign + -
+            mybytevar   = 0b1011_1100;        // max 8 bits
+
+            myshortvar  = 0b1011_1100;       // max 15 bits as last bit is for sign + -
+            myushortvar = 0b1011_1100;      // max 16 bits
+
+            myintvar    = 0b1011_1100;        // max 31 bits as last bit is for sign + -
+            myuintvar   = 0b1011_1100;       // max 32 bits
+
+            mylongvar   = 0b1011_1100;       // max 63 bits as last bit is for sign + -
+            myulongvar  = 0b1011_1100;       // max 64 bits
+
+
+            // Hex Format
+            mysbytevar = 0X7F;       // max = 7F value as last bit is for sign + -
+            mybytevar = 0XFF;       // max = FF value 
+
+            myshortvar = 0X7F_FF;      // max = 7F_FF value 
+            myushortvar = 0XF5;      // max = FFFF value 
+
+            myintvar = 0XF5;      // max = 7FFF_FFFF value 
+            myuintvar = 0XF5;      // max = FFFF_FFFF value 
+
+            mylongvar = 0XF5;      // max = 7FFF_FFFF_FFFF_FFFF value 
+            myulongvar = 0XF5;      // max = FFFF_FFFF_FFFF_FFFF value 
+
             #endregion
 
             #region Var -- Implicit Local Type Variable --
@@ -539,7 +571,7 @@ namespace ProCSharpBook.CSharpBasics
             // object with Simple data types, and Boxing and Unboxing
             // -------------------------------------------------------
 
-            // Boxing
+            // Boxing : transfer data from Stack to Heap With object Reference
             object mybytevar3 = (byte)0;
             object mysbytevar3 = (sbyte)0;
             object mydecimalvar3 = 0m; // or d
@@ -552,7 +584,7 @@ namespace ProCSharpBook.CSharpBasics
             object myshortvar3 = (short)0;
             object myushortvar3 = (ushort)0;
 
-            // Unboxing
+            // Unboxing : transfer data from Heap To Stack
             mybytevar = (byte)mybytevar3;
             mysbytevar = (sbyte)mysbytevar3;
             mydecimalvar = (decimal)mydecimalvar3;
@@ -566,19 +598,18 @@ namespace ProCSharpBook.CSharpBasics
             myushortvar = (ushort)myushortvar3;
             #endregion
 
-           
             #region Dynamic Keyword -- Dynamic type Style --
-        // Dynamic Type
-        // -------------------------------------------------------------------------
-        // When you assign a class object to the dynamic type, then the compiler does 
-        // not check for the right method and property name of the dynamic type which 
-        // holds the custom class object.
-        // You can also pass a dynamic type parameter in the method so that the method 
-        // can accept any type of parameter at run time.As shown in the below example.
-        // Dynamic is useful when we need to code using reflection or dynamic languages
-        // or with the COM objects and when getting result out of the LinQ queries.
+            // Dynamic Type
+            // -------------------------------------------------------------------------
+            // When you assign a class object to the dynamic type, then the compiler does 
+            // not check for the right method and property name of the dynamic type which 
+            // holds the custom class object.
+            // You can also pass a dynamic type parameter in the method so that the method 
+            // can accept any type of parameter at run time.As shown in the below example.
+            // Dynamic is useful when we need to code using reflection or dynamic languages
+            // or with the COM objects and when getting result out of the LinQ queries.
 
-        dynamic mydynamic = (byte)0;
+            dynamic mydynamic = (byte)0;
             Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
             mydynamic = (sbyte)0;
             Console.WriteLine($"mydynamic Type is  {mydynamic.GetType().ToString()}");
@@ -810,6 +841,11 @@ namespace ProCSharpBook.CSharpBasics
             // double           to char, sbyte, byte, ushort, short, int, uint, decimal
             // decimal          to char, sbyte, byte, ushort, short, int, uint, float, double
             // -------------------------------------------------------------------------------------------
+            sbyte mysbyte22 = (sbyte) myint2;
+            byte mybyte22 = (byte) myshort2;
+
+            float myfloat22 = (float) mydouble2;
+            double mydouble22 = (double) mydecimal2;
 
             #endregion
 
@@ -1027,6 +1063,11 @@ namespace ProCSharpBook.CSharpBasics
             // -------------------------------------------------------------------------------
             // You can call a method of the Convert class to convert any supported type 
             // This is possible for each type that supports the IConvertible interface.
+
+            // Please Note That: System.OverflowException will be thrown when Overflow ocurrs.
+            //      System.OverflowException: Value was either too large or too small for an [Your Type].
+
+            // Also another Exception will be thrown if it fails to Convert
 
             try
             {
@@ -1303,7 +1344,7 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine(int.Parse("100"));
             Console.WriteLine(int.TryParse("100", out int v) ? $"{v}" : $"Can't Parse");
 
-            // none static members
+            // Please note that ReferenceEquals() Method returns False for all valueTypes equal in Value
             int aa = 100, bb = 200;
             Console.WriteLine(int.Equals(aa, bb));              // False
             Console.WriteLine(int.ReferenceEquals(aa, bb));     // False
@@ -1616,10 +1657,15 @@ namespace ProCSharpBook.CSharpBasics
 
                 // Boxing Operation : stack to heap memory transfer
                 object obj1 = val1;
+
+                // or
                 TestBoxing(val1);
 
+                // ---------------------------------------------------
                 // Unboxing Operation : heap to stack memory transfer
                 int val2 = (int)obj1;
+                
+                // or
                 val2 = (int)TestUnboxing();
 
 
@@ -1652,28 +1698,3 @@ namespace ProCSharpBook.CSharpBasics
 
 
 }
-
-//IsControl
-//IsControl
-//IsDigit
-//IsDigit
-//IsLetter
-//IsLetter
-//IsLetterOrDigit
-//IsLetterOrDigit
-//IsLower
-//IsLower
-//IsLowSurrogate
-//IsLowSurrogate
-//IsNumber
-//IsNumber
-//IsPunctuation
-//IsPunctuation
-//IsSeparator
-//IsSeparator
-//IsSymbol
-//IsSymbol
-//IsUpper
-//IsUpper
-//IsWhiteSpace
-//IsWhiteSpace

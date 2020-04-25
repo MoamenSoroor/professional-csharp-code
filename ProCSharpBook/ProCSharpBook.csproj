@@ -88,6 +88,7 @@
     <Compile Include="ProCSharpBook\ProcessesTraining\Processes.cs" />
     <Compile Include="ProCSharpBook\Program.cs" />
     <Compile Include="ProCSharpBook\ReflectionTraining\ReflectionTraining.cs" />
+    <Compile Include="ProCSharpBook\SystemIO\IOExamples.cs" />
     <Compile Include="ProCSharpBook\SystemIO\Serialization.cs" />
     <Compile Include="ProCSharpBook\SystemIO\Streams.cs" />
     <Compile Include="ProCSharpBook\SystemIO\SystemIO.cs" />

@@ -129,7 +129,7 @@ namespace ProCSharpBook.ReflectionTraining
     // -------------------------------------------------------------------------
 
 
-    //   *******   Obtaining a Type Reference Using System.Type.GetType()   *******
+    //   *******   Obtaining a Type Reference Using System.Type.GetType()  static method *******
     // ---------------------------------------------------------------------------------------------
     //  To obtain type information in a more flexible manner, you may call the static GetType() member of the
     //  System.Type class and specify the fully qualified string name of the type you are interested in examining.
@@ -195,12 +195,12 @@ namespace ProCSharpBook.ReflectionTraining
             Console.WriteLine(type3.Name);
 
             // public static Type GetType(string typeName, bool throwOnError);
-            Type type4 = Type.GetType("system.string", false, true);
-            Console.WriteLine(type4.Name);
-
-            // public static Type GetType(string typeName, bool throwOnError, bool ignoreCase);
             Type type5 = Type.GetType("System.String", false);
             Console.WriteLine(type5.Name);
+
+            // public static Type GetType(string typeName, bool throwOnError, bool ignoreCase);
+            Type type4 = Type.GetType("system.string", false, true);
+            Console.WriteLine(type4.Name);
 
 
             // However, when you want to obtain metadata for a type within an external private
