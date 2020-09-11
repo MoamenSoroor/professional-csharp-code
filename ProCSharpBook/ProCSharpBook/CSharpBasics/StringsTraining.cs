@@ -320,9 +320,26 @@ namespace ProCSharpBook.CSharpBasics
             Console.WriteLine($@"str.Equals(""moamen soroor"") = {str.Equals("moamen soroor", StringComparison.OrdinalIgnoreCase)}");
 
 
-            Logger.Title("public static String Join(String separator, params object[] values)");
+            Logger.Title("Insert Method");
             Console.WriteLine($@"str.Insert(0, ""Mr. "") = {str.Insert(0,"Mr. ")}");
             Console.WriteLine($@"str.Insert(str.IndexOf("" ""),"" Mohammed"") = {str.Insert(str.IndexOf(" ")," Mohammed")}");
+
+            // public String[] Split(params char[] separator);
+            // public String[] Split(char[] separator, int count);
+            // public String[] Split(char[] separator, StringSplitOptions options);
+            // public String[] Split(char[] separator, int count, StringSplitOptions options);
+            // public String[] Split(String[] separator, StringSplitOptions options);
+            // public String[] Split(String[] separator, int count, StringSplitOptions options);
+            Logger.Title("Split Method");
+
+            string[] arr = "a, b, c , d , e , f".Split(',');
+            Console.WriteLine(string.Join("",arr));
+
+            arr = "go abc went abc gone abc".Split(new[] { "abc" } ,StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine(string.Join("", arr));
+
+
+
 
 
             Console.WriteLine();

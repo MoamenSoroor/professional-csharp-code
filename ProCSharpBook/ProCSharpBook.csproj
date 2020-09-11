@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +61,7 @@
     <Compile Include="ProCSharpBook\AnonymousTypes\AnonymousTypes.cs" />
     <Compile Include="ProCSharpBook\Attributes\AttributesTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\ArraysTraining.cs" />
+    <Compile Include="ProCSharpBook\CSharpBasics\DateTimeTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\ControlFlowTraining.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\DataTypesBasics.cs" />
     <Compile Include="ProCSharpBook\CSharpBasics\EnumsTraining.cs" />

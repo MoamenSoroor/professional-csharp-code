@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 
 namespace ProCSharpBook.CSharpBasics
 {
@@ -86,7 +87,7 @@ namespace ProCSharpBook.CSharpBasics
     //          Drived from TupleValue Structure (that is drived from ValueType)
     //          # user-defined types of the form 
     //              (Type1 [Name1], Type2 [Name2] ,..., TypeX [NameX]) TupleName = (Value1, Value2, ...,ValueX);
-    //              var TupleName = ([Name1:] Value1, [Name2:] Value2, ..., [NameX:]ValueX);
+    //              var TupleName = ([Name1:] Value1, [Name2:] Value2, ..., [NameX:] ValueX);
     //              
 
 
@@ -246,7 +247,7 @@ namespace ProCSharpBook.CSharpBasics
     // ----------------------- Null-coalescing operator -----------------------
     // x ?? y 
 
-    // ----------------------- Conditional operator -----------------------
+    // ----------------------- ternary operator -----------------------
     // c? t : f 
 
     // ----------------------- Assignment and lambda declaration -----------------------
@@ -552,7 +553,8 @@ namespace ProCSharpBook.CSharpBasics
 
             // Implicit Local Type Variable (var)
             // ------------------------------------------------------------
-            // Note that var makes Variable or Reference that is Static-Type not Dynamic-Type.
+            // Note that variable that is declared with var is static type not dynamic type. 
+            // it means that type of variable will be detected in compile time 
             var mybytevar2 = (byte)0;
             var mysbytevar2 = (sbyte)0;
             var mydecimalvar2 = 0m; // or d
@@ -1454,7 +1456,7 @@ namespace ProCSharpBook.CSharpBasics
             // public static UnicodeCategory GetUnicodeCategory(Char c);
 
             // public static bool IsControl(char ch);
-            // ...etc the most of ISMethod(char ch) is in FindCharType Method
+            // ...etc the most of ISMethod(char ch) is in FindCharType Method below
 
             // public static Char Parse(string s);
             // public static Char ToLower(Char c);
@@ -1532,11 +1534,11 @@ namespace ProCSharpBook.CSharpBasics
                 Console.WriteLine("IsLetter         = " + char.IsLetter(ch));
                 Console.WriteLine("IsLetterOrDigit  = " + char.IsLetterOrDigit(ch));
                 Console.WriteLine("IsLower          = " + char.IsLower(ch));
+                Console.WriteLine("IsUpper          = " + char.IsUpper(ch));
                 Console.WriteLine("IsNumber         = " + char.IsNumber(ch));
                 Console.WriteLine("IsPunctuation    = " + char.IsPunctuation(ch));
                 Console.WriteLine("IsSeparator      = " + char.IsSeparator(ch));
                 Console.WriteLine("IsSymbol         = " + char.IsSymbol(ch));
-                Console.WriteLine("IsUpper          = " + char.IsUpper(ch));
                 Console.WriteLine("IsWhiteSpace     = " + char.IsWhiteSpace(ch));
             }
             void FindCharTypeFromString(string str, int index)
@@ -1592,6 +1594,8 @@ namespace ProCSharpBook.CSharpBasics
 
             try
             {
+                // note that you can parse true and false even if there are whitespaces around 
+                // or upper or lower case
                 Console.WriteLine("Parse True  = " + bool.Parse("True "));
                 Console.WriteLine("Parse False = " + bool.Parse("False"));
                 Console.WriteLine("Parse true  = " + bool.Parse("true "));
@@ -1628,6 +1632,18 @@ namespace ProCSharpBook.CSharpBasics
 
             Console.WriteLine($" 10 == 20 || 10 == 10 is { 10 == 20 || 10 == 10 }");
             Console.WriteLine($" 10 != 20 && 10 == 10 is { 10 != 20 && 10 == 10 }");
+            #endregion
+
+            #region System.Numerics.dll assembly has BigInteger and Complex
+
+            // BigInteger Represents an arbitrarily large signed integer.
+            BigInteger big = BigInteger.Parse("999999999999999999999999999999999999");
+            var anotherBig = BigInteger.Parse("888888888888888888888888888888888888");
+            var bigResult = BigInteger.Multiply(big, anotherBig);
+            Console.WriteLine($"result of BigInteger MUl = {bigResult}");
+
+
+
             #endregion
 
 
