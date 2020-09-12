@@ -8,7 +8,8 @@ namespace ProCSharpBook.CSharpBasics
 {
     public static class ArraysTraining
     {
-        //        Understanding C# Arrays
+        // Understanding C# Arrays
+        //--------------------------------------------------------------------
         //As I would guess you are already aware, an array is a set of data items, accessed using a numerical index.
         //More specifically, an array is a set of contiguous data points of the same type (an array of ints, an array of
         //strings, an array of SportsCars, and so on). Declaring, filling, and accessing an array with C# are all quite

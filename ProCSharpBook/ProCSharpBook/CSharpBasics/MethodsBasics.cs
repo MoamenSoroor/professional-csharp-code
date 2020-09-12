@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
-
+using ProCSharpBook.OOPEncapsulation;
 
 namespace ProCSharpBook.CSharpBasics
 {
@@ -15,8 +15,7 @@ namespace ProCSharpBook.CSharpBasics
         {
             TestMethodWithNoModifier();
             TestOutMethodParameterModifier();
-
-
+            TestParams();
 
 
 
@@ -52,21 +51,21 @@ namespace ProCSharpBook.CSharpBasics
         }
 
 
-        // a Method with No return type (void), and No parameter
+        // a Method with int return type (void), and No parameter
         public static int IntMethod()
         {
             /* Implementation */
             return 0;
         }
 
-        // a Method with No return type (void), and with One parameter
+        // a Method with int return type , and with One parameter
         public static int IntMethod1(int parameter1)
         {
             /* Implementation */
             return 0;
         }
 
-        // a Method with No return type (void), and with 2 parameter
+        // a Method with int return type (void), and with 2 parameter
         public static int IntMethod2(int parameter1, int parameter2)
         {
             /* Implementation */
@@ -102,7 +101,6 @@ namespace ProCSharpBook.CSharpBasics
         // Syntactic Sugar generate the same IL Instructions of the brevious method
         public static int AddInts2(int x, int y) => x + y;
         #endregion
-
 
 
         #region Method Parameter Modifiers - out - ref - params
@@ -306,6 +304,45 @@ namespace ProCSharpBook.CSharpBasics
         #endregion
 
         #region params Modifiers
+        // we can pass array elements as arguments passed to method
+        // 1 - only one params parameter can be exist in method parameters
+        // 2 - if there are another parameter, params parameter must be the 
+        //     last one in method signature.
+        // 
+
+        public static void ParamsMethod(params int [] args)
+        {
+
+            Console.WriteLine("params test: " + string.Join(", ",args));
+            
+        }
+
+        // ok no problem: params are the last parameter
+        // -------------
+        //public static void ParamsMethod2(double x, params int[] args) { }
+
+
+        // wrong cases:
+        //public static void ParamsMethod2(params int[] args, double x) { }
+        //public static void ParamsMethod2(params int[] args, params double[] args2) { }
+        //public static void ParamsMethod2(double x, params int[] args, params double [] args2 ) { }
+
+
+        public static void TestParams()
+        {
+            ParamsMethod(10);
+            ParamsMethod(10,20);
+            ParamsMethod(10,20,30,40);
+
+
+            ParamsMethod(new[] { 10 });
+            ParamsMethod(new[] { 10 , 20,30,40});
+
+
+        }
+
+
+
 
 
 
@@ -327,6 +364,8 @@ namespace ProCSharpBook.CSharpBasics
 
 
         #endregion
+
+        
 
     }
 
