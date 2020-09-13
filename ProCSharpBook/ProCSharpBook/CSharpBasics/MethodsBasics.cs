@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using ProCSharpBook.OOPEncapsulation;
+using System.ComponentModel;
+using System.Data.SqlTypes;
 
 namespace ProCSharpBook.CSharpBasics
 {
@@ -16,6 +18,8 @@ namespace ProCSharpBook.CSharpBasics
             TestMethodWithNoModifier();
             TestOutMethodParameterModifier();
             TestParams();
+            TestOptionalParameters();
+            TestNamedParameter();
 
 
 
@@ -362,10 +366,94 @@ namespace ProCSharpBook.CSharpBasics
         // can make your code more readable. Discards can be used with out parameters, with tuples, with pattern
         // matching), or even as stand-alone variables.
 
+        public static void TestDiscardsWithOUtParameter()
+        {
+            // not that here i didn't use out argument iValue so we can use discards instead
+            // of creating an out argument
+            if (int.TryParse("1234000",out int iValue))
+                Console.WriteLine("Value is Integer");
+            else
+                Console.WriteLine("Value is not Integer");
+
+            // so better approach to use out _
+            if (int.TryParse("1234000", out _))
+                Console.WriteLine("Value is Integer");
+            else
+                Console.WriteLine("Value is not Integer");
+
+        }
+
+
+
 
         #endregion
 
-        
+
+        #region Optional Parameters and Named Arguments
+
+        // Optional Parameters 
+        // ------------------------------------------------------------
+        // rules of optional parameters
+        // 1- it should come after all required parameters
+        // 2- it's value must be a compile time constant, so it can't be assigned with  
+        //     return value of a method, or with field or property
+
+        // wronge: not constant optional parameter value
+        // ---------
+        // public void MethodWithOptional(string name, int age = int.Parse("45"), double salary = 4000.00)
+
+        // wronge: not constant optional parameter value
+        // ---------
+        // public static int myval = 20;
+        // public void MethodWithOptional(string name, int age = myval, double salary = 4000.00)
+
+        public static void TestOptionalParameters()
+        {
+            MethodWithOptional("moamen soroor", 20, 3000.00);
+            MethodWithOptional("moamen soroor", 20);
+            MethodWithOptional("moamen soroor");
+
+        }
+
+        public static void MethodWithOptional(string name, int age = 20, double salary = 4000.00)
+        {
+            Console.WriteLine("emp data: name= {0} , age = {1} , salary = {2}",name,age,salary);
+
+        }
+
+
+        // Named Parameter
+        // ---------------------------------------
+        // we can call a method with the using of parameter name in call 
+        // that feature allow us to pass arguments without it's order in signature
+        // but we must pass required arguments.
+
+        public static void TestNamedParameter()
+        {
+            // pass named args without signature parameters order
+            MethodWithOptional(salary:3000.00, name: "", age:30);
+
+            // combine named with unamed arguments but notice that you must pass required args 
+            // before any other named arguments
+            MethodWithOptional("moamen soroor",salary: 3000.00, age: 30);
+
+            // wrong : you must pass required args before any other named arguments
+            //MethodWithOptional(salary: 3000.00, age: 30, "moamen soroor");
+
+            // you can neglict any optional parameter, without any consideration to order
+            MethodWithOptional("moamen soroor", salary: 3000.00);
+
+
+        }
+
+
+
+
+
+
+        #endregion
+
+
 
     }
 

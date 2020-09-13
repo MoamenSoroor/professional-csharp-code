@@ -13,7 +13,7 @@ namespace ProCSharpBook.CSharpBasics
     // Value types can never be assigned the value of null, 
 
     // All Types drived from ValueType class can never be assigned to the value of null,
-    //      as that is used to establish an empty object reference.
+    //      as null is used to establish an empty object reference.
     //      and in many cases - like working with databases - we need null besides the range the type has.
 
     // A nullable type can represent all the values of its underlying type, plus the value null.
@@ -68,6 +68,8 @@ namespace ProCSharpBook.CSharpBasics
             Nullable<char> nullableChar1 = 'a';
             Nullable<int>[] arrayOfNullableInts1 = new Nullable<int>[10];
 
+            int? value = 20;
+            int val2 = value.HasValue ? value.Value: 0;
 
             // some tests
             Console.WriteLine("=============== Nullable Tests ===============");
@@ -179,6 +181,7 @@ namespace ProCSharpBook.CSharpBasics
             }
         }
 
+        // null conditional operator
         static void ArrayLength2(int[] args)
         {
             // We should check for null before accessing the array data!
@@ -186,6 +189,7 @@ namespace ProCSharpBook.CSharpBasics
 
         }
 
+        // null conditional with null coalescing operator
         static void ArrayLength3(int[] args)
         {
             // We should check for null before accessing the array data!
@@ -222,6 +226,7 @@ namespace ProCSharpBook.CSharpBasics
 
 
     }
+
     class NullableTester
     {
         private int? nullableField;

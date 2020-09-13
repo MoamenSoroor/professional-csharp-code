@@ -24,7 +24,7 @@ namespace ProCSharpBook
             var subjects = book.Index.ToSubjects();
 
             var result = from subject in subjects
-                         where subject.Chapter.In(3) && subject.In(1)
+                         where subject.Chapter.In(4) && subject.In(3)
                          select subject;
 
             book.Index.ExecuteSubjects(result);
@@ -60,6 +60,7 @@ namespace ProCSharpBook
             chapter3.Subjects.Add(new Subject(03, "ControlFlow Training", chapter3, CSharpBasics.ControlFlowTraining.TestControlFlow));
             chapter3.Subjects.Add(new Subject(04, "Arrays Training", chapter3, CSharpBasics.ArraysTraining.TestArrays));
             chapter3.Subjects.Add(new Subject(05, "Strings Training", chapter3, CSharpBasics.StringsTraining.TestStrings));
+            chapter3.Subjects.Add(new Subject(06, "DateTime Training", chapter3, CSharpBasics.DateTimeTraining.TestDateTime));
             #endregion
 
             #region Chapter 4 : Core C# Programming Constructs, Part II

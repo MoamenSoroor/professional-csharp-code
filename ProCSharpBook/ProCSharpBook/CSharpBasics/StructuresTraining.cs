@@ -69,7 +69,7 @@ namespace ProCSharpBook.CSharpBasics
 
             // Creating Variable with custom constructor
             Point p3 = new Point(10, 20);
-            // Will dislay default values 0 for int, 0.0 for float and double, null for object
+            // Will dislay x with value 10 and y with value 20
             p3.Display();
 
 
@@ -87,6 +87,7 @@ namespace ProCSharpBook.CSharpBasics
     {
         //public int myField;
         //private int myField2;
+
         // Error structure doesn't accept protected Modifier for any member
         // protected int myField3;
 

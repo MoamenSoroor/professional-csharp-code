@@ -1568,6 +1568,8 @@ namespace ProCSharpBook.OOPEncapsulation
             pt.DisplayStats();
 
             // Calling a more interesting custom constructor with init syntax.
+            // Note that if data point passed to constructor, and then assigned in
+            //  object initialization syntax, the value assigned in object init sytax will be the right value.
             Point goldPoint = new Point(PointColor.Gold) { X = 90, Y = 20 };
             goldPoint.DisplayStats();
 

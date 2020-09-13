@@ -46,7 +46,8 @@ namespace ProCSharpBook.CSharpBasics
             var varValues = (Math.PI, "Math", false);
 
             // By default, the compiler assigns each property the name ItemX, 
-            //      where X represents the one based position in the tuple.
+            //  where X represents the one based position in the tuple. 
+            //  X starts from 1 to n the number of elements in tuple.
             Console.WriteLine(values.Item1);
             Console.WriteLine(values.Item2);
             Console.WriteLine(values.Item3);
@@ -343,6 +344,9 @@ namespace ProCSharpBook.CSharpBasics
             // int can be implicitly converted to long
             (long, string) conversion = named;
 
+            // explicit conversion of tuple
+            (short, string) conversion2 = ((short)named.Answer, named.Message );
+
             // Notice that the names of the tuples are not assigned. The values of the elements
             //      are assigned following the order of the elements in the tuple.
 
@@ -352,7 +356,7 @@ namespace ProCSharpBook.CSharpBasics
             //var differentShape = (1, 2, 3);
             //named = differentShape;
 
-            
+
 
 
 

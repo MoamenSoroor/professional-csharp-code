@@ -37,7 +37,8 @@ namespace ProCSharpBook.CSharpBasics
             //Console.WriteLine($"emp1.CompareTo(0) = { emp1.CompareTo(0)}");
 
             // ------------------------<  obj.Equals(object target)  >------------------------
-            // Equals : doesn't throw Exception in Type Mismatch
+            // Equals : it accepts underline storage or enum constant name,
+            //          so it doesn't throw Exception in Type Mismatch
             Console.WriteLine($"emp1.Equals(EmpType.Manager) = {emp1.Equals(EmpType.Manager)}");        // True
             Console.WriteLine($"emp1.Equals(EmpType.SalesPersom) = {emp1.Equals(EmpType.SalesPersom)}"); // False
             Console.WriteLine($"emp1.Equals(1) = {emp1.Equals(1)}");    // False
@@ -195,7 +196,7 @@ namespace ProCSharpBook.CSharpBasics
         public static void WriteEnum(Enum e)
         {
             Console.WriteLine();
-            Console.WriteLine($"Write Info of Enumeration << {e.GetType()} >>");
+            Console.WriteLine($"Write Info of Enum << {e.GetType()} >>");
             Console.WriteLine($"Enum Name-------------: {e}");
             Console.WriteLine($"Enum Value------------: {Convert.ToInt32(e)}");
             Console.WriteLine($"Enum Type-------------: {e.GetType()}");
@@ -208,7 +209,7 @@ namespace ProCSharpBook.CSharpBasics
 
             Array items = Enum.GetValues(enumType);
             Console.WriteLine();
-            Console.WriteLine($"Name-Value Pair of Enumeration << {enumType.FullName} >>");
+            Console.WriteLine($"Name-Value Pair of Enum << {enumType.FullName} >>");
             foreach (var item in items)
             {
                 Console.WriteLine($"Name: {item}, Value: {(int)item}");
