@@ -800,7 +800,7 @@ namespace ProCSharpBook.CSharpCollections
     // Here is a short list of the benefits generic containers provide over their nongeneric counterparts:
 
     // • Generics provide better performance because they do not result in boxing or
-    //   unboxing penalties when storing value types.
+    //   unboxing penalties when storing ValueTypes.
 
     // • Generics are type safe because they can contain only the type of type you specify.
 
@@ -811,7 +811,7 @@ namespace ProCSharpBook.CSharpCollections
     #region The Role of Generic Type Parameters
 
     // The Role of Generic Type Parameters
-
+    // ----------------------------------------------------------------------------------------
     //    When you see a generic item listed in the.NET Framework documentation or the Visual Studio Object
     //Browser, you will notice a pair of angled brackets with a letter or other token sandwiched within.Figure 9-1
     //shows the Visual Studio Object Browser displaying a number of generic items located within the
@@ -829,20 +829,21 @@ namespace ProCSharpBook.CSharpCollections
 
     // Specifying Type Parameters for Generic Classes/Structures
     // =================================================================================================
-    //    After you specify the type parameter of a generic item, it cannot be
-    //changed(remember, generics are all about type safety). When you specify a type parameter for a generic
-    //class or structure, all occurrences of the placeholder(s) are now replaced with your supplied value.
+    // After you specify the type parameter of a generic item, it cannot be  changed(remember, 
+    // generics are all  about type safety). When you specify a type parameter for a generic   
+    // class or structure, all occurrences of the placeholder(s) are now replaced with your 
+    // supplied value.
 
-    //when you create a generic List<T> variable, the compiler does not literally create a new
-    //implementation of the List<T> class. Rather, it will address only the members of the generic type you
-    //actually invoke.
+    // when you create a generic List<T> variable, the compiler does not literally create a new
+    // implementation of the List<T> class. Rather, it will address only the members of the generic type you
+    // actually invoke.
 
     // Specifying Type Parameters for Generic Members
     // =================================================================================================
-    //    It is fine for a nongeneric class or structure to support generic properties.In these cases, you would also
-    //need to specify the placeholder value at the time you invoke the method.For example, System.Array
-    //supports a several generic methods. Specifically, the nongeneric static Sort() method now has a generic
-    //counterpart named Sort<T>(). 
+    // It is fine for a nongeneric class or structure to support generic properties.In these cases, you would also
+    // need to specify the placeholder value at the time you invoke the method.For example, System.Array
+    // supports a several generic methods. Specifically, the nongeneric static Sort() method now has a generic
+    // counterpart named Sort<T>(). 
 
     class TypeParameterForGenericMembers
     {
@@ -922,6 +923,11 @@ namespace ProCSharpBook.CSharpCollections
         public override bool Equals(object obj)
         {
             return this.ToString() == obj?.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
         }
 
         // Default Sorting is by ID : ASc
@@ -1043,6 +1049,7 @@ namespace ProCSharpBook.CSharpCollections
             }
         }
 
+        
     }
 
     class TypeParameterForGenericInterfaces
@@ -1789,7 +1796,76 @@ namespace ProCSharpBook.CSharpCollections
             Console.WriteLine("Working With Generic LinkedList");
             Console.WriteLine("".PadLeft(40, '='));
 
-            LinkedList<int> list;
+            LinkedList<int> list0 = new LinkedList<int>(new[] { 10, 20, 30 });
+
+            LinkedList<int> list = new LinkedList<int>();
+            
+            list.AddLast(20);
+            list.AddLast(30);
+            list.AddLast(40);
+            list.AddLast(50);
+
+            list.AddFirst(10);
+
+            PrintList(list,"print linked list after add first and add before: ");
+
+
+            Console.WriteLine( "First  :" + list.First.Value);
+            Console.WriteLine( "Last   :" + list.Last.Value);
+            Console.WriteLine( "Count  :" + list.Count);
+
+
+            list.AddAfter(list.Find(20),25);
+            list.AddBefore(list.Find(20),15);
+
+            PrintList(list, "print linked list after add two nodes after and before node has value 20 : ");
+
+            list.RemoveFirst();
+            PrintList(list, "print linked list after remove first : ");
+
+            list.RemoveLast();
+            PrintList(list, "print linked list after remove last : ");
+
+            Console.WriteLine(list.Remove(20));
+
+            list.Clear();
+            PrintList(list, "print linked list after clear : ");
+
+            list.AddLast(10);
+            list.AddLast(20); // first 20
+            list.AddLast(30);
+            list.AddLast(20); // last 20
+            list.AddLast(50);
+
+
+            LinkedListNode<int> nodeLast20 = list.FindLast(20);
+            LinkedListNode<int> nodeFirst20 = list.Find(20);
+
+
+            Console.WriteLine("find last value of 20: " + nodeLast20.Value);
+            Console.WriteLine("find (find first) value of 20: " + nodeFirst20.Value);
+
+            // use LinkedListNode
+            LinkedListNode<int> firstNode = list.First;
+            Console.WriteLine("First Node Value: " + firstNode.Value);
+
+
+            Console.WriteLine("Next To First Node: " + firstNode.Next.Value);
+            Console.WriteLine("Next Next To First Node: " + firstNode.Next.Next.Value);
+
+
+            // use LinkedListNode
+            LinkedListNode<int> lastNode = list.Last;
+            Console.WriteLine("Last Node Value: " + lastNode.Value);
+            Console.WriteLine("Previous To Last Node: " + lastNode.Previous.Value);
+            Console.WriteLine("Previous Previous To Last Node: " + lastNode.Previous.Previous.Value);
+
+
+
+
+
+
+
         }
 
     }
@@ -2422,7 +2498,7 @@ namespace ProCSharpBook.CSharpCollections
             PrintListLine(arr1, "My Copied Array");
 
             // public virtual SortedSet<T> GetViewBetween(T lowerValue, T upperValue);
-
+            // -----------------------------------------------------------------------
             integers = new SortedSet<int> { 10, 20, 30, 40, 50, 60, 70 };
             PrintSetLine(integers);
             SortedSet<int> viewSet = integers.GetViewBetween(30, 50);
@@ -2641,6 +2717,7 @@ namespace ProCSharpBook.CSharpCollections
                 
             };
 
+            // register listener
             people.CollectionChanged += peopleCollectionChanged;
 
             people.Add(new Person() { ID = 500, Name = "Soroor", Age = 100 });
@@ -2756,11 +2833,11 @@ namespace ProCSharpBook.CSharpCollections
             //TypeParameterForGenericInterfaces.Test();
             //CollectionInitializationSyntax.Test();
 
-            WorkingWithGenericList.Test();
+            //WorkingWithGenericList.Test();
             //WorkingWithGenericLinkedList.Test();
             //WorkingWithGenericStack.Test();
             //WorkingWithGenericQueue.Test();
-            //WorkingWithGenericHashSet.Test();
+            WorkingWithGenericHashSet.Test();
             //WorkingWithGenericSortedSet.Test();
             //WorkingWithGenericDictionary.Test();
             //WorkingWithGenericSortedDictionary.Test();

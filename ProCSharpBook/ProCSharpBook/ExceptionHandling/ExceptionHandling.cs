@@ -411,8 +411,8 @@ namespace ProCSharpBook.ExceptionHandling
             {
                 Console.WriteLine($"-------------- Exception --------------");
                 Console.WriteLine($"ex.TargetSite      : {ex.TargetSite}"); // the same as : ex.TargetSite.Name
-                Console.WriteLine($"ex.MemberType      : {ex.TargetSite.MemberType}");
-                Console.WriteLine($"ex.DeclaringType   : {ex.TargetSite.DeclaringType}");
+                Console.WriteLine($" .MemberType       : {ex.TargetSite.MemberType}");
+                Console.WriteLine($" .DeclaringType    : {ex.TargetSite.DeclaringType}");
                 Console.WriteLine($"ex.Message         : {ex.Message}");
                 Console.WriteLine($"ex.Source          : {ex.Source}");
                 //Console.WriteLine($"ex.StackTrace      :\n{ex.StackTrace}");
@@ -540,7 +540,6 @@ namespace ProCSharpBook.ExceptionHandling
     // diff from CarIsDeadException is here we pass message to base class constructor
     public class CarIsDeadException2 : ApplicationException
     {
-        public string messageDetails = String.Empty;
         public DateTime ErrorTimeStamp { get; set; }
         public string CauseOfError { get; set; }
         public CarIsDeadException2() { }

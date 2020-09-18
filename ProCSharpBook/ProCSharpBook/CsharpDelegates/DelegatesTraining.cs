@@ -12,19 +12,19 @@ namespace ProCSharpBook.CSharpDelegates
     // .NET delegates are classes that have built-in support for multicasting and asynchronous method
     // invocation.
     // In essence, a delegate is a type-safe object that points to another method 
-    //(or possibly a list of methods) in the application, which can be invoked at a later time. 
+    // (or possibly a list of methods) in the application, which can be invoked at a later time. 
     // Specifically, a delegate maintains three important pieces of information:
-    //•	 The address of the method on which it makes calls
-    //•	 The parameters (if any) of this method
-    //•	 The return type (if any) of this method
+    // •  The address of the method on which it makes calls
+    // •  The parameters (if any) of this method
+    // •  The return type (if any) of this method
 
     // Note .net delegates can point to either static or instance methods.
 
-    //    After a delegate object has been created and given the necessary information, it may dynamically
-    //invoke the method(s) it points to at runtime. Every delegate in the.NET Framework (including your custom
-    //delegates) is automatically endowed with the ability to call its methods synchronously or asynchronously.
-    //This fact greatly simplifies programming tasks, given that you can call a method on a secondary thread of
-    //execution without manually creating and managing a Thread object. 
+    // After a delegate object has been created and given the necessary information, it may dynamically
+    // invoke the method(s) it points to at runtime. Every delegate in the.NET Framework (including your custom
+    // delegates) is automatically endowed with the ability to call its methods synchronously or asynchronously.
+    // This fact greatly simplifies programming tasks, given that you can call a method on a secondary thread of
+    // execution without manually creating and managing a Thread object. 
     #endregion
 
     #region The C# delegate keyword represents a sealed class deriving from System.MulticastDelegate

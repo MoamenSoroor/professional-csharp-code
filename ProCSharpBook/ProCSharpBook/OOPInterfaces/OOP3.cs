@@ -276,7 +276,8 @@ namespace ProCSharpBook.OOPInterfaces
     //      - may have const and static members.
     //
     // - with regard to Derived Types:
-    //      - drived types can extends only one abstract class, if you want more use interfaces and Delegation Models
+    //      - drived types can extends only one abstract class, if you want more use interfaces and 
+    //        Delegation Models
     //      - 
 
     // interfaces:
@@ -1138,7 +1139,9 @@ namespace ProCSharpBook.OOPInterfaces
             Car aCar = obj as Car;
             if (aCar != null)
             {
-                return this.Speed > aCar.Speed ? 1 : this.Speed == aCar.Speed ? 0 : -1;
+                //return this.Speed > aCar.Speed ? 1 : this.Speed == aCar.Speed ? 0 : -1;
+                return this.Speed.CompareTo(aCar.Speed);
+
             }
             else
                 throw new ArgumentException("Parameter is not a Car!");
@@ -1457,21 +1460,34 @@ namespace ProCSharpBook.OOPInterfaces
     {
 
         public int Start { get; }
-        public int Counter { get; set; }
+        public int Counter { get; private set; }
 
-        public int Max { get; set; }
+        public int End { get; }
 
-        public int Step { get; set; }
+        public int Step { get; }
 
-        public Sequence(int start, int max, int step)
+        public Sequence(int start, int end, int step)
         {
             Start = start;
             Counter = start;
-            Max = max;
+            End = end;
             Step = step;
+
+            if (start > end && step > 0)
+                throw new Exception("Invalid Sequence, Infinite Sequence");
+
+
+            if (start < end && step < 0)
+                throw new Exception("Invalid Sequence, Infinite Sequence");
+
+
+            if (step == 0)
+                throw new Exception("Invalid Step Value,Infinite Sequence");
+
+
         }
 
-        public Sequence() : this(0, 1000, 1) { }
+        public Sequence() : this(0, 10, 1) { }
 
         public void Reset()
         {
@@ -1483,7 +1499,7 @@ namespace ProCSharpBook.OOPInterfaces
         public IEnumerator GetEnumerator()
         {
             Console.WriteLine("Code In Enumerator Method");
-            for (; Counter < Max; Counter+=Step)
+            for (Counter = Start; Counter < End; Counter+=Step)
             {
                 Console.WriteLine("One Yield Retrun Execution");
                 yield return Counter;
