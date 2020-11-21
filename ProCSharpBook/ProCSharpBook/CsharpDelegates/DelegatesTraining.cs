@@ -252,8 +252,9 @@ namespace ProCSharpBook.CSharpDelegates
 
             // ------------------------------------------------------------------
             // using Invoke() Method
-            // C# does not require you to explicitly call Invoke() within your codebase. Because BinaryOp can point to
-            // methods that take two arguments, the following code statement is also permissible:
+            // C# does not require you to explicitly call Invoke() within your codebase. 
+            // Because BinaryOp can point to methods that take two arguments,
+            // the following code statement is also permissible:
 
             // Invoke Add() method indirectly using delegate object.
             Console.WriteLine($@"delegateAdd(20,10): {delegateAdd.Invoke(20, 10)}");
@@ -268,8 +269,8 @@ namespace ProCSharpBook.CSharpDelegates
             Console.WriteLine($@"delegateDiv(20,10): {delegateDiv.Invoke(20, 10)}");
             // ------------------------------------------------------------------
 
-            // Recall that .NET delegates are type-safe.Therefore, if you attempt to create a delegate object pointing
-            // to a method that does not match the pattern, you receive a compile-time error.
+            // Recall that .NET delegates are type-safe.Therefore, if you attempt to create a delegate object 
+            // pointing to a method that does not match the pattern, you receive a compile-time error.
 
             // Compiler error! Method does not match delegate pattern!
             //BinaryOp delegateSquare = new BinaryOp(SimpleMath.Square);
@@ -715,7 +716,7 @@ namespace ProCSharpBook.CSharpDelegates
             // Simplify with Method Group Conversion Syntax
 
             Action<string, ConsoleColor, int> Message2 = DisplayMessage;
-            Message("Hello With Action Delegate!!", ConsoleColor.Red, 10);
+            Message2("Hello With Action Delegate!!", ConsoleColor.Red, 10);
 
             Func<int, int, string> AddFunc2 = Add;
             AddFunc(10, 20);

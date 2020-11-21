@@ -42,17 +42,17 @@ namespace ProCSharpBook.ExtensionMethods
 
     //    Importing Extension Methods
     // ====================================================================
-    //When you define a class containing extension methods, it will no doubt be defined within a.NET
-    //namespace.If this namespace is different from the namespace using the extension methods, you will need
-    //to make use of the expected C# using keyword. When you do, your code file has access to all extension
-    //methods for the type being extended.This is important to remember because if you do not explicitly import
-    //the correct namespace, the extension methods are not available for that C# code file.
+    // When you define a class containing extension methods, it will no doubt be defined within a.NET
+    // namespace.If this namespace is different from the namespace using the extension methods, you will need
+    // to make use of the expected C# using keyword. When you do, your code file has access to all extension
+    // methods for the type being extended.This is important to remember because if you do not explicitly import
+    // the correct namespace, the extension methods are not available for that C# code file.
 
     //    Extending Types Implementing Specific Interfaces
     // ====================================================================
-    //At this point, you have seen how to extend classes (and, indirectly, structures that follow the same syntax)
-    //with new functionality via extension methods.It is also possible to define an extension method that can only
-    //extend a class or structure that implements the correct interface. 
+    // At this point, you have seen how to extend classes (and, indirectly, structures that follow the same syntax)
+    // with new functionality via extension methods.It is also possible to define an extension method that can only
+    // extend a class or structure that implements the correct interface. 
 
     // Benefits of that Language Feature
     // ====================================================================

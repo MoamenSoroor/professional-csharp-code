@@ -40,6 +40,15 @@ namespace ProCSharpBook.CSharpBasics
     //          Here, you must assign all data fields to it's value. or else, you will face Compile Error. 
     // - 
 
+    // Important NOTE: 
+    // ---------------
+    // We must explicitly chaining to the default constructor. if you have a structure, which makes use 
+    // of automatic property syntax(as you do here), the default constructor must be explicitly called
+    // (from all custom constructors) to initialize the private backing fields
+    // (for example, if the structures had any additional fields/properties, this default constructor 
+    // would initialize these fields to default values). Yes, this is a quirky rule of C#, but after all,
+    // this is an advanced topics chapter.
+
     public static class StructuresTraining
     {
         static StructuresTraining() { }
@@ -91,8 +100,11 @@ namespace ProCSharpBook.CSharpBasics
         // Error structure doesn't accept protected Modifier for any member
         // protected int myField3;
 
-        // Accepts Automatic Property
-        public string Name { get; set; }
+        // Accepts Automatic Property: 
+        // but 
+        // we must call default constructor explicitly from other constructors 
+        // to set the backing fields
+        public string Name { get; set; } 
 
         // Accepts Fields
         private int age;
@@ -107,6 +119,12 @@ namespace ProCSharpBook.CSharpBasics
                     value = 1;
                 age = value;
             }
+        }
+
+        public MyStruct(string name, int age) : this()
+        {
+            Name = name;
+            Age = age;
         }
 
         // Accepts Methods
@@ -134,7 +152,9 @@ namespace ProCSharpBook.CSharpBasics
         // if you didn't assigned all data points in custom constructor Compile Error will appear.
         // public Point2(int x, int y) { this.X = x; }
 
-        public Point(int x , int y)
+        // we can instead make explicit call to default constructor
+
+        public Point(int x , int y)  // : this()
         {
             this.X = x;
             this.Y = y;

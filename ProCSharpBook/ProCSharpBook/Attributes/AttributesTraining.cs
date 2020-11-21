@@ -74,8 +74,10 @@ namespace ProCSharpBook.Attributes
     // As you would guess, the .NET 4.7 Framework SDK ships with numerous utilities that are indeed on the
     // lookout for various attributes.The C# compiler (csc.exe) itself has been preprogrammed to discover the
     // presence of various attributes during the compilation cycle.For example, if the C# compiler encounters the
-    // [CLSCompliant] attribute, it will automatically check the attributed item to ensure it is exposing only CLScompliant constructs. By way of another example, if the C# compiler discovers an item attributed with the
-    // [Obsolete] attribute, it will display a compiler warning in the Visual Studio Error List window.
+    // [CLSCompliant] attribute, it will automatically check the attributed item to ensure it is exposing only 
+    // CLScompliant constructs. 
+    // By way of another example, if the C# compiler discovers an item attributed with the [Obsolete] attribute, 
+    // it will display a compiler warning in the Visual Studio Error List window.
     // In addition to development tools, numerous methods in the.NET base class libraries are
     // preprogrammed to reflect over specific attributes.For example, if you want to persist the state of an object
     // to file, all you are required to do is annotate your class or structure with the[Serializable] attribute.If the

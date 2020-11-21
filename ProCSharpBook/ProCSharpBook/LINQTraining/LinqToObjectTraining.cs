@@ -291,11 +291,11 @@ namespace ProCSharpBook.LINQTraining
 
     #region The Role of Immediate Execution
     // ------------------------ The Role of Immediate Execution -------------------------
-    //    When you need to evaluate a LINQ expression from outside the confines of foreach logic, you are
-    //able to call any number of extension methods defined by the Enumerable type such as ToArray<T>(),
-    //ToDictionary<TSource, TKey>(), and ToList<T>(). These methods will cause a LINQ query to execute at
-    //the exact moment you call them to obtain a snapshot of the data.After you have done so, the snapshot of
-    //data may be independently manipulated.
+    // When you need to evaluate a LINQ expression from outside the confines of foreach logic, you are
+    // able to call any number of extension methods defined by the Enumerable type such as ToArray<T>(),
+    // ToDictionary<TSource, TKey>(), and ToList<T>(). These methods will cause a LINQ query to execute 
+    // at the exact moment you call them to obtain a snapshot of the data. After you have done so, 
+    // the snapshot of data may be independently manipulated.
 
     // The usefulness of immediate execution is obvious when you need to return the results of a LINQ query
     // to an external caller.
@@ -420,6 +420,7 @@ namespace ProCSharpBook.LINQTraining
             // greater than 55.
             var fastCars = from c in myCars where c.Speed > 55 select c;
 
+            // Execute the fastcar query
             foreach (var car in fastCars)
             {
                 Console.WriteLine("{0} is going too fast!", car.PetName);
@@ -431,6 +432,8 @@ namespace ProCSharpBook.LINQTraining
         {
             // Find the fast BMWs!
             var fastCars = from c in myCars where c.Speed > 90 && c.Make == "BMW" select c;
+
+            // Execute the fast BMWs
             foreach (var car in fastCars)
             {
                 Console.WriteLine("{0} is going too fast!", car.PetName);
@@ -693,6 +696,8 @@ ProductInfo: Name={Name}, Description={Description}, Number in Stock={NumberInSt
             {
                 // Could also use Name and Description properties directly.
                 Console.WriteLine(item.ToString());
+                Console.WriteLine(item.Name);
+                Console.WriteLine(item.Description);
             }
         }
 

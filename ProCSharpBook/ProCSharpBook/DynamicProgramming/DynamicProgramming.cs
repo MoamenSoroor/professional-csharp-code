@@ -23,6 +23,21 @@ namespace ProCSharpBook.DynamicProgramming
 
     }
 
+    #region  NET 4.0 introduced dynamic keyword, Dynamic Language Runtime(DLR)
+    // ------------------------ Introduction to Dynamic Programming -------------------------
+    // NET 4.0 introduced a new keyword to the C# language, specifically, dynamic. This keyword allows you to
+    // incorporate scripting-like behaviors into the strongly typed world of type safety, semicolons, and curly
+    // brackets.Using this loose typing, you can greatly simplify some complex coding tasks and also gain the
+    // ability to interoperate with a number of dynamic languages which are.NET savvy.
+    // In this chapter, you will be introduced to the C# dynamic keyword and understand how loosely typed
+    // calls are mapped to the correct in-memory object using ((((( the Dynamic Language Runtime(DLR) ))))). 
+    // After you understand the services provided by the DLR, you will see examples of using dynamic 
+    // types to streamline how you can perform late-bound method calls(via reflection services) and to 
+    // easily communicate with legacy COM libraries.
+    // -------------------------------------------------------------------------
+    #endregion
+
+
     #region implicity typing - var keyword
     // ------------------------ implicity typing - var keyword -------------------------
     // var keyword, which allows you to define local variables in such a way
@@ -114,16 +129,12 @@ namespace ProCSharpBook.DynamicProgramming
 
     #region The Role of the C# dynamic Keyword
     // ------------------------ The Role of the C# dynamic Keyword -------------------------
-    // Since the release of.NET 4.0, the C# language introduced a keyword named dynamic. From a high
-    // level, you can consider the dynamic keyword a specialized form of System.Object, in that any value can
-    // be assigned to a dynamic data type.
-
-    // At first glance, this can appear horribly confusing, as it appears you
-    // now have three ways to define data whose underlying type is not directly indicated in your codebase
-
+    // 
     // What makes a dynamic variable much(much) different from a variable declared implicitly or via a
     // System.Object reference is that it is not strongly typed.Said another way, dynamic data is not statically
     // typed.As far as the C# compiler is concerned, a data point declared with the dynamic keyword can be
+    // assigned any initial value at all and can be reassigned to any new (and possibly unrelated) 
+    // value during its lifetime.
 
     public class CSharpDynamicKeyword
     {
@@ -200,13 +211,15 @@ namespace ProCSharpBook.DynamicProgramming
     // --------------------------------------------------------------
     #endregion
 
-    #region The Role of the Microsoft.CSharp.dll Assembly
+    #region The Role of the Microsoft.CSharp.dll Assembly, and Microsoft.CSharp.RuntimeBinder.RuntimeBinderException class
     // ------------------------ The Role of the Microsoft.CSharp.dll Assembly -------------------------
     // When you create a new Visual Studio C# project, you will automatically have a reference set to an assembly
     // named Microsoft.CSharp.dll(you can see this for yourself by looking in the References folder of
     // the Solution Explorer). This library is small and defines only a single namespace (Microsoft.CSharp.
     // RuntimeBinder) with two classes.
 
+    // Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 
+    // ------------------------------------------------------
     // As you can tell by their names, both of these classes are strongly typed exceptions.The most common
     // class, RuntimeBinderException, represents an error that will be thrown if you attempt to invoke a member
     // on a dynamic data type, which does not actually exist(as in the case of the toupper() and Foo() methods).
@@ -224,7 +237,7 @@ namespace ProCSharpBook.DynamicProgramming
             try
             {
                 Console.WriteLine(textData1.ToUpper());
-                Console.WriteLine(textData1.toupper());
+                Console.WriteLine(textData1.toupper()); // toupper() is wrong
                 Console.WriteLine(textData1.Foo(10, "ee", DateTime.Now));
             }
             catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException ex)
@@ -280,7 +293,7 @@ namespace ProCSharpBook.DynamicProgramming
     #endregion
 
 
-    #region Limitations of the dynamic Keyword
+    #region Limitations of the dynamic Keyword: extension methods, anynomous methods, lambdas, and LINQ
     // ------------------------ Limitations of the dynamic Keyword -------------------------
     // do know that a dynamic data item cannot make use of lambda
     // expressions or C# anonymous methods when calling a method. 
@@ -300,6 +313,61 @@ namespace ProCSharpBook.DynamicProgramming
 
     // --------------------------------------------------------------
     #endregion
+
+    #region The Role of the Dynamic Language Runtime
+    // ------------------------ The Role of the Dynamic Language Runtime -------------------------
+    //Now that you better understand what “dynamic data” is all about, let’s learn how it is processed.Since the
+    //release of.NET 4.0, the Common Language Runtime (CLR) was supplemented with a complementary
+    //runtime environment named the Dynamic Language Runtime.
+    // 
+    //The concept of a “dynamic runtime” is
+    //certainly not new. In fact, many programming languages such as JavaScript, LISP, Ruby, and Python have
+    //used it for years.In a nutshell, a dynamic runtime allows a dynamic language the ability to discover types
+    //completely at runtime with no compile-time checks.
+
+    // If you have a background in strongly typed languages (including C#, without dynamic types), the notion
+    // of such a runtime might seem undesirable.After all, you typically want to receive compile-time errors, not
+    // runtime errors, wherever possible.
+
+    // Nevertheless, dynamic languages/runtimes do provide some interesting
+    //features, including the following:
+    // 
+    //      • An extremely flexible codebase.You can refactor code without making numerous
+    //           changes to data types.
+    //        
+    //      • A simple way to interoperate with diverse object types built in different platforms
+    //           and programming languages.
+    //        
+    //      • A way to add or remove members to a type, in memory, at runtime.
+
+    // One role of the DLR is to enable various dynamic languages to run with the .NET runtime and give
+    // them a way to interoperate with other.NET code.These languages live in a dynamic universe, where type
+    // is discovered solely at runtime. And yet, these languages have access to the richness of the.NET base class
+    // libraries. Even better, their codebases can interoperate with C# (or vice versa), thanks to the inclusion of the
+    // dynamic keyword.
+    // -------------------------------------------------------------------------
+    #endregion
+
+    #region The Role of Expression Trees
+    // ------------------------ The Role of Expression Trees -------------------------
+
+    // -------------------------------------------------------------------------
+    #endregion
+
+    #region The Role of the System.Dynamic Namespace
+    // ------------------------ The Role of the System.Dynamic Namespace -------------------------
+
+    // -------------------------------------------------------------------------
+    #endregion
+
+    #region Dynamic Runtime Lookup of Expression Trees
+    // ------------------------ Dynamic Runtime Lookup of Expression Trees -------------------------
+
+    // -------------------------------------------------------------------------
+    #endregion
+
+
+
 
     #region Simplifying Late-Bound Calls Using Dynamic Types
     // ------------------------ Simplifying Late-Bound Calls Using Dynamic Types -------------------------

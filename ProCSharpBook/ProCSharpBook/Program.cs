@@ -24,7 +24,7 @@ namespace ProCSharpBook
             var subjects = book.Index.ToSubjects();
 
             var result = from subject in subjects
-                         where subject.Chapter.In(9) && subject.In(2)
+                         where subject.Chapter.In(15) && subject.In(3)
                          select subject;
 
             book.Index.ExecuteSubjects(result);

@@ -245,15 +245,16 @@ namespace ProCSharpBook.ReflectionTraining
         // Test Method
         public static void Test()
         {
-            Reflect(Type.GetType("System.Int32"));
-            Reflect(Type.GetType("System.Collections.ArrayList"));
-            Reflect(Type.GetType("System.Threading.Thread"));
-            Reflect(Type.GetType("System.Void"));
-            Reflect(Type.GetType("System.IO.BinaryWriter"));
-            Reflect(Type.GetType("System.Math"));
-            Reflect(Type.GetType("System.Collections.Generic.List`1"));
-            Reflect(Type.GetType("System.Collections.Generic.Dictionary`2"));
+            //Reflect(Type.GetType("System.Int32"));
+            //Reflect(Type.GetType("System.Collections.ArrayList"));
+            //Reflect(Type.GetType("System.Threading.Thread"));
+            //Reflect(Type.GetType("System.Void"));
+            //Reflect(Type.GetType("System.IO.BinaryWriter"));
+            //Reflect(Type.GetType("System.Math"));
+            //Reflect(Type.GetType("System.Collections.Generic.List`1"));
+            //Reflect(Type.GetType("System.Collections.Generic.Dictionary`2"));
 
+            Console.WriteLine(Reflect(Type.GetType("System.Collections.ArrayList")));
         }
 
         public static string Reflect(Type t)
@@ -279,7 +280,7 @@ namespace ProCSharpBook.ReflectionTraining
             builder.AppendLine("----------------------------------------------");
             builder.AppendLine($"Type-----------: {t.FullName}");
             builder.AppendLine($"BaseType-------: {t.BaseType?.FullName}"); // if a type is an interface null will be returned
-            builder.AppendLine($"ImplInterfaces-: {string.Join(", ", (from inter in t.GetInterfaces() select inter.FullName))}");
+            builder.AppendLine($"ImplInterfaces-:{NewLine}{string.Join(NewLine, (from inter in t.GetInterfaces() select "".PadLeft(18) + inter.FullName))}");
             builder.AppendLine($"Namespace------: {t.Namespace}");
             builder.AppendLine($"AssemblyName---: {t.AssemblyQualifiedName}");
 
@@ -327,6 +328,7 @@ namespace ProCSharpBook.ReflectionTraining
             return builder.ToString();
         }
 
+
         public static string ReflectOverProperties(Type t)
         {
             StringBuilder builder = new StringBuilder();
@@ -340,15 +342,56 @@ namespace ProCSharpBook.ReflectionTraining
                 builder.AppendLine($"Name--: {item.Name}");
                 builder.AppendLine($"Type--: {item.PropertyType.FullName}");
                 builder.Append($"Flags-:");
-                builder.Append(item.CanRead ? " [Read]" : "");
-                builder.Append(item.CanWrite ? " [Write]" : "");
+                builder.Append(item.CanRead ? " [Read]" : "[Not Read]");
+                builder.Append(item.CanWrite ? " [Write]" : "[Not Written]");
+                //builder.Append(item.CanRead ? " [Read]" : "");
+                //builder.Append(item.CanWrite ? " [Write]" : "");
+                builder.AppendLine();
+                ReflectOverGetterAndSetter(item);
                 builder.AppendLine();
             }
             builder.AppendLine();
             return builder.ToString();
         }
 
-        public static string ReflectOverEvents(Type t)
+        public static string ReflectOverGetterAndSetter(PropertyInfo prop)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            var setter = prop.SetMethod;
+            var getter = prop.GetMethod;
+
+            if (setter != null)
+            {
+                builder.Append($"Setter: ");
+                builder.Append(setter.IsPublic ? " [public]" : "");
+                builder.Append(setter.IsPrivate ? " [private]" : "");
+                builder.Append(setter.IsFamily ? " [protected]" : "");
+                builder.Append(setter.IsAssembly ? " [internal]" : "");
+                builder.Append(setter.IsFamilyOrAssembly ? " [protected internal]" : "");
+                builder.Append(setter.IsFamilyAndAssembly ? " [private protected]" : "");
+
+                builder.AppendLine();
+            }
+
+
+            if (getter != null)
+            {
+                builder.Append($"Getter: ");
+                builder.Append(getter.IsPublic ? " [public]" : "");
+                builder.Append(getter.IsPrivate ? " [private]" : "");
+                builder.Append(getter.IsFamily ? " [protected]" : "");
+                builder.Append(getter.IsAssembly ? " [internal]" : "");
+                builder.Append(getter.IsFamilyOrAssembly ? " [protected internal]" : "");
+                builder.Append(getter.IsFamilyAndAssembly ? " [private protected]" : "");
+
+                builder.AppendLine();
+            }
+                
+            return builder.ToString();
+        }
+
+            public static string ReflectOverEvents(Type t)
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine();

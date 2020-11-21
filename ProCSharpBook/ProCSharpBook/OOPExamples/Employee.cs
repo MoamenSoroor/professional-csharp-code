@@ -72,12 +72,12 @@ namespace ProCSharpBook.OOPExamples
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return this.ToString().Equals((obj as Employee)?.ToString());
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return this.ToString().GetHashCode();
         }
     }
 
