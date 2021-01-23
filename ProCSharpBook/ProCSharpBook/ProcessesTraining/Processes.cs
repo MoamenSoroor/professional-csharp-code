@@ -413,11 +413,83 @@ namespace ProCSharpBook.ProcessesTraining
 
     }
 
-    
+
 
 
     // --------------------------------------------------------------
     #endregion
 
+
+
+    #region The new .Net Core and .Net 5 LoadContext
+
+    // NOTE: Works ONly within .Net core or .Net 5
+
+    // AssemblyLoadContext Class: https://docs.microsoft.com/en-us/dotnet/api/system.runtime.loader.assemblyloadcontext?view=net-5.0
+    // The AssemblyLoadContext represents a load context.Conceptually, a load context creates a scope for 
+    // loading, resolving, and potentially unloading a set of assemblies.
+
+    // AssemblyLoadContext is an abstract class. The AssemblyLoadContext.Load(AssemblyName) method needs 
+    // to be implemented to create a concrete class.
+
+    // The AssemblyLoadContext exists primarily to provide assembly loading isolation.It allows multiple versions 
+    // of the same assembly to be loaded within a single process.It replaces the isolation mechanisms 
+    // provided by multiple AppDomain instances in the.NET Framework.
+
+    //Note
+    //AssemblyLoadContext does not provide any security features.All code has full permissions of the process.
+
+
+    //  Application usage
+    //  An application can create its own AssemblyLoadContext to create a custom solution for advanced scenarios.
+    //  The customization focuses on defining dependency resolution mechanisms.
+    
+    //  The AssemblyLoadContext provides two extension points to implement managed assembly resolution:
+    
+    //  The AssemblyLoadContext.Load(AssemblyName) method provides the first chance for the AssemblyLoadContext 
+    //  to resolve, load, and return the assembly. If the AssemblyLoadContext.Load(AssemblyName) method returns 
+    //  null, the loader tries to load the assembly into the AssemblyLoadContext.Default.
+    //  If the AssemblyLoadContext.Default is unable to resolve the assembly, the original AssemblyLoadContext 
+    //  gets a second chance to resolve the assembly.The runtime raises the Resolving event.
+    //  Additionally, the AssemblyLoadContext.LoadUnmanagedDll(String) virtual method allows customization 
+    //  of the default unmanaged assembly resolution.The default implementation returns null, which causes 
+    //  the runtime search to use its default search policy. The default search policy is sufficient 
+    //  for most scenarios.
+
+
+    class LoadContexts
+    {
+        static void LoadAdditionalAssembliesDifferentContexts()
+        {
+            //var path =
+            //Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            //"ClassLibrary1.dll");
+            //AssemblyLoadContext lc1 =
+            //new AssemblyLoadContext("NewContext1", false);
+            //var cl1 = lc1.LoadFromAssemblyPath(path);
+            //var c1 = cl1.CreateInstance("ClassLibrary1.Car");
+            //AssemblyLoadContext lc2 =
+            //new AssemblyLoadContext("NewContext2", false);
+            //var cl2 = lc2.LoadFromAssemblyPath(path);
+            //var c2 = cl2.CreateInstance("ClassLibrary1.Car");
+            //Console.WriteLine("*** Loading Additional Assemblies in Different Contexts ***");
+            //Console.WriteLine($"Assembly1 Equals(Assembly2) {cl1.Equals(cl2)}");
+            //Console.WriteLine($"Assembly1 == Assembly2 {cl1 == cl2}");
+            //Console.WriteLine($"Class1.Equals(Class2) {c1.Equals(c2)}");
+            //Console.WriteLine($"Class1 == Class2 {c1 == c2}");
+        }
+
+        //// output: 
+        //*** Loading Additional Assemblies in Different Contexts ***
+        //Assembly1 Equals(Assembly2) False
+        //Assembly1 == Assembly2 False
+        //Class1.Equals(Class2) False
+        //Class1 == Class2 False
+    }
+
+    
+
+
+    #endregion
 
 }
