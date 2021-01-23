@@ -295,6 +295,62 @@ namespace ProCSharpBook.OOPInheritanceAndPlymorphism
         }
 
     }
+
+
+    #endregion
+
+
+    #region Sealed with Methods
+
+
+    class MyNonSealed1
+    {
+        public virtual void MyMethod()
+        {
+
+        }
+    }
+
+    class MyNonSealed2: MyNonSealed1
+    {
+        public sealed override void MyMethod()
+        {
+
+        }
+    }
+
+    class MyNonSealed3 : MyNonSealed2
+    {
+        // Error cannot override inherited member 'MyNonSealed2.MyMethod()' because it is sealed 
+        //public override void MyMethod()
+        //{
+
+        //}
+    }
+
+
+    #endregion
+
+    #region Sealed with Classes
+
+
+    sealed class MySealedClass
+    {
+        // not allowed to make virtual method in sealed class
+        //public virtual void MyMethod() { }
+        
+    }
+
+    // not allowed to inherit 
+    // Error CS0509  'MySealedClass2': cannot derive from sealed type 'MySealedClass'	
+    //class MySealedClass2 : MySealedClass
+    //{
+    //    public sealed override void MyMethod()
+    //    {
+
+    //    }
+    //}
+
     #endregion
 
     #region base keyword

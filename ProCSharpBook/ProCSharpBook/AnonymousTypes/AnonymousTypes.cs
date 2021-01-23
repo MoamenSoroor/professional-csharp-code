@@ -89,7 +89,7 @@ namespace ProCSharpBook.AnonymousTypes
     //the sake of doing so, given anonymous types’ numerous limitations, which include the following:
     //•	 You don’t control the name of the anonymous type.
     //•	 Anonymous types always extend System.Object.
-    //•	 The fields and properties of an anonymous type are always read-only.
+    //•	 The fields and properties of an anonymous type are always read-only(Immutable).
     //•	 Anonymous types cannot support events, custom methods, custom operators, or custom overrides.
     //•	 Anonymous types are always implicitly sealed.
     //•	 Anonymous types are always created using the default constructor.
@@ -192,6 +192,44 @@ namespace ProCSharpBook.AnonymousTypes
         }
 
 
+
+
+        public static void IdentityOfAnonymousObject()
+        {
+
+            var obj1 = new{ Id = 1, Name = "Moamen" };
+            // another object create but order of properties changed;
+            var another1 = new { Name = "Moamen", Id = 1 };
+
+
+            var obj2 = new { Id = 2, Name = "Ahmed" };
+            // another object create but order of properties changed;
+            var another2 = new { Name = "Ahmed", Id = 2 };
+
+            
+
+
+
+
+            Console.WriteLine(obj1.GetType().Name);
+            Console.WriteLine(another1.GetType().Name);
+
+            Console.WriteLine(obj2.GetType().Name);
+            Console.WriteLine(another2.GetType().Name);
+
+
+            // equals will not work with different anonymous types
+            Console.WriteLine(obj1.Equals(another1));
+
+            // equals will not work with different anonymous types
+            Console.WriteLine(obj2.Equals(another1));
+
+
+
+        }
+
+
+
     }
 
 
@@ -213,7 +251,9 @@ namespace ProCSharpBook.AnonymousTypes
     // consider using an ordinary named struct or class instead of an anonymous type.
     // Because the Equals and GetHashCode methods on anonymous types are defined in terms of the Equals 
     // GetHashCode methods of the properties, two instances of the same anonymous type are equal only if 
-    // all their properties are equal.
+    // all their properties are equal (with the same name and the same order).
     // ====================================================================================================
 
+    // Two Anynomous types are from the same type if they are with the same property name and 
+    // the property type type the same property order
 }

@@ -24,7 +24,7 @@ namespace ProCSharpBook
             var subjects = book.Index.ToSubjects();
 
             var result = from subject in subjects
-                         where subject.Chapter.In(15) && subject.In(3)
+                         where subject.Chapter.In(17) && subject.In(4)
                          select subject;
 
             book.Index.ExecuteSubjects(result);
@@ -176,6 +176,7 @@ namespace ProCSharpBook
             chapter17.Subjects.Add(new Subject(01, "Processes Manipulator", chapter17, ProcessesTraining.Processes.Test));
             chapter17.Subjects.Add(new Subject(02, "Interacting with the Default Application Domain", chapter17, ProcessesTraining.DefaultAppDomain.Test));
             chapter17.Subjects.Add(new Subject(03, "Interacting with Custom Application Domain", chapter17, ProcessesTraining.CustomAppDomains.Test));
+            chapter17.Subjects.Add(new Subject(04, "Inspecting an Object’s Context", chapter17, ProcessesTraining.InspectingContexts.Test));
             #endregion
 
             #region Chapter 19 : Multithreaded, Parallel, and Async Programming

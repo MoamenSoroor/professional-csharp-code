@@ -346,7 +346,7 @@ namespace ProCSharpBook.ProcessesTraining
     // Assume that you want to define a class (SportsCarTS) that is automatically thread safe in nature.
     //  To do so, derive from ContextBoundObject and apply the[Synchronization] attribute as follows:
 
-    [Synchronization]
+    [Synchronization] // inherited from ContextAttribute
     public class SportsCarTS0 : ContextBoundObject
     {
         public SportsCarTS0() { }

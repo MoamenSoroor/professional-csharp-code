@@ -2269,6 +2269,25 @@ namespace ProCSharpBook.CSharpCollections
         }
 
 
+        public static void TestHashSetWithString()
+        {
+
+            //IntersectWith removes the elements that are not in both sets. We can
+            //extract all of the vowels from our set of characters as follows:
+            var letters = new HashSet<char>("the quick brown fox");
+            letters.IntersectWith("aeiou");
+            foreach (char c in letters) Console.Write(c); // euio
+
+
+            //ExceptWith removes the specified elements from the source set.
+            // Here, we strip all vowels from the set:
+            letters = new HashSet<char>("the quick brown fox");
+            letters.ExceptWith("aeiou");
+            foreach (char c in letters) Console.Write(c); // th qckbrwnfx
+
+
+        }
+
 
     }
 
@@ -2599,8 +2618,10 @@ namespace ProCSharpBook.CSharpCollections
 
             // To avoid exceptions in getting a value with key may be not found, you can use:
             // public bool TryGetValue(TKey key, out TValue value);
-            Console.WriteLine($@"dictionaryOfPeople.TryGetValue(""Moamen"", out Person p) : {dictionaryOfPeople.TryGetValue("Moamen", out Person p2)}, {p2}");
-            Console.WriteLine($@"dictionaryOfPeople.TryGetValue(""Hammad"", out Person p) : {dictionaryOfPeople.TryGetValue("Hammad", out Person p3)}, {p3}");
+            Console.WriteLine($@"dictionaryOfPeople.TryGetValue(""Moamen"", out Person p) 
+                : {dictionaryOfPeople.TryGetValue("Moamen", out Person p2)}, {p2}");
+            Console.WriteLine($@"dictionaryOfPeople.TryGetValue(""Hammad"", out Person p) 
+                : {dictionaryOfPeople.TryGetValue("Hammad", out Person p3)}, {p3}");
 
             // public void Add(TKey key, TValue value);
             dictionaryOfPeople.Add("Helmy", new Person(105, "Helmy", 31));
@@ -2641,7 +2662,8 @@ namespace ProCSharpBook.CSharpCollections
             dictionaryOfPeople.Clear();
 
 
-
+            // TryAdd();
+            // Try
 
 
 

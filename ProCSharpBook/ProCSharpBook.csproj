@@ -87,6 +87,7 @@
     <Compile Include="ProCSharpBook\OOPEncapsulation\OOP1.cs" />
     <Compile Include="ProCSharpBook\OOPInheritanceAndPlymorphism\OOP2.cs" />
     <Compile Include="ProCSharpBook\OOPInterfaces\OOP3.cs" />
+    <Compile Include="ProCSharpBook\OOPTips\OOPTips.cs" />
     <Compile Include="ProCSharpBook\ProcessesTraining\Processes.cs" />
     <Compile Include="ProCSharpBook\Program.cs" />
     <Compile Include="ProCSharpBook\ReflectionTraining\ReflectionTraining.cs" />

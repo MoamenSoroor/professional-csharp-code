@@ -273,12 +273,12 @@ namespace ProCSharpBook.LINQTraining
 
             var query = from number in numbers where number > 0 && number < 50 select number;
 
-            // LINQ statement evaluated here!
+            // LINQ statement evaluated here! (foreach inside Execute method is what exectute the query)
             query.Execute("The Role of Deferred Execution: Before Change");
 
             numbers[0] = 60;
 
-            // LINQ statement evaluated again!
+            // LINQ statement evaluated again! changes will be affected the new result sequence
             query.Execute("The Role of Deferred Execution: After Change");
 
         }
