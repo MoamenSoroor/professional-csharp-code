@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{16079D0C-F7A9-485B-8082-F3F598267C56}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ProCSharpBook</RootNamespace>
+    <AssemblyName>ProCSharpBook</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CarLibrary, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a965fe4d3aba4aec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\pro-csharp-7-master\Chapter_14\CarLibrary\CarLibrary\bin\Debug\CarLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BookSystem\Book.cs" />
+    <Compile Include="BookSystem\BookIndex.cs" />
+    <Compile Include="BookSystem\Chapter.cs" />
+    <Compile Include="BookSystem\IExecutable.cs" />
+    <Compile Include="BookSystem\Subject.cs" />
+    <Compile Include="ProCSharpCode\AnonymousTypes\AnonymousTypes.cs" />
+    <Compile Include="ProCSharpCode\Attributes\AttributesTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\ArraysTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\DateTimeTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\ControlFlowTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\DataTypesBasics.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\EnumsTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\MethodsBasics.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\NullablesTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\StringsTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\StructuresTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpBasics\TuplesTraining.cs" />
+    <Compile Include="ProCSharpCode\CsharpCollections\CollectionsTraining.cs" />
+    <Compile Include="ProCSharpCode\CsharpDelegates\DelegatesTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpGenerics\GenericsTraining.cs" />
+    <Compile Include="ProCSharpCode\CSharpOperatorOverloading\OperatorOverloadingTraining.cs" />
+    <Compile Include="ProCSharpCode\DynamicProgramming\DynamicProgramming.cs" />
+    <Compile Include="ProCSharpCode\EventListenerSystem\EventListenerSystem.cs" />
+    <Compile Include="ProCSharpCode\ExceptionHandling\ExceptionHandling.cs" />
+    <Compile Include="ProCSharpCode\ExtensionMethods\MyExtensionMethods.cs" />
+    <Compile Include="ProCSharpCode\LINQTraining\LinqToObjectTraining.cs" />
+    <Compile Include="ProCSharpCode\Multithreading\AsynchronousFunctions.cs" />
+    <Compile Include="ProCSharpCode\Multithreading\HighLevelThreading.cs" />
+    <Compile Include="ProCSharpCode\Multithreading\LowLevelThreading.cs" />
+    <Compile Include="ProCSharpCode\ObjectLifeTime\ObjectLifeTimeTraining.cs" />
+    <Compile Include="ProCSharpCode\OOPExamples\Employee.cs" />
+    <Compile Include="ProCSharpCode\OOPEncapsulation\OOP1.cs" />
+    <Compile Include="ProCSharpCode\OOPInheritanceAndPlymorphism\OOP2.cs" />
+    <Compile Include="ProCSharpCode\OOPInterfaces\OOP3.cs" />
+    <Compile Include="ProCSharpCode\OOPTips\OOPTips.cs" />
+    <Compile Include="ProCSharpCode\ProcessesTraining\Processes.cs" />
+    <Compile Include="ProCSharpCode\Program.cs" />
+    <Compile Include="ProCSharpCode\ReflectionTraining\ReflectionTraining.cs" />
+    <Compile Include="ProCSharpCode\SystemIO\IOExamples.cs" />
+    <Compile Include="ProCSharpCode\SystemIO\Serialization.cs" />
+    <Compile Include="ProCSharpCode\SystemIO\Streams.cs" />
+    <Compile Include="ProCSharpCode\SystemIO\SystemIO.cs" />
+    <Compile Include="ProCSharpCode\Utils\Utils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BookSystem\book.xml" />
+    <Content Include="BookSystem\bookChapters.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
