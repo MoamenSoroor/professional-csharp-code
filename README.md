@@ -1,10 +1,10 @@
 # professional-csharp-code
 This repo. has code samples i implemented to achieve good understanding of the .net & c# language features, 
 and it is based on many resources, and i will mention the main of them: 
-    <a href="https://www.apress.com/gp/book/9781484230183" target="_blank">Pro C# 7 With .NET and .NET Core (Authors: Troelsen, Andrew, Japikse, Philip) </a>
-    <a href="https://www.amazon.com/C-7-0-Nutshell-Definitive-Reference/dp/1491987650" target="_blank">C# 7.0 in a Nutshell: The Definitive Reference by Joseph Albahari (Author), Ben Albahari (Author) </a> 
+   * <a href="https://www.apress.com/gp/book/9781484230183" target="_blank">Pro C# 7 With .NET and .NET Core (Authors: Troelsen, Andrew, Japikse, Philip) </a>
+   * <a href="https://www.amazon.com/C-7-0-Nutshell-Definitive-Reference/dp/1491987650" target="_blank">C# 7.0 in a Nutshell: The Definitive Reference by Joseph Albahari (Author), Ben Albahari (Author) </a> 
     
-## Topics in the repo.: ##
+## Topics covered in the professional-csharp-code repository: ##
   * Core C# Programming Constructs
     - DataTypes Basics
     - Methods Basics
@@ -64,6 +64,8 @@ and it is based on many resources, and i will mention the main of them:
     - Creating Custom Event Arguments - EventArgs Base Class
     - The Generic EventHandler<T> Delegate
   * Advanced C# Language Features
+     - Tuples
+     - Nullables
   * LINQ To Objects
   * Object Lifetime
   * type reflection, late Binding, and attriBute-Based programming
