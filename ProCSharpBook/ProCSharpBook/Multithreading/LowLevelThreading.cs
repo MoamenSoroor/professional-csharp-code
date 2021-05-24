@@ -45,9 +45,11 @@ namespace ProCSharpBook.MultiThreading
 
     #region I/O-bound versus compute-bound
     // ------------------------ I/O-bound versus compute-bound -------------------------
+    // I/O-Bound:
     // An operation that spends most of its time waiting for something to happen is called
     // I/O-bound—an example is downloading a web page or calling Console.ReadLine.
     //
+    // Compute-Bound:
     // an operation that spends most of its time performing CPU-intensive work is called computebound.
     // -------------------------------------------------------------------------
     #endregion
