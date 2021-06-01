@@ -2872,3 +2872,42 @@ namespace ProCSharpCode.CSharpCollections
     }
 
 }
+
+//- Introduction to Collections and Generics
+//- Nongeneric collections (System.Collections namespace)
+//- Working with the ArrayList Class
+//- Working with the Stack Class
+//- Working with the Queue Class
+//- Working with the SortedList Class
+//- Working with the Hashtable Class
+//- Working with the BitArray Class
+//- Working with the HybridDictionary Class
+//- Working with the ListDictionary Class
+//- Working with the StringCollection Class
+//- Working with the BitVector32 Class
+//- Boxing and Unboxing
+//- The Problems of Nongeneric Collections
+//- A First Look at Generic Collections
+//- The Role of Generic Type Parameters
+//- Specifying Type Parameters for Generic Interfaces
+//- The System.Collections.Generic Namespace
+//- Understanding Collection Initialization Syntax
+//- Working with the List<T> Class
+//- Sort List Elements Using Default Comparer
+//- Sort List Descending by ID
+//- Sort List Ascending by Name
+//- Sort List Ascending by Name Ignore Case
+//- Sort List Descending by Name
+//- Sort List Descending by Name Ignore Case
+//- Binary Search On a List
+//- Find Person With Specific ID or Name or Char of Name
+//- Find Person Index With Specific ID or Name or Char of Name
+//- Working with the LinkedList<T> Class
+//- Working with the Stack<T> Class
+//- Working with the Queue<T> Class
+//- Working with the HashSet<T> Class
+//- Working with the SortedSet<T> Class
+//- Working with the Dictionary<T> Class
+//- Working with the SortedDictionary<T> Class
+//- Working with the ObservableCollection<T> Class
+//- Working with the ReadOnlyObservableCollection<T> Class

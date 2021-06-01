@@ -29,6 +29,15 @@ namespace ProCSharpCode.MultiThreading
     // “The Thread Pool” on page 575. And should you need to run hundreds or thou‐
     // sands of concurrent I/O-bound operations, a thread-based approach consumes
     // hundreds or thousands of MB of memory purely in thread overhead.
+
+    // Moamen summary:
+    // limitations are:
+    //  - no way to return values except with shared state 
+    //  - probelm of lake of thread safety
+    //  - problem of deadlocks if you avoid thread safety
+    //  - catching exceptions and silent faliure 
+    //  - hard to compose large concurrency operations
+    //  - you can't run multiple methods within the same thread, like the case of async 
     // --------------------------------------------------------------
     #endregion
 
@@ -698,7 +707,8 @@ namespace ProCSharpCode.MultiThreading
     // Another way to create a task is with TaskCompletionSource.
     // TaskCompletionSource lets you create a task out of any operation that starts and
     // finishes some time later.It works by giving you a “slave” task that you manually
-    // drive—by indicating when the operation finishes or faults. This is ideal for I/Obound work: you get all the benefits of tasks (with their ability to propagate return
+    // drive—by indicating when the operation finishes or faults. This is ideal for I/Obound work:
+    // you get all the benefits of tasks (with their ability to propagate return
     // values, exceptions, and continuations) without blocking a thread for the duration of
     // the operation.
 

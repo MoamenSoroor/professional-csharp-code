@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{16079D0C-F7A9-485B-8082-F3F598267C56}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ProCSharpBook</RootNamespace>
-    <AssemblyName>ProCSharpBook</AssemblyName>
+    <RootNamespace>ProCSharpCode</RootNamespace>
+    <AssemblyName>ProCSharpCode</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -97,6 +97,7 @@
     <Compile Include="ProCSharpCode\SystemIO\SystemIO.cs" />
     <Compile Include="ProCSharpCode\Utils\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

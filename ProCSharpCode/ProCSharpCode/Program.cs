@@ -321,3 +321,20 @@ namespace ProCSharpCode
 
 
 }
+
+
+//Core C# Programming Constructs, Part I
+//Core C# Programming Constructs, Part II
+//Understanding Encapsulation
+//Understanding Inheritance and Polymorphism
+//Understanding Structured Exception Handling
+//Working with Interfaces
+//Collections and Generics
+//Delegates, Events, and Lambda Expressions
+//Advanced C# Language Features
+//LINQ To Objects
+//Understanding Object Lifetime
+//type reflection, late Binding, and attriBute-Based programming
+//Dynamic Types and the Dynamic Language Runtime
+//Processes, AppDomains, and Object Contexts
+//Multithreaded, Parallel, and Async Programming
