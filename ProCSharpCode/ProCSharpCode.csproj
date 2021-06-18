@@ -58,6 +58,7 @@
     <Compile Include="BookSystem\Chapter.cs" />
     <Compile Include="BookSystem\IExecutable.cs" />
     <Compile Include="BookSystem\Subject.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Differences.cs" />
     <Compile Include="ProCSharpCode\AnonymousTypes\AnonymousTypes.cs" />
     <Compile Include="ProCSharpCode\Assemblies\Assemblies.cs" />
