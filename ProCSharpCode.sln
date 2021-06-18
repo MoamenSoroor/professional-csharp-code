@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProCSharpCode", "ProCSharpCode\ProCSharpCode.csproj", "{16079D0C-F7A9-485B-8082-F3F598267C56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProCSharpCode.DotNet5", "ProCSharpCode.DotNet5\ProCSharpCode.DotNet5.csproj", "{F0275C67-05EB-4D99-B0F6-C57E043117BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{16079D0C-F7A9-485B-8082-F3F598267C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16079D0C-F7A9-485B-8082-F3F598267C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16079D0C-F7A9-485B-8082-F3F598267C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0275C67-05EB-4D99-B0F6-C57E043117BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0275C67-05EB-4D99-B0F6-C57E043117BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0275C67-05EB-4D99-B0F6-C57E043117BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0275C67-05EB-4D99-B0F6-C57E043117BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
