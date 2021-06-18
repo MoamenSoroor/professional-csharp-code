@@ -58,7 +58,9 @@
     <Compile Include="BookSystem\Chapter.cs" />
     <Compile Include="BookSystem\IExecutable.cs" />
     <Compile Include="BookSystem\Subject.cs" />
+    <Compile Include="Differences.cs" />
     <Compile Include="ProCSharpCode\AnonymousTypes\AnonymousTypes.cs" />
+    <Compile Include="ProCSharpCode\Assemblies\Assemblies.cs" />
     <Compile Include="ProCSharpCode\Attributes\AttributesTraining.cs" />
     <Compile Include="ProCSharpCode\CSharpBasics\ArraysTraining.cs" />
     <Compile Include="ProCSharpCode\CSharpBasics\DateTimeTraining.cs" />
