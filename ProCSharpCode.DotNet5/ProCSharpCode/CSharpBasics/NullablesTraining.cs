@@ -69,7 +69,7 @@ namespace ProCSharpCode.CSharpBasics
             Nullable<int>[] arrayOfNullableInts1 = new Nullable<int>[10];
 
             int? value = 20;
-            int val2 = value.HasValue ? value.Value: 0;
+            int val2 = value.HasValue ? value.Value : 0;
 
             // some tests
             Console.WriteLine("=============== Nullable Tests ===============");
@@ -137,7 +137,7 @@ namespace ProCSharpCode.CSharpBasics
             ArrayLength0(null);
 
             Console.WriteLine(">>>>>> Print array length with if null checking");
-            ArrayLength1(new [] { 10, 20, 30 });
+            ArrayLength1(new[] { 10, 20, 30 });
             ArrayLength1(null);
 
             // using null conditional operator ? to prevent NullReferenceException and print instead empty space:
@@ -167,7 +167,7 @@ namespace ProCSharpCode.CSharpBasics
             {
                 Console.WriteLine($"You sent me {args.Length} arguments.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -235,7 +235,7 @@ namespace ProCSharpCode.CSharpBasics
         public void PassIntNullable(int? np)
         {
             // note here: np.HasValue
-            if(np.HasValue)
+            if (np.HasValue)
                 Console.WriteLine($"You Passed nullable int = {np}");
             else
                 Console.WriteLine($"You Passed null");
@@ -280,5 +280,115 @@ namespace ProCSharpCode.CSharpBasics
         { return boolValue; }
     }
 
+
+
+
+    #region Null Object Pattern
+    // - this pattern used to avoid null reference exceptions
+    // - it can be used to handle the case of no value that i need to pass null to the target object
+    // - if i passed null, the target object should handle that null reference exception everywhere, 
+    // - but if i used the dependency injection pattern and allow the user of my code to pass an 
+    // - object that Logically represent the Null Case , that will simplifiy the code so much.
+    // - 
+    // - Note: don't use this pattern with handling exception it will be hard to trace the exception
+    // -        you should throw exception , and you shouldn't return null also.
+
+
+
+
+    public interface IDamage
+    {
+        int CaculateDamage(int damage);
+    }
+    public class SmallDamage : IDamage
+    {
+        public int CaculateDamage(int damage)
+        {
+            return 1; // any logic here
+        }
+    }
+
+    public class MeduimDamage : IDamage
+    {
+        public int CaculateDamage(int damage)
+        {
+            return 5; // any logic here
+        }
+    }
+
+    public class FatilDamage : IDamage
+    {
+        public int CaculateDamage(int damage)
+        {
+            return 10; // any logic here
+        }
+    }
+
+    // NullClass that we will Create a null object from it,
+    // that handle the logic of the case of null Damage
+    public class NullDamage : IDamage
+    {
+        public int CaculateDamage(int damage)
+        {
+            return 10; // any logic here
+        }
+    }
+
+
+
+    public class Player
+    {
+        private readonly IDamage damage;
+
+        public string Name { get; set; }
+
+        public int Health { get; set; }
+
+        public Player(string name, IDamage damage)
+        {
+            this.damage = damage;
+        }
+
+
+        public void HitPlayer(int damage)
+        {
+            int totalDamage = this.damage.CaculateDamage(damage);
+            Health -= totalDamage;
+            Console.WriteLine($"damage: {totalDamage} , Health: {Health}");
+        }
+
+
+        public override string ToString()
+        {
+            return $"Player=> Name: {this.Name}, Health: {this.Health}";
+        }
+
+    }
+
+
+    class TestNullObjectPattern
+    {
+
+
+        public static void Test()
+        {
+            var player1 = new Player("ahmed", new SmallDamage());
+            var player2 = new Player("Mohammed", new FatilDamage());
+            // var player3 = new Player("Omar", null); // wronge don't use null, but use NullObjectPattern
+            // by passing NullObject i can make sure that my code will behave will without 
+            // null reference exception
+            var player3 = new Player("Omar", new NullDamage());
+
+
+            player1.HitPlayer(10);
+            player2.HitPlayer(10);
+            player3.HitPlayer(10);
+
+        }
+    }
+
+
+
+    #endregion
 
 }

@@ -6,48 +6,53 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ProCSharpCode.BookSystem;
-
-
+using ProCSharpCode.ProCSharpCode.Utils;
 
 namespace ProCSharpCode
 {
     class Program
     {
+        static Program()
+        {
+            
+        }
+
         static void Main(string[] args)
         {
-            //ExecuteTests();
 
-            Book book = BuildBook();
-
-            //Console.WriteLine(book);
-
-            //var subjects = book.Index.ToSubjects();
-
-            //var toExecuteSubjects = from subject in subjects
-            //                        where subject.Chapter.ID == 17 && subject.ID == 4
-            //                        select subject;
-
-            //book.Index.ExecuteSubjects(toExecuteSubjects);
-            // book.Index.ExecuteAll();
-
-
-
-            //book.Index.ExecuteAll();
-            
-            book.Index.ExecuteChapter(1);
-            
-            //book.Index.ExecuteSubject(1, 1);
-
-
-            //book.Index.ExecuteChapters(1,2);
-
-            //book.Index.ExecuteSubjects(1,1,2,3);
-
-
+            //RunBook();
+            MockingEmployeeService.Test();
 
             Console.WriteLine("Press any key to continue . . .");
             Console.ReadLine();
         }
+
+
+
+        static void RunBook()
+        {
+
+
+            //ExecuteTests();
+
+            // Uncomment this line to build book before run
+            Book book = BuildBook();
+
+            //Console.WriteLine(book);
+
+
+            // write code here to run any module in the book
+            // TODO
+
+            //examples: 
+            book.Index.ExecuteAll();
+            //book.Index.ExecuteChapter(1);
+            //book.Index.ExecuteSubject(1, 1);
+            //book.Index.ExecuteChapters(1,2);
+            //book.Index.ExecuteSubjects(1,1,2,3);
+
+        }
+
 
 
         public static Book BuildBook()
@@ -238,8 +243,6 @@ namespace ProCSharpCode
             return book;
 
         }
-
-
 
         public static void AssignTitles(Book book)
         {

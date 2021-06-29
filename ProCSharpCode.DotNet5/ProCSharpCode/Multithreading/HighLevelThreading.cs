@@ -433,12 +433,12 @@ namespace ProCSharpCode.MultiThreading
             Task task = Task.Run(() =>
             {
                 Console.WriteLine("Task Running...");
-                // unobserved exception if the faults occurs after the timeout interval.
+                
                 throw new NullReferenceException();
             });
 
-            // unobserved exception if the faults occurs after the timeout interval.
-            task.Wait();
+            // exception now is observed exception 
+            task.Wait(); // note that wait blocks the current thread
 
 
         }
@@ -460,7 +460,10 @@ namespace ProCSharpCode.MultiThreading
                return 10;
            });
 
-            Console.WriteLine("Result{0}", task.Result);
+
+            // exception now is observed exception 
+            var data = task.Result;
+            Console.WriteLine("Result{0}", data);
 
 
         }
@@ -476,7 +479,6 @@ namespace ProCSharpCode.MultiThreading
             Task task = Task.Run(() =>
             {
                 Console.WriteLine("Task Running...");
-                // unobserved exception if the faults occurs after the timeout interval.
                 throw new NullReferenceException();
             });
 
@@ -702,6 +704,95 @@ namespace ProCSharpCode.MultiThreading
 
     // --------------------------------------------------------------
     #endregion
+
+    #region Success and Failure in Continuation With ContinueWith Method
+    // ------------------------ Continuations With ContinueWith Method ------------------------- 
+    // The other way to attach a continuation is by calling the task’s ContinueWith method.
+    // ContinueWith itself returns a Task, which is useful if you want 
+    // to attach further continuations.
+    // 
+    // However, you must deal directly with AggregateException if the
+    // task faults, and write extra code to marshal the continuation in UI applications(see
+    // “Task Schedulers” on page 943 in Chapter 23). And in non-UI contexts, you must
+    // specify TaskContinuationOptions.ExecuteSynchronously if you want the continuation
+    // to execute on the same thread; otherwise it will bounce to the thread pool.
+    // ContinueWith is particularly useful in parallel programming scenarios; we cover it
+    // in detail in “Continuations” on page 938 in Chapter 23.
+
+
+    public class SuccessAndFailureInContinuationsWithContinueWith
+    {
+        // Test Method
+        public static void Test()
+        {
+            var random = new Random();
+
+            Task<int> primeNumberTask = Task.Run(() =>  // Func<int> delegate
+            {
+                if (random.Next(0, 2) == 1)
+                    throw new InvalidOperationException("invalid operation exception");
+
+                return Enumerable.Range(2, 3000000).Count(n
+                    => Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0));
+            });
+
+            // if we call continueWith with out specifiy the second paramtere of continue with
+            // it will executes even if the primeNumberTask failed
+            //primeNumberTask.ContinueWith(success => {
+            //    var value = success.Result;
+            //    Console.WriteLine($"Result is {value}");
+            //});
+
+
+            // it will run only if the primeNumberTask succeeded
+            primeNumberTask.ContinueWith(success => {
+                var value = success.Result;
+                Console.WriteLine($"Result is {value}");
+            },TaskContinuationOptions.OnlyOnRanToCompletion);
+
+
+
+            // it will run only if the primeNumberTask failed
+            primeNumberTask.ContinueWith(success => {
+                AggregateException value = success.Exception;
+                Console.WriteLine($"Exception is {value.InnerException.Message}");
+                Console.WriteLine($"Exception is {value.InnerException.StackTrace}");
+            }, TaskContinuationOptions.OnlyOnFaulted);
+
+        }
+
+    }
+
+    // --------------------------------------------------------------
+    #endregion
+
+
+    #region TaskCancellationSource
+
+    // Not Finished Yet
+    // 
+    class TestTaskCancellationSource
+    {
+        // Test Method
+        public static void Test()
+        {
+            Console.WriteLine("I am Free not tied with task ^_^");
+
+        }
+
+        public static Task RunComputeBoundTask(CancellationToken cancelToken)
+        {
+            Task<int> primeNumberTask = Task.Run(() =>
+                Enumerable.Range(2, 3000000).Count(n => {
+                    
+                    return Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0);
+                }));
+            return primeNumberTask;
+        }
+    }
+
+    #endregion
+
 
     #region TaskCompletionSource
     // ------------------------ TaskCompletionSource -------------------------

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ProCSharpCode.ExtensionMethods
@@ -73,111 +74,7 @@ namespace ProCSharpCode.ExtensionMethods
     // ---------------------------------------------------------------------------
     #endregion
 
-    static class MyExtensions
-    {
-        public static string Repeat(this string str, int count)
-        {
-            return new StringBuilder(str.Length * count).Insert(0, str, count).ToString();
-        }
-
-        public static string Padding(this string str, int count = 10 , string padding = "=")
-        {
-            string space = str.Length == 0 ? "" : " ";
-            StringBuilder builder =  new StringBuilder(str.Length * count + padding.Length * count * 2);
-            builder.Insert(0, padding, count).Append($"{space}{str}{space}").Insert(builder.Length, padding, count);
-            return builder.ToString();
-
-        }
-
-        public static string GetObjectInfo(this object obj)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("object info:");
-            builder.AppendLine("------------");
-            builder.AppendLine($@"obj.GetType().Name---------------: {obj.GetType().Name}");
-            builder.AppendLine($@"obj.GetType().BaseType.Name------: {obj.GetType().BaseType.Name}");
-            builder.AppendLine($@"obj.GetType().Namespace----------: {obj.GetType().Namespace}");
-            builder.AppendLine($@"obj.GetType().Assembly.GetName()-: {obj.GetType().Assembly.GetName()}");
-            builder.AppendLine();
-            return builder.ToString();
-        }
-
-        // This method allows any integer to reverse its digits.
-        // For example, 56 would return 65.
-        public static int ReverseDigits(this int integer)
-        {
-            // Translate int into a string, and then
-            // get all the characters.
-            char[] digits = integer.ToString().ToCharArray();
-            // Now reverse items in the array.
-            Array.Reverse(digits);
-            // Put back into string.
-            string newDigits = new string(digits);
-            // Finally, return the modified string back as an int.
-            return int.Parse(newDigits);
-
-        }
-
-        // With Custom and .Net Interfaces
-
-        // System.Collections.IEnumerable Inteface
-        public static void PrintDataAndBeep(this IEnumerable iterator)
-        {
-            foreach (var item in iterator)
-            {
-                Console.WriteLine(item);
-                Console.Beep();
-            }
-        }
-
-
-        public static void ReflectOverLinq<T>(this IEnumerable<T> resultSet, string queryType = "Query Expression")
-        {
-            Console.WriteLine($"========= Info about your query using {queryType} =========");
-            Console.WriteLine($@"resultSet Type------: {resultSet.GetType().Name}");
-            Console.WriteLine($@"resultSet Assembly--: {resultSet.GetType().Assembly.GetName().Name}");
-            Console.WriteLine("".Padding(30, "-"));
-            Console.WriteLine();
-        }
-
-        
-        /// <summary>
-        /// Extension Method of The Generic IEnumerable Interface to Execute Linq Queries With for each and print result to Console
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="resultSet"></param>
-        /// <param name="title">Header name to print it to console</param>
-        public static void Execute<T>(this IEnumerable<T> resultSet, string title = "")
-        {
-            // Print out the results.
-            Console.WriteLine($"Execute {title} Query".Padding());
-            foreach (T item in resultSet)
-            {
-                if (item != null)
-                    Console.WriteLine($@"Item: {item}");
-            }
-            Console.WriteLine("".Padding(30, "-"));
-            Console.WriteLine();
-        }
-
-
-        /// <summary>
-        /// alike in operator in python programming language, that checks if an item is exists in an array
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="item"></param>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        public static bool In<T>(this T item, params T[] items)
-        {
-            if (items == null)
-                throw new ArgumentNullException("items");
-
-            return items.Contains(item);
-        }
-    }
-
-    static class MyExtensionMethods
+    public static class MyExtensionMethods
     {
         public static void Test()
         {
@@ -218,7 +115,173 @@ namespace ProCSharpCode.ExtensionMethods
 
     }
 
-    
+    public static class StringExtensionMethods
+    {
+        public static string Repeat(this string str, int count)
+        {
+            return new StringBuilder(str.Length * count).Insert(0, str, count).ToString();
+        }
+
+        public static string Reverse(this string str)
+        {
+            var arr = str.ToCharArray();
+            Array.Reverse(arr);
+            return string.Concat(arr);
+        }
+
+        public static string Padding(this string str, int count = 10, string padding = "=")
+        {
+            string space = str.Length == 0 ? "" : " ";
+            StringBuilder builder = new StringBuilder(str.Length * count + padding.Length * count * 2);
+            builder.Insert(0, padding, count).Append($"{space}{str}{space}").Insert(builder.Length, padding, count);
+            return builder.ToString();
+
+        }
+    }
+
+    public static class ObjectExtensionMethods
+    {
+        public static string GetObjectInfo(this object obj)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("object info:");
+            builder.AppendLine("------------");
+            builder.AppendLine($@"obj.GetType().Name---------------: {obj.GetType().Name}");
+            builder.AppendLine($@"obj.GetType().BaseType.Name------: {obj.GetType().BaseType.Name}");
+            builder.AppendLine($@"obj.GetType().Namespace----------: {obj.GetType().Namespace}");
+            builder.AppendLine($@"obj.GetType().Assembly.GetName()-: {obj.GetType().Assembly.GetName()}");
+            builder.AppendLine();
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// alike in operator in python programming language, that checks if an item is exists in an array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static bool In<T>(this T item, params T[] items)
+        {
+            if (items == null)
+                throw new ArgumentNullException("items");
+
+            return items.Contains(item);
+        }
+
+    }
+
+    /// <summary>
+    /// extension methods of IEnumerable and IEnumerable&lt;T&gt;
+    /// 
+    /// </summary>
+    public static class IEnumerableExtensionMethods
+    {
+
+        // System.Collections.IEnumerable Inteface
+        public static void PrintDataAndBeep(this IEnumerable iterator)
+        {
+            foreach (var item in iterator)
+            {
+                Console.WriteLine(item);
+                Console.Beep();
+            }
+        }
 
 
+        public static void ReflectOverLinq<T>(this IEnumerable<T> resultSet, string queryType = "Query Expression")
+        {
+            Console.WriteLine($"========= Info about your query using {queryType} =========");
+            Console.WriteLine($@"resultSet Type------: {resultSet.GetType().Name}");
+            Console.WriteLine($@"resultSet Assembly--: {resultSet.GetType().Assembly.GetName().Name}");
+            Console.WriteLine("".Padding(30, "-"));
+            Console.WriteLine();
+        }
+
+
+        /// <summary>
+        /// Extension Method of The Generic IEnumerable Interface to Execute Linq Queries With for each and print result to Console
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="resultSet"></param>
+        /// <param name="title">Header name to print it to console</param>
+        public static void Execute<T>(this IEnumerable<T> resultSet, string title = "")
+        {
+            // Print out the results.
+            Console.WriteLine($"Execute {title} Query".Padding());
+            foreach (T item in resultSet)
+            {
+                if (item != null)
+                    Console.WriteLine($@"Item: {item}");
+            }
+            Console.WriteLine("".Padding(30, "-"));
+            Console.WriteLine();
+        }
+    }
+
+
+    /// <summary>
+    /// extension methods for primitive value types :  
+    /// <list type="bullet">
+    ///     <item>
+    ///         <term> <see cref="System.Int16"/> </term>
+    ///         <description>short type</description>
+    ///     </item>
+    ///     <item>
+    ///         <term> <see cref="System.Int32"/> </term>
+    ///         <description>Integer type</description>
+    ///     </item>
+    ///     <item>
+    ///         <term> <see cref="System.Int64"/> </term>
+    ///         <description>long type</description>
+    ///     </item>
+    ///     <item>
+    ///         <term> <see cref="System.Double"/> </term>
+    ///         <description>double type</description>
+    ///     </item>
+    ///     <item>
+    ///         <term> <see cref="System.Decimal"/> </term>
+    ///         <description>decimal type</description>
+    ///     </item>
+    ///     <item>
+    ///         <term> <see cref="System.Single"/> </term>
+    ///         <description>float type</description>
+    ///     </item>
+    /// </list> 
+    /// </summary>
+    public static class NumbersExtensionMethods
+    {
+        // This method allows any integer to reverse its digits.
+        // For example, 56 would return 65.
+        public static int ReverseDigits(this int input)
+        {
+            // Translate short shorto a string, and then
+            // get all the characters.
+            int sign = (input < 0 ? -1 : 1);
+            char[] digits = input.ToString().ToCharArray().Where(c => char.IsNumber(c)).ToArray();
+            // Now reverse items in the array.
+            Array.Reverse(digits);
+            // Put back into string.
+            string newDigits = new string(digits);
+            // Finally, return the modified string back as an short.
+            return int.Parse(newDigits) * sign;
+
+        }
+        
+        public static short ReverseDigits(this short input)
+        {
+            // Translate short shorto a string, and then
+            // get all the characters.
+            int sign = (input < 0 ? -1 : 1);
+            char[] digits = input.ToString().ToCharArray().Where(c=> char.IsNumber(c)).ToArray();
+            // Now reverse items in the array.
+            Array.Reverse(digits);
+            // Put back into string.
+            string newDigits = new string(digits);
+            // Finally, return the modified string back as an short.
+            return (short)(short.Parse(newDigits) * sign);
+        }
+
+
+    }
 }

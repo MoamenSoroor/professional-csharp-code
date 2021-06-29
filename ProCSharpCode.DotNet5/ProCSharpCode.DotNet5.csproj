@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>ProCSharpCode</RootNamespace>
+    <AssemblyName>ProCSharpCode</AssemblyName>
+    <StartupObject>ProCSharpCode.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +32,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProCsharpCode.ExtensionMethods\ProCsharpCode.ExtensionMethods.csproj" />
   </ItemGroup>
 
   <ItemGroup>
