@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ProCSharpCode.BookSystem;
+using ProCSharpCode.Concurrency;
 using ProCSharpCode.ProCSharpCode.Utils;
 
 namespace ProCSharpCode
@@ -21,9 +22,17 @@ namespace ProCSharpCode
         {
 
             //RunBook();
-            MockingEmployeeService.Test();
+            //MockingEmployeeService.Test();
+            //OriginalContext.Test();
 
-            Console.WriteLine("Press any key to continue . . .");
+            //TestWhenAllAndWhenAny.Test();
+            //TaskFactoryStartNewMethod.Test();
+            //TaskFactoryStartNew_ChildTasksAttachment.Test();
+            //DifferenceBetweenTaskRunAndTaskFactoryStartNew.Test();
+            ContinuationWithWhenAll.Test();
+            //ProgressReporting.Test();
+            //CancelationTokenSourceAndCancellationToken.Test();
+            Console.WriteLine("Press Any Key To Continue.");
             Console.ReadLine();
         }
 
@@ -227,16 +236,16 @@ namespace ProCSharpCode
             #region Chapter 19 : Multithreaded, Parallel, and Async Programming
             Chapter chapter19 = new Chapter(19, "Chapter 19: Multithreaded, Parallel, and Async Programming");
             book.Index.Chapters.Add(chapter19);
-            chapter19.Subjects.Add(new Subject(01, "Threading", chapter19, MultiThreading.CreateThread.Test));
-            chapter19.Subjects.Add(new Subject(02, "Sleep And Yield", chapter19, MultiThreading.SleepAndYield.Test));
-            chapter19.Subjects.Add(new Subject(03, "Join And Sleep", chapter19, MultiThreading.JoinAndSleep.Test));
-            chapter19.Subjects.Add(new Subject(04, "Join With Timeout", chapter19, MultiThreading.JoinWithTimeout.Test));
-            chapter19.Subjects.Add(new Subject(05, "Blocking, and ThreadState property, and IsAlive Property", chapter19, MultiThreading.Blocking.Test));
-            chapter19.Subjects.Add(new Subject(06, "Foreground Versus Background Threads", chapter19, MultiThreading.BackgroundThread.Test));
+            chapter19.Subjects.Add(new Subject(01, "Threading", chapter19, Concurrency.CreateThread.Test));
+            chapter19.Subjects.Add(new Subject(02, "Sleep And Yield", chapter19, Concurrency.SleepAndYield.Test));
+            chapter19.Subjects.Add(new Subject(03, "Join And Sleep", chapter19, Concurrency.JoinAndSleep.Test));
+            chapter19.Subjects.Add(new Subject(04, "Join With Timeout", chapter19, Concurrency.JoinWithTimeout.Test));
+            chapter19.Subjects.Add(new Subject(05, "Blocking, and ThreadState property, and IsAlive Property", chapter19, Concurrency.Blocking.Test));
+            chapter19.Subjects.Add(new Subject(06, "Foreground Versus Background Threads", chapter19, Concurrency.BackgroundThread.Test));
 
-            chapter19.Subjects.Add(new Subject(20, "Start Tasks", chapter19, MultiThreading.StartTask.Test));
-            chapter19.Subjects.Add(new Subject(21, "Wait Tasks", chapter19, MultiThreading.WaitTask.Test));
-            chapter19.Subjects.Add(new Subject(22, "Return Value From a Task", chapter19, MultiThreading.TaskReturnValue.Test));
+            chapter19.Subjects.Add(new Subject(20, "Start Tasks", chapter19, Concurrency.StartTask.Test));
+            chapter19.Subjects.Add(new Subject(21, "Wait Tasks", chapter19, Concurrency.WaitTask.Test));
+            chapter19.Subjects.Add(new Subject(22, "Return Value From a Task", chapter19, Concurrency.TaskReturnValue.Test));
 
             #endregion
 

@@ -2683,6 +2683,8 @@ namespace ProCSharpCode.CSharpCollections
     {
         // Summary:
         //     Represents a collection of key/value pairs that are sorted on the key.
+        // it's exaclty like Dictionary<T> except that it is sorted and when you enumerate it 
+        // it will return it's data in the same order as it sorted
 
         public static void Test()
         {

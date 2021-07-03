@@ -1,11 +1,13 @@
-﻿using System;
+﻿using ProCSharpCode.ExtensionMethods;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProCSharpCode.MultiThreading
+namespace ProCSharpCode.Concurrency
 {
 
     #region Limitations of Threads
@@ -433,7 +435,7 @@ namespace ProCSharpCode.MultiThreading
             Task task = Task.Run(() =>
             {
                 Console.WriteLine("Task Running...");
-                
+
                 throw new NullReferenceException();
             });
 
@@ -454,8 +456,8 @@ namespace ProCSharpCode.MultiThreading
             Task<int> task = Task.Run(() =>
            {
                Console.WriteLine("Task Running...");
-                // unobserved exception if the faults occurs after the timeout interval.
-                throw new NullReferenceException();
+               // unobserved exception if the faults occurs after the timeout interval.
+               throw new NullReferenceException();
 
                return 10;
            });
@@ -745,15 +747,17 @@ namespace ProCSharpCode.MultiThreading
 
 
             // it will run only if the primeNumberTask succeeded
-            primeNumberTask.ContinueWith(success => {
+            primeNumberTask.ContinueWith(success =>
+            {
                 var value = success.Result;
                 Console.WriteLine($"Result is {value}");
-            },TaskContinuationOptions.OnlyOnRanToCompletion);
+            }, TaskContinuationOptions.OnlyOnRanToCompletion);
 
 
 
             // it will run only if the primeNumberTask failed
-            primeNumberTask.ContinueWith(success => {
+            primeNumberTask.ContinueWith(success =>
+            {
                 AggregateException value = success.Exception;
                 Console.WriteLine($"Exception is {value.InnerException.Message}");
                 Console.WriteLine($"Exception is {value.InnerException.StackTrace}");
@@ -766,31 +770,455 @@ namespace ProCSharpCode.MultiThreading
     // --------------------------------------------------------------
     #endregion
 
+    #region CancelationTokenSource and CancellationToken
+    // if you want to cancel current runnning task, you can use CancellationTokenSource with
+    // cancelationToken to cancel it;
 
-    #region TaskCancellationSource
+    class CancelationTokenSourceAndCancellationToken
+    {
 
-    // Not Finished Yet
-    // 
-    class TestTaskCancellationSource
+        public static void Test()
+        {
+            CancellationTokenSource source = new CancellationTokenSource();
+
+            var task = CountPrimeNumbersAsync(3000000,source.Token);
+
+            // NOTE: for test only
+            // randomly cancel operation
+            var rand = new Random();
+            if (rand.Next(5) % 2 == 0)
+                source.Cancel();
+
+            // if task is canceled
+            task.ContinueWith(x => Console.WriteLine($"prime number task has been canceled."),TaskContinuationOptions.OnlyOnCanceled);
+            
+            // if task is faulted (exception is thrown)
+            task.ContinueWith(x => Console.WriteLine($"task has been Faulted: {x.Exception.InnerException.Message}"),TaskContinuationOptions.OnlyOnFaulted);
+            
+            // if task is suceeded
+            task.ContinueWith(x => Console.WriteLine($"result: {x.Result}"),TaskContinuationOptions.OnlyOnRanToCompletion);
+        }
+
+
+        public static Task<int> CountPrimeNumbersAsync(int max, CancellationToken stoppingToken)
+        {
+            Task<int> primeNumberTask = Task.Run(() =>
+            {
+                int count = 0;
+                for (int n = 2; n < max; n++)
+                {
+
+                    //NOTE: the next code is for test only
+                    // randomly throw exception if cancelation is requested
+                    // if n now is even OperationCanceledException will be thrown.
+                    if(n % 3 == 0)
+                        stoppingToken.ThrowIfCancellationRequested();
+
+                    // if randomly code passed till here after cancellation,
+                    // we will break the for loop
+                    if (stoppingToken.IsCancellationRequested)
+                        break;
+                    
+                    count += Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0) ? 1 : 0;
+                }
+                return count;
+            },stoppingToken); // note that if you forget to pass CancellationToken to the Task
+                              // if there are continuation after the task with TaskContinuationOptions
+                              // OnlyOnCanceled , it will not be executed.
+
+            return primeNumberTask;
+
+        }
+
+
+    }
+
+    #endregion
+
+
+    #region Continuation with WhenAll
+    public class ContinuationWithWhenAll
     {
         // Test Method
         public static void Test()
         {
+            List<Task<List<string>>> tasks = new List<Task<List<string>>>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                // each task will return list of string
+                var task = Task.Delay(500).ContinueWith(_ =>
+                {
+                    return Enumerable.Range(0, 4).Select(a => GenerateRandomStringWithRandomChar(3)).ToList();
+                });
+                tasks.Add(task);
+            }
+
+            // run the previous tasks in parallel
+
+            var allTasks = Task.WhenAll(tasks);
+
+            // print the all strings
+            allTasks.ContinueWith(result =>
+            {
+                var allStrings = result.Result.SelectMany(lists => lists);
+                Console.WriteLine(string.Join(", ", allStrings));
+            });
+        }
+
+        public static string GenerateRandomStringWithRandomChar(int length)
+        {
+
+            Random rand = new Random();
+            return string.Concat(Enumerable.Range(0, length).Select(n2 => (char)rand.Next('A', 'Z')));
+
+        }
+
+    }
+
+    #endregion
+
+
+    #region Continuation with WhenAll and WhenAny
+    // whenAll is used when we need to run many tasks in parallel and get result when all of them finish
+    // whenAny is used when we doesn't need to wait for all tasks to finish their work, and we want to continue
+    // with the one that has finished.
+    class TestWhenAllAndWhenAny
+    {
+        // Test Method
+        public static void Test()
+        {
+
+            var rand = new Random();
+
+            var source = new CancellationTokenSource();
+
+
+
+            var mytask = RunIOBoundOperation(source.Token, rand.Next(2000));
+
+            if (rand.Next(10) % 2 == 0)
+                source.Cancel();
+
+            //success
+            mytask.ContinueWith(d =>
+            {
+                Console.WriteLine(string.Join(", ", d.Result));
+            }, TaskContinuationOptions.OnlyOnRanToCompletion);
+
+            //failure
+            mytask.ContinueWith(d =>
+            {
+                if (d.IsFaulted)
+                    Console.WriteLine($"Faulted {d.Exception.InnerException?.Message}");
+                if (d.IsCanceled)
+                    Console.WriteLine($"Operation has been cancelled.");
+
+            }, TaskContinuationOptions.NotOnRanToCompletion);
+
             Console.WriteLine("I am Free not tied with task ^_^");
 
         }
 
-        public static Task RunComputeBoundTask(CancellationToken cancelToken)
+        public static Task<List<string>> RunIOBoundOperation(CancellationToken cancelToken, int? timeout = default)
         {
-            Task<int> primeNumberTask = Task.Run(() =>
-                Enumerable.Range(2, 3000000).Count(n => {
-                    
-                    return Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0);
-                }));
-            return primeNumberTask;
+            Task<List<string>> operation = Task.Run(() =>
+            {
+
+                List<Task<string>> dataTasks = new List<Task<string>>();
+                for (int i = 0; i < 10; i++)
+                {
+                    if (cancelToken.IsCancellationRequested) break;
+                    var delayTask = Task.Delay(1000, cancelToken);
+                    // continuation on the previous delay
+                    // NOTE that i passed string count {i} as argument to avoid closure,
+                    //  - as callbacks doesn't caputre the changing value of except if you copy it at the
+                    //    definition scope of the callback
+                    //  - also we can avoid the overhead of generated code for closures
+                    // 
+                    var dataTask = delayTask.ContinueWith((dtask, str) => str as string, $"count {i}");
+                    dataTasks.Add(dataTask);
+                }
+
+
+                // when all
+                var allTasks = Task.WhenAll(dataTasks);
+
+                // timeout case
+                if (timeout.HasValue && timeout.Value > 0)
+                {
+                    var timeOutTask = Task.Delay(timeout.Value, cancelToken);
+
+                    // when any
+                    var isTimeoutTask = Task.WhenAny(allTasks, timeOutTask);
+
+                    var finalTask = isTimeoutTask.ContinueWith(a =>
+                    {
+                        if (a.Result == timeOutTask)
+                            throw new OperationCanceledException();
+                        return allTasks.Result.ToList();
+                    }, cancelToken);
+                    return finalTask;
+
+                }
+                else
+                    //without timeout
+                    return allTasks.ContinueWith(re => re.Result.ToList(), cancelToken);
+
+
+            });
+            return operation;
         }
     }
 
+    #endregion
+
+
+    #region Task.Factory.StartNew() Method
+    // Task.Factory.StartNew is used to create tasks with more control on the creation options of
+    // that tasks, actually, Task.Run uses it internally and considered a Wrapper for it.
+
+    class TaskFactoryStartNewMethod
+    {
+
+        public static void Test()
+        {
+
+            var result = Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine("do async operation 1");
+            }, CancellationToken.None);
+
+
+            // this way is one of the best ways to run long running operations
+            var result2 = Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine("do async operation 2");
+            },TaskCreationOptions.LongRunning);
+
+            // passing data to the task
+            // it is good in the situation when we want to avoid closures
+            var result3 = Task.Factory.StartNew((data) =>
+            {
+                // data should be "i am data passed to task"
+                Console.WriteLine($"Data Passed To task is : {data as string}");
+                Console.WriteLine("do async operation 3");
+            },"i am data passed to task",CancellationToken.None);
+
+
+        }
+    }
+
+
+
+
+    #endregion
+
+    #region Task.Factory.StartNew() Child Tasks Attachment
+    // Task.Factory.StartNew is used to create tasks with more control on the creation options of
+    // that tasks, actually, Task.Run uses it internally and considered a Wrapper for it.
+
+    // NOTE: 
+    // if you make TaskCreationOptions with DenyChildAttach option 
+    // parent will not attach the children even if they are AttachedToParent
+    class TaskFactoryStartNew_ChildTasksAttachment
+    {
+
+        public static void Test()
+        {
+
+            var parent = Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine("Parent Started...");
+                Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine("Child 2 Started...");
+
+                    // AttachedToParent will make the parent task wait for that task
+                    // parent will not be marked as completed until that task is being completed
+                }, TaskCreationOptions.AttachedToParent);
+
+                Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine("Child 2 Started...");
+
+
+                    // AttachedToParent will make the parent task wait for that task
+                    // parent will not be marked as completed until that task is being completed
+                }, TaskCreationOptions.AttachedToParent);
+
+                Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine("Child 3 Started...");
+
+
+                    // AttachedToParent will make the parent task wait for that task
+                    // parent will not be marked as completed until that task is being completed
+                }, TaskCreationOptions.AttachedToParent);
+
+
+                // NOTE: 
+                // if you make TaskCreationOptions with DenyChildAttach option 
+                // parent will not attach the children even if they are AttachedToParent
+
+            }/*,TaskCreationOptions.DenyChildAttach*/ ); 
+            parent.ContinueWith(a=> Console.WriteLine("Parent Completed"));
+
+
+
+        }
+    }
+
+
+
+
+    #endregion
+
+
+    #region Differences  Between Task.Run and Task.Factory.StartNew() Method 
+    // Task.Factory.StartNew is used to create tasks with more control on the creation options of
+    // that tasks, actually, Task.Run uses it internally and considered a Wrapper for it.
+    // 
+    // also there is another difference between Task.Run and Task.Factory.StartNew()
+    // if the action passed to both is async method, Task.Run will return the result of the nested task
+    // but Task.Factory.StartNew will return the task of the async action
+    // 
+    class DifferenceBetweenTaskRunAndTaskFactoryStartNew
+    {
+
+        public static void Test()
+        {
+            // --------------------------------------------------------
+            var taskRun = Task.Run(async () =>
+            {
+                var result = await CountPrimeNumbersAsync();
+                return result;
+            });
+
+            // you can get the result with Result Property Directly
+            taskRun.ContinueWith(d => Console.WriteLine(d.Result));
+
+
+
+            // --------------------------------------------------------
+            var taskStartNew = Task.Factory.StartNew(async () =>
+            {
+                var result = await CountPrimeNumbersAsync();
+                return result;
+            });
+
+            // you should use Result.Result to get the Result
+            taskStartNew.ContinueWith(d => Console.WriteLine(d.Result.Result));
+
+
+
+            // --------------------------------------------------------
+            // you can unwrap the task to get the result direclty if the delegete
+            // of StartNew is async
+            var unwrappingTaskStartNew = Task.Factory.StartNew(async () =>
+            {
+                var result = await CountPrimeNumbersAsync();
+                return result;
+            }).Unwrap(); 
+            // Unwrap the task to extract the result directly if the passed StartNew
+            // delegate is async
+
+            unwrappingTaskStartNew.ContinueWith(d => Console.WriteLine(d.Result));
+
+
+            // with async / await keywords
+            TestWithAsyncAwait().ContinueWith(a => { } );
+        }
+
+
+        public static async Task TestWithAsyncAwait()
+        {
+            var taskStartNew = Task.Factory.StartNew(async () =>
+            {
+                var result = await CountPrimeNumbersAsync();
+                return result;
+            });
+
+            var result = await await taskStartNew;
+            Console.WriteLine(result);
+
+
+            var unwrappingTask = Task.Factory.StartNew(async () =>
+            {
+                var result = await CountPrimeNumbersAsync();
+                return result;
+            }).Unwrap();
+
+            var result2 = await unwrappingTask;
+            Console.WriteLine(result);
+
+
+        }
+
+        public static Task<int> CountPrimeNumbersAsync(int max = 3000000)
+        {
+            Task<int> primeNumberTask = Task.Run(() =>
+                Enumerable.Range(2, max).Count(n =>
+                    Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0)));
+            
+            return primeNumberTask;
+        }
+
+
+
+    }
+
+
+
+
+    #endregion
+
+    #region Implementing Progress reporting with IProgress and Progress
+    class ProgressReporting
+    {
+
+        public static void Test()
+        {
+            Progress<int> progress = new Progress<int>();
+
+            int max = 3000000;
+            // i have progress bar of 50 char
+            int step = Convert.ToInt32(max * 0.1);
+
+            Console.WriteLine();
+            var loc = Console.GetCursorPosition();
+            Console.WriteLine();
+
+            progress.ProgressChanged += (obj, data) =>
+            {
+                var current = Console.GetCursorPosition();
+                Console.SetCursorPosition(loc.Left, loc.Top);
+                Console.WriteLine(" # ".Repeat(data));
+                Console.SetCursorPosition(current.Left, current.Top);
+            };
+
+            CountPrimeNumbersAsync(max,step,progress).ContinueWith(_ => Console.WriteLine("task finished."));
+
+        }
+
+
+
+        public static Task<int> CountPrimeNumbersAsync(int max,int step, IProgress<int> progress = default)
+        {
+            Task<int> primeNumberTask = Task.Run(() =>
+                Enumerable.Range(2, max).Count((n) => {
+                    // report progress
+                    if(n % step == 0)
+                        progress?.Report(n/step);
+                    return Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0);
+                }));
+
+            return primeNumberTask;
+        }
+
+
+
+    }
     #endregion
 
 
@@ -850,7 +1278,7 @@ namespace ProCSharpCode.MultiThreading
     // --------------------------------------------------------------
     #endregion
 
-    #region Run With TaskCompletionSource
+    #region Create alike Task.Run Method With TaskCompletionSource
     // ------------------------ Run With TaskCompletionSource -------------------------
     // Calling The next Run method is equivalent to calling Task.Factory.StartNew with the Task
     // CreationOptions.LongRunning option to request a nonpooled thread.

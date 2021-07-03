@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProCSharpCode.MultiThreading
+namespace ProCSharpCode.Concurrency
 {
 
     #region Principles of Asynchrony
@@ -434,7 +434,7 @@ namespace ProCSharpCode.MultiThreading
         // Test Method
         public static void Test()
         {
-            Go();   // parallelism
+            Go().ContinueWith(_=>_);   // parallelism
 
         }
 
@@ -501,6 +501,52 @@ namespace ProCSharpCode.MultiThreading
     }
 
     // --------------------------------------------------------------
+    #endregion
+
+    // not right information
+    #region Access Static Values From Origial Context
+    // Not valid data;
+
+    public class Data
+    {
+        public static string Value { get; set; } = "hello";
+    }
+
+    [Obsolete("this code is not right don't use it")]
+    public class OriginalContext
+    {
+        
+        public static void Test()
+        {
+            var obj = new OriginalContext();
+            obj.ContinuationOfMyTask().GetAwaiter().OnCompleted(() => {
+                    Console.WriteLine("finish the work");
+            });
+
+        }
+
+
+        public async Task ContinuationOfMyTask()
+        {
+            await MyTaskMethod().ConfigureAwait(false);
+            Console.WriteLine(Data.Value??"NULL");
+        }
+
+        public Task MyTaskMethod()
+        {
+            return Task.Run(()=> {
+
+                Console.WriteLine("I am at Another Thread");
+            });
+
+
+        }
+
+
+
+    }
+
+
     #endregion
 
 }

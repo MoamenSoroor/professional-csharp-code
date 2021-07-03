@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProCSharpCode.ExtensionMethods;
+using System;
 
 namespace ProCsharpCode.ExtensionMethods
 {
@@ -6,7 +7,7 @@ namespace ProCsharpCode.ExtensionMethods
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IEnumerableExtensionMethods.TestForEach();
         }
     }
 }
