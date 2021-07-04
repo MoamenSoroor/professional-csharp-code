@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProCSharpCode.ProCSharpCode.CsharpCollections
+namespace ProCSharpCode.CSharpCollections
 {
     // Concurrent Collections are thread safe collections:
     // 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using ProCSharpCode.BookSystem;
 using ProCSharpCode.Concurrency;
+using ProCSharpCode.CSharpCollections;
 using ProCSharpCode.ProCSharpCode.Utils;
 
 namespace ProCSharpCode
@@ -29,9 +30,13 @@ namespace ProCSharpCode
             //TaskFactoryStartNewMethod.Test();
             //TaskFactoryStartNew_ChildTasksAttachment.Test();
             //DifferenceBetweenTaskRunAndTaskFactoryStartNew.Test();
-            ContinuationWithWhenAll.Test();
+            //ContinuationWithWhenAll.Test();
             //ProgressReporting.Test();
             //CancelationTokenSourceAndCancellationToken.Test();
+
+
+            WorkingWithImmutableCollections.Test();
+
             Console.WriteLine("Press Any Key To Continue.");
             Console.ReadLine();
         }
