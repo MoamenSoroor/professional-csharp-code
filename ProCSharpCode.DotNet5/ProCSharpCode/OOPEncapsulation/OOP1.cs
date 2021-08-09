@@ -1993,8 +1993,72 @@ namespace ProCSharpCode.OOPEncapsulation
                 = new OuterClass2.OuterInnerClass.InnerInnerClass();
 
         }
-    } 
+    }
     #endregion
+
+
+
+    #region Init-only property 
+    // Init-only property 
+    // ==============================================================================================================
+    // Init-only property or indexer can only be assigned in an object initializer,
+    // or on 'this' or 'base' in an instance constructor or an 'init' accessor.
+
+
+    public class InitOnlyProperty
+    {
+        public int First { get; init; }
+
+        public InitOnlyProperty()
+        {
+            // valid
+            First = 10;
+        }
+
+
+        public void SetFirst()
+        {
+            //First = 120; // not valid
+        }
+
+
+    }
+
+    public class InitOnlyPropertySubClass : InitOnlyProperty
+    {
+        
+        public InitOnlyPropertySubClass():base()
+        {
+            // valid
+            base.First = 10;
+            this.First = 10;
+            First = 10;
+        }
+
+
+        public void SetFirst2()
+        {
+            //First = 120; // not valid
+        }
+
+
+
+
+    }
+    public class TestInitOnlyProperty
+    {
+        public static void Test()
+        {
+
+            // valid in the initializer.
+            InitOnlyProperty obj = new InitOnlyProperty() { First = 200 };
+
+            //obj.First = 20; // can't be setted
+        }
+    }
+
+    #endregion
+
 
 
 

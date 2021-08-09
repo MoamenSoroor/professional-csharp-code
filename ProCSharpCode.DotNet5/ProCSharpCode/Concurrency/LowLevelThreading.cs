@@ -85,7 +85,7 @@ namespace ProCSharpCode.Concurrency
     // 
     // - spinning can be effective when you expect a condition to be satisfied soon
     //   (perhaps within a few microseconds), because it avoids the overhead and 
-    //   latency of acontext switch.
+    //   latency of a context switch.
     //   The .NET Framework provides special methods and classes to 
     //   assist—see “SpinLock and SpinWait”
     // 

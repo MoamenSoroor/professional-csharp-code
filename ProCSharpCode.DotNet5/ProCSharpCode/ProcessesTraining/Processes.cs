@@ -492,9 +492,55 @@ namespace ProCSharpCode.ProcessesTraining
         //Class1 == Class2 False
     }
 
-    
+
 
 
     #endregion
 
+
+
+    #region Run the CMD with a Command
+
+    public class RunCMDProcess
+    {
+
+        public static void Test()
+        {
+            //string strCmdText;
+            //strCmdText = "/C copy /b Image1.jpg + Archive.rar Image2.jpg";
+            //System.Diagnostics.Process.Start("CMD.exe", strCmdText);
+
+
+            //System.Diagnostics.Process process = new System.Diagnostics.Process();
+            //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            //startInfo.FileName = "cmd.exe";
+            //startInfo.Arguments = "/C copy /b Image1.jpg + Archive.rar Image2.jpg";
+            //process.StartInfo = startInfo;
+            //process.Start();
+
+
+            //string[] strCmdText = { @"c:", @"cd C:\Users\moame\Desktop\spotlight\to rename", @"ren *.* *.jpg" };
+            string[] strCmdText = { @"", @"", @"" };
+
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = "cmd.exe";
+            cmd.StartInfo.RedirectStandardInput = true;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.CreateNoWindow = false;
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.Start();
+
+            cmd.StandardInput.WriteLine(strCmdText[0]);
+            cmd.StandardInput.WriteLine(strCmdText[1]);
+            cmd.StandardInput.WriteLine(strCmdText[2]);
+            cmd.StandardInput.Flush();
+            cmd.StandardInput.Close();
+            cmd.WaitForExit();
+            Console.WriteLine(cmd.StandardOutput.ReadToEnd());
+        }
+
+    }
+
+    #endregion
 }

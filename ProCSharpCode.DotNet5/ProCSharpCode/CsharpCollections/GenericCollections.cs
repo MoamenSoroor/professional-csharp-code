@@ -2507,7 +2507,7 @@ namespace ProCSharpCode.CSharpCollections
     //  without change the current collection
 
     // IImmutableList<> Interface has the following methods: 
-
+    // ------------------------------------------------------------------------------------------
     //IImmutableList<T> Add(T value);
     //IImmutableList<T> AddRange(IEnumerable<T> items);
     //IImmutableList<T> Clear();
@@ -2524,8 +2524,44 @@ namespace ProCSharpCode.CSharpCollections
     //IImmutableList<T> SetItem(int index, T value);
 
 
+    // public interface IImmutableDictionary<TKey, TValue> :
+    //      IEnumerable<KeyValuePair<TKey, TValue>>,
+    //          IEnumerable, IReadOnlyCollection<KeyValuePair<TKey, TValue>>,
+    //              IReadOnlyDictionary<TKey, TValue>
+    // it  has the following members: 
+    // ------------------------------------------------------------------------------------------
+    //IImmutableDictionary<TKey, TValue> Add(TKey key, TValue value);
+    //IImmutableDictionary<TKey, TValue> AddRange(IEnumerable<KeyValuePair<TKey, TValue>> pairs);
+    //IImmutableDictionary<TKey, TValue> Clear();
+    //bool Contains(KeyValuePair<TKey, TValue> pair);
+    //IImmutableDictionary<TKey, TValue> Remove(TKey key);
+    //IImmutableDictionary<TKey, TValue> RemoveRange(IEnumerable<TKey> keys);
+    //IImmutableDictionary<TKey, TValue> SetItem(TKey key, TValue value);
+    //IImmutableDictionary<TKey, TValue> SetItems(IEnumerable<KeyValuePair<TKey, TValue>> items);
+    //bool TryGetKey(TKey equalKey, out TKey actualKey);
 
-    //public ImmutableList<T>.Builder ToBuilder();
+
+
+    // public interface IImmutableSet<T> : IEnumerable<T>, IEnumerable, IReadOnlyCollection<T>
+    //  it has the following members
+    //IImmutableSet<T> Add(T value);
+    //IImmutableSet<T> Clear();
+    //bool Contains(T value);
+    //IImmutableSet<T> Except(IEnumerable<T> other);
+    //IImmutableSet<T> Intersect(IEnumerable<T> other);
+    //bool IsProperSubsetOf(IEnumerable<T> other);
+    //bool IsProperSupersetOf(IEnumerable<T> other);
+    //bool IsSubsetOf(IEnumerable<T> other);
+    //bool IsSupersetOf(IEnumerable<T> other);
+    //bool Overlaps(IEnumerable<T> other);
+    //IImmutableSet<T> Remove(T value);
+    //bool SetEquals(IEnumerable<T> other);
+    //IImmutableSet<T> SymmetricExcept(IEnumerable<T> other);
+    //bool TryGetValue(T equalValue, out T actualValue);
+    //IImmutableSet<T> Union(IEnumerable<T> other);
+
+
+    
 
     public class WorkingWithImmutableCollections
     {
@@ -2569,6 +2605,17 @@ namespace ProCSharpCode.CSharpCollections
 
 
 
+
+            // //public ImmutableList<T>.Builder ToBuilder();
+            // building ImmutableList with builder 
+            var builder = ImmutableList.CreateBuilder<string>();
+
+            builder.Add("moamen");
+            builder.Add("ahmed");
+            builder.Add("moamen");
+            builder.Add("mohammed");
+
+            var myImList = builder.ToImmutable();
         }
 
     }

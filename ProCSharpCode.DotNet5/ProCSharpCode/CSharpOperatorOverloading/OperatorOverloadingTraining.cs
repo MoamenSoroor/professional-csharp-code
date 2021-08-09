@@ -231,7 +231,7 @@ namespace ProCSharpCode.CSharpOperatorOverloading
             // Int Indexer Method Test
             // -----------------------------------------------------------------------------------
             Console.WriteLine();
-            Console.WriteLine("Int Indexer Method Test".Padding(10));
+            Console.WriteLine("Int Indexer Method Test".CustomPadding(10));
             var empCollection = new EmployeeCollection();
             empCollection.Employees.Add(new Employee(01, "Moamen", 25));
             empCollection.Employees.Add(new Employee(02, "Rahma", 30));
@@ -257,7 +257,7 @@ namespace ProCSharpCode.CSharpOperatorOverloading
             // String Indexer Method Test
             // -----------------------------------------------------------------------------------
             Console.WriteLine();
-            Console.WriteLine("String Indexer Method Test".Padding(10));
+            Console.WriteLine("String Indexer Method Test".CustomPadding(10));
 
 
             var empDict = new EmployeeDictionary();
@@ -285,7 +285,7 @@ namespace ProCSharpCode.CSharpOperatorOverloading
             // Overloaded Indexer : String Index, and  Int Index
             // -----------------------------------------------------------------------------------
             Console.WriteLine();
-            Console.WriteLine("Overloaded Indexer : String Index, and  Int Index".Padding(10));
+            Console.WriteLine("Overloaded Indexer : String Index, and  Int Index".CustomPadding(10));
 
             var empDict2 = new EmployeeOverloadedIndexer();
             empDict2.Employees.Add("emp1", new Employee(01, "Moamen", 25));
@@ -332,7 +332,7 @@ namespace ProCSharpCode.CSharpOperatorOverloading
             // Indexer with Multiple Dimensions
             // -----------------------------------------------------------------------------------
             Console.WriteLine();
-            Console.WriteLine("Indexer with Multiple Dimensions".Padding(10));
+            Console.WriteLine("Indexer with Multiple Dimensions".CustomPadding(10));
 
 
             PointCollection points = new PointCollection();
@@ -598,7 +598,7 @@ namespace ProCSharpCode.CSharpOperatorOverloading
             Point2D p3 = new Point2D(30, 40);
             //Point2D p4 = new Point2D(30,40);
 
-            Console.WriteLine("Operator Overloading Test".Padding(10));
+            Console.WriteLine("Operator Overloading Test".CustomPadding(10));
             Console.WriteLine();
             Console.WriteLine("Points: ");
             Console.WriteLine("p1 = {0}", p1);

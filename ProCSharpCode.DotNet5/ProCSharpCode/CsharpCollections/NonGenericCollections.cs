@@ -221,6 +221,8 @@ namespace ProCSharpCode.CSharpCollections
 
     #region Working with the ArrayList Class
 
+    // NOTE: Use Generic version of that collection is better (List<T>)
+
     class WorkingWithArrayList
     {
         public static void Test()
@@ -251,6 +253,8 @@ namespace ProCSharpCode.CSharpCollections
 
     #region Working with the Stack Class
 
+    // NOTE: Use Generic version of that collection is better (Stack<T>)
+
     class WorkingWithStack
     {
         public static void Test()
@@ -259,10 +263,16 @@ namespace ProCSharpCode.CSharpCollections
             Console.WriteLine("Working With Stack ");
             Console.WriteLine("".PadLeft(40, '='));
 
-            Stack arList = new Stack();
+            Stack stack = new Stack();
 
 
+            stack.Push(10);
+            stack.Push("Moamen");
 
+            var moamen  = stack.Pop();
+            Console.WriteLine(moamen);
+
+            Console.WriteLine(stack.Pop()); // 10
         }
 
     }
@@ -270,6 +280,9 @@ namespace ProCSharpCode.CSharpCollections
     #endregion
 
     #region Working with the Queue Class
+
+
+    // NOTE: Use Generic version of that collection is better (Queue<T>)
 
     class WorkingWithQueue
     {
@@ -279,8 +292,15 @@ namespace ProCSharpCode.CSharpCollections
             Console.WriteLine("Working With Queue ");
             Console.WriteLine("".PadLeft(40, '='));
 
-            Queue arList = new Queue();
+            Queue queue = new Queue();
 
+            queue.Enqueue("moamen");
+
+            queue.Enqueue("mohammed");
+
+
+            string moamen = queue.Dequeue() as string; // moamen
+            string mohammed = queue.Dequeue() as string;    // mohammed
 
 
         }
@@ -291,6 +311,9 @@ namespace ProCSharpCode.CSharpCollections
 
     #region Working with the SortedList Class
 
+    // NOTE: Use Generic version of that collection is better ( SortedList<TKey, TValue>)
+
+
     class WorkingWithSortedList
     {
         public static void Test()
@@ -300,7 +323,6 @@ namespace ProCSharpCode.CSharpCollections
             Console.WriteLine("".PadLeft(40, '='));
 
             SortedList arList = new SortedList();
-
 
 
         }
@@ -330,8 +352,11 @@ namespace ProCSharpCode.CSharpCollections
     #endregion
 
     #region Working with the BitArray Class
-
-    class WorkingWithBitArray
+    
+    // NOTE that BitArray is Immutable
+    // It is efficient to use it in encryption algorithms
+    // and it also encapsulate the logic of the bit operations
+    public class WorkingWithBitArray
     {
         public static void Test()
         {
@@ -339,11 +364,52 @@ namespace ProCSharpCode.CSharpCollections
             Console.WriteLine("Working With BitArray ");
             Console.WriteLine("".PadLeft(40, '='));
 
-            BitArray arList = new BitArray(64);
+            BitArray arr = new BitArray(64);
+            arr = new BitArray(new[] {true, true, true, true }); // value of 15 
+            arr = new BitArray(64); // length is 64 bit
+            arr = new BitArray(8,true); // value of 255 , with array length 8 bit
+            arr = new BitArray(new[] { 0x0F }); // Value of 15 one int in the array is with the length of 32 bit.
+
+            // convert to array of bool
+            List<bool> bools = arr.OfType<bool>().ToList();
+            Console.WriteLine(string.Join(", ",bools));
+
+            // convert to array of int , each integer represent bit
+            List<int> ints = arr.OfType<bool>().Select(b => b ? 1 : 0).ToList();
+            Console.WriteLine(string.Join("", ints));
 
 
+            var arrOr = arr.Or(new BitArray(new[] { 0x0F }));
+            var orResult = new int[1];
+            arrOr.CopyTo(orResult,0);
+            Console.WriteLine($"{arrOr[0]:x2}");
 
+            var arrAnd = arr.And(new BitArray(new int[] { 0x0F }));
+            var andResult = new int[1];
+            arrAnd.CopyTo(orResult, 0);
+            Console.WriteLine($"{arrAnd[0]:x2}");
         }
+
+
+
+
+        public static BitArray ToBinary(int numeral)
+        {
+            return new BitArray(new[] { numeral });
+        }
+
+        public static int ToNumeral(BitArray binary)
+        {
+            if (binary == null)
+                throw new ArgumentNullException("binary");
+            if (binary.Length > 32)
+                throw new ArgumentException("must be at most 32 bits long");
+
+            var result = new int[1];
+            binary.CopyTo(result, 0);
+            return result[0];
+        }
+
 
     }
 

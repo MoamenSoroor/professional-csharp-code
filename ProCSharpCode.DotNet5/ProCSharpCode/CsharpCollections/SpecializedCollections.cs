@@ -83,9 +83,19 @@ namespace ProCSharpCode.CSharpCollections
             Console.WriteLine("Working With BitVector32 ");
             Console.WriteLine("".PadLeft(40, '='));
 
-            BitVector32 arList = new BitVector32();
+            BitVector32 arList = new BitVector32(0b0000_1111); // value of 15
+
+            // get integer value that represnt the bitVector
+            int value = arList.Data;
+            Console.WriteLine(value);
 
 
+            // get the most small bit
+            Console.WriteLine(arList[0]); // 1
+
+
+
+            
 
         }
 

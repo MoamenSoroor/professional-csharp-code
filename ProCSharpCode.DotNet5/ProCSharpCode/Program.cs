@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ProCSharpCode.BookSystem;
 using ProCSharpCode.Concurrency;
 using ProCSharpCode.CSharpCollections;
+using ProCSharpCode.ProCSharpCode.LINQTraining;
 using ProCSharpCode.ProCSharpCode.Utils;
 
 namespace ProCSharpCode
@@ -35,7 +36,10 @@ namespace ProCSharpCode
             //CancelationTokenSourceAndCancellationToken.Test();
 
 
-            WorkingWithImmutableCollections.Test();
+            //WorkingWithImmutableCollections.Test();
+
+
+            LinqToXml.Test();
 
             Console.WriteLine("Press Any Key To Continue.");
             Console.ReadLine();

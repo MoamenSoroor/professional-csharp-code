@@ -165,7 +165,7 @@ namespace ProCSharpCode.LINQTraining
             Console.WriteLine($"***** Info about your query using Query Expression *****");
             Console.WriteLine($@"    resultSet Type: {subset.GetType().Name}");
             Console.WriteLine($@"resultSet Assembly: {subset.GetType().Assembly.GetName().Name}");
-            Console.WriteLine("".Padding(40, "-"));
+            Console.WriteLine("".CustomPadding(40, "-"));
 
             // Query Execution/ Extraction
             // Print out the results.

@@ -55,7 +55,7 @@ namespace ProCSharpCode.ExtensionMethods
             Console.WriteLine($"========= Info about your query using {queryType} =========");
             Console.WriteLine($@"resultSet Type------: {resultSet.GetType().Name}");
             Console.WriteLine($@"resultSet Assembly--: {resultSet.GetType().Assembly.GetName().Name}");
-            Console.WriteLine("".Padding(30, "-"));
+            Console.WriteLine("".CustomPadding(30, "-"));
             Console.WriteLine();
         }
 
@@ -69,13 +69,13 @@ namespace ProCSharpCode.ExtensionMethods
         public static void Execute<T>(this IEnumerable<T> resultSet, string title = "")
         {
             // Print out the results.
-            Console.WriteLine($"Execute {title} Query".Padding());
+            Console.WriteLine($"Execute {title} Query".CustomPadding());
             foreach (T item in resultSet)
             {
                 if (item != null)
                     Console.WriteLine($@"Item: {item}");
             }
-            Console.WriteLine("".Padding(30, "-"));
+            Console.WriteLine("".CustomPadding(30, "-"));
             Console.WriteLine();
         }
     }

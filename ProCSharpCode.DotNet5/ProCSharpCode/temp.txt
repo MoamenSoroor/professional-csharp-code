@@ -1,0 +1,23 @@
+ we're going to use the Parallel class. This introduces a few helpers that will
+ allow us to more easily approach this. Internally. it will, in fact, use the
+ task from the Task parallel library. It will also provide some configuration
+ capabilities to override some behavior. Out of the box, it will take care of
+ calculating the most efficient way of dividing the tasks it's given among the available
+ cores.This means distributing the work effectively across the different cores
+ that you have available on your system. If we simply spawn a lot of tasks using
+ Task.Run, not only will it not be as efficient as it could be, it will also
+ require us to write a lot more code than we have to.Instead of doing that, we can use
+ theme methods available on the Parallel class. We could use Parallel for, which
+ is really the same as a normal for loop, but it will run in parallel and be
+ configured to distribute the work according to the system it's running on. You could
+ also use the parallel ForEach, which is a parallel version of the normal
+ ForEach loop. These two will be covered later. You've also got a method called Invoke
+ on the Parallel class. This takes a list of actions.These actions will be
+ distributed and executed in parallel.None of the methods on the parallel class will
+ guarantee that it's executing in parallel because it really depends on the system.
+ I've had a look at the internals of Parallel.Invoke, and depending on how many
+ actions you pass to it, it might execute them using a parallel for loop.This
+ just proves that it does some really heavy lifting and provide some great
+ functionality and optimizations which you shouldn't take lightly. Parallel.Invoke doesn't
+ return anything, and the actions you pass to it are distributed to run as
+ effectively as possible and run independent from each other.
