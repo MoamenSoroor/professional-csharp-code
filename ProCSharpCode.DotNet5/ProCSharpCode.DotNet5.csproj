@@ -11,6 +11,8 @@
   <ItemGroup>
     <None Remove="BookSystem\book.xml" />
     <None Remove="BookSystem\bookChapters.txt" />
+    <None Remove="Resources\info.txt" />
+    <None Remove="Resources\sea.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +31,11 @@
   <ItemGroup>
     <Content Include="BookSystem\book.xml" />
     <Content Include="BookSystem\bookChapters.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\info.txt" />
+    <EmbeddedResource Include="Resources\Images\sea.jpg" />
   </ItemGroup>
 
   <ItemGroup>

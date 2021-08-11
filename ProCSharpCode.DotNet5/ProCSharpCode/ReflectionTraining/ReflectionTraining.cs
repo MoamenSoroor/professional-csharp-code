@@ -7,7 +7,8 @@ using System.Reflection;
 
 using ProCSharpCode.OOPExamples;
 using static System.Environment;
-
+using System.Runtime.Loader;
+using System.IO;
 
 namespace ProCSharpCode.ReflectionTraining
 {
@@ -387,11 +388,11 @@ namespace ProCSharpCode.ReflectionTraining
 
                 builder.AppendLine();
             }
-                
+
             return builder.ToString();
         }
 
-            public static string ReflectOverEvents(Type t)
+        public static string ReflectOverEvents(Type t)
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine();
@@ -415,7 +416,7 @@ namespace ProCSharpCode.ReflectionTraining
             var methods = from method in t.GetMethods()
                           select $"{method.ReturnType.FullName}" +
                           $" {method.Name}(" +
-                          string.Join(", ",method.GetParameters().Select(par => $"{par.ParameterType} {par.Name}"))
+                          string.Join(", ", method.GetParameters().Select(par => $"{par.ParameterType} {par.Name}"))
                           + ");";
 
             foreach (string item in methods)
@@ -527,12 +528,12 @@ namespace ProCSharpCode.ReflectionTraining
             //builder.AppendLine($"IsSharedAsm--: {asm.GlobalAssemblyCache}");
             builder.AppendLine($"FriendlyName-: {asm.GetName().Name}");
             builder.AppendLine($"Version------: {asm.GetName().Version}");
-            builder.AppendLine($"PublicKey----: {string.Join(" ",asm.GetName().GetPublicKeyToken())}");
+            builder.AppendLine($"PublicKey----: {string.Join(" ", asm.GetName().GetPublicKeyToken())}");
             builder.AppendLine($"Culture------: {asm.GetName().CultureInfo.DisplayName}");
             builder.AppendLine();
             builder.AppendLine($"--- Types Lives in Assembly:---");
-            var types = from t in asm.GetTypes() 
-                        select (t.IsClass ? "Class     " : t.IsInterface ? "Interface " : t.IsValueType ? t.IsEnum ? "Enum      " : "ValueType " : "") + t.FullName ;
+            var types = from t in asm.GetTypes()
+                        select (t.IsClass ? "Class     " : t.IsInterface ? "Interface " : t.IsValueType ? t.IsEnum ? "Enum      " : "ValueType " : "") + t.FullName;
             builder.AppendLine(string.Join(NewLine, types));
             //Type[] types = asm.GetTypes();
             //builder.AppendLine(" ---------------Types Full Details ---------------");
@@ -587,7 +588,7 @@ namespace ProCSharpCode.ReflectionTraining
 
                 // Invoke the method by late binding: with specifying parameters 
                 // the first are bool and the other are enum.
-                method2.Invoke(obj, new object [] { true, 2});
+                method2.Invoke(obj, new object[] { true, 2 });
 
 
             }
@@ -595,8 +596,8 @@ namespace ProCSharpCode.ReflectionTraining
             {
                 Console.WriteLine("Error Can't Load Assembly or Create Instance or Invoke Methods!!");
             }
-            
-            
+
+
 
         }
 
@@ -605,7 +606,130 @@ namespace ProCSharpCode.ReflectionTraining
 
     // --------------------------------------------------------------
     #endregion
-    
 
+
+    // New at .NET Core and .NET 5
+
+    #region Assembly loading and resolution
+
+    //    Assembly resolution is triggered in two scenarios:
+    //  - By the CLR, when it needs to resolve a dependency
+    //  - Explicitly, when you call a method such as Assembly.Load(AssemblyName)
+
+    // Because MyMainProgram.dll is the main assembly for the application,
+    // the CLR uses the default ALC (AssemblyLoadContext.Default) to resolve its dependencies.
+
+    // 
+
+    #endregion
+
+    #region AssemblyLoadContext.Default
+    //the CLR uses the default ALC(AssemblyLoadContext.Default) to resolve its
+    //dependencies.The default ALC resolves dependencies first by looking for and
+    //examining a file called <Assembly Name>.deps.json (which describes where to find
+    //dependencies), or if not present, it looks in the application base folder, where
+    //it will find Terrain.dll and UIEngine.dll. (The default ALC also resolves the.NET
+    //runtime assemblies.)
+    #endregion
+
+    #region AssemblyLoadContext at namespace (System.Runtime.Loader)
+    //the AssemblyLoadContext class is responsible for loading and resolving assemblies as well
+    //as providing a mechanism for isolation.
+
+    // Every.NET Assembly object belongs to exactly one AssemblyLoadContext.You can obtain the
+    // ALC for an assembly, as follows:
+    //Assembly assem = Assembly.GetExecutingAssembly();
+    //AssemblyLoadContext context = AssemblyLoadContext.GetLoadContext(assem);
+
+    // Conversely, you can think of an ALC as “containing” or “owning” assemblies, 
+    // which you can obtain via its Assemblies property.
+
+
+    //The AssemblyLoadContext class also has a static All property that enumerates all ALCs.
+
+    public class GettingAssemblyLoadContext
+    {
+
+
+        public static void Test()
+        {
+            // obtain context of an assembly
+            Assembly assem = Assembly.GetExecutingAssembly();
+            AssemblyLoadContext context = AssemblyLoadContext.GetLoadContext(assem);
+            Console.WriteLine(context.Name);
+
+
+            // obtain all assemblies in a context
+            foreach (var asm in context.Assemblies)
+            {
+                Console.WriteLine(asm.FullName);
+            }
+
+
+            // The AssemblyLoadContext class also has a static All property that enumerates all ALCs.
+            foreach (var ctx in AssemblyLoadContext.All)
+            {
+                Console.WriteLine(ctx.Assemblies.First().FullName);
+            }
+
+            // accessing default load context
+            var mainCtx = AssemblyLoadContext.Default;
+            Console.WriteLine(mainCtx.Assemblies.First().FullName);
+
+        }
+    }
+
+    #endregion
+
+    #region Loading Assemblies (Dynamic Load)
+
+    //    Loading assemblies
+    //  AssemblyLoadContext provides the following methods to explicitly load an assembly into its context:
+
+    // public Assembly LoadFromAssemblyPath(string assemblyPath);
+    // public Assembly LoadFromStream(Stream assembly, Stream assemblySymbols);
+
+    //The first method loads an assembly from a file path, whereas the second
+    //method loads it from a Stream(which can come directly from memory)
+
+    //This means that you cannot load multiple versions of the same-named
+    //assembly into a single ALC; to do this, you must create additional ALCs.
+
+    //Note that types that originate from different Assembly objects are incompatible
+    //even if the assemblies are otherwise identical.In our example, the types in assem
+    //are incompatible with the types in assem2.
+
+    // NOTE: You can't unload assembly, but you can unload the whole AssemblyLoadContext
+    // within Unload() Method, also the CLR maitains a lock of the file for the duartion it is loaded
+    // You can avoid locking the file by loading the assembly via a byte array:
+
+    // this has two draw backs: 
+    //  1- The assembly’s Location property will end up blank.
+    //  2- Private memory consumption must increase immediately to accommodate the full size of the
+    // assembly. If you instead load from a filename, the CLR uses a memory-mapped file, which
+    // enables lazy loading and process sharing. Also, should memory run low, the OS can release
+    // its memory and reload as required without writing to a page file.
+
+    public class LoadingAssembliesTest
+    {
+        public static void Test()
+        {
+            
+            var alc = new AssemblyLoadContext("Test");
+            Assembly assem = alc.LoadFromAssemblyPath(@"c:\temp\foo.dll");
+
+            // to unload
+            alc.Unload();
+
+
+            // avoid locking by using LoadFromStream
+            byte[] bytes = File.ReadAllBytes(@"c:\temp\foo.dll");
+            var ms = new MemoryStream(bytes);
+            var assem2 = alc.LoadFromStream(ms);
+
+        }
+    }
+
+    #endregion
 
 }

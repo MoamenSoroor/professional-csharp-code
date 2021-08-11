@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using ProCSharpCode.BookSystem;
 using ProCSharpCode.Concurrency;
 using ProCSharpCode.CSharpCollections;
+using ProCSharpCode.ProCSharpCode.Assemblies;
 using ProCSharpCode.ProCSharpCode.LINQTraining;
 using ProCSharpCode.ProCSharpCode.Utils;
 
@@ -39,7 +41,9 @@ namespace ProCSharpCode
             //WorkingWithImmutableCollections.Test();
 
 
-            LinqToXml.Test();
+            //LinqToXml.Test();
+
+            EmbeddedResourceTest.Test();
 
             Console.WriteLine("Press Any Key To Continue.");
             Console.ReadLine();

@@ -161,14 +161,14 @@ namespace ProCSharpCode.Concurrency
     public class AwaitingNongenericTask
     {
         // Test Method
-        public static async void Test()
+        public static async Task Test()
         {
             await Task.Delay(3000);
             Console.WriteLine("Three Seconds Passed!");
 
         }
 
-        public static async void Test2()
+        public static async Task Test2()
         {
             for (int i = 0; i < 5; i++)
             {
@@ -182,7 +182,7 @@ namespace ProCSharpCode.Concurrency
 
         public static void CallTest2()
         {
-            Test2();
+            Test2().ContinueWith(t=> Console.WriteLine("Second Done"));
             Console.WriteLine("Second Done!");
 
 
@@ -249,13 +249,13 @@ namespace ProCSharpCode.Concurrency
     {
         public static void Test()
         {
-            Go();
+            Go().ContinueWith(d=> Console.WriteLine("Done!"));
         }
 
         public static async Task Go()
         {
+            Console.WriteLine("Go");
             await PrintAnswerToLife();
-            Console.WriteLine("Done!");
         }
 
 
