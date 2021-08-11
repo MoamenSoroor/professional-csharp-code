@@ -25,7 +25,8 @@ namespace ProCSharpCode
         static void Main(string[] args)
         {
 
-            //RunBook();
+            RunBook();
+
             //MockingEmployeeService.Test();
             //OriginalContext.Test();
 
@@ -42,8 +43,7 @@ namespace ProCSharpCode
 
 
             //LinqToXml.Test();
-
-            EmbeddedResourceTest.Test();
+            //EmbeddedResourceTest.Test();
 
             Console.WriteLine("Press Any Key To Continue.");
             Console.ReadLine();
@@ -59,17 +59,12 @@ namespace ProCSharpCode
 
             // Uncomment this line to build book before run
             Book book = BuildBook();
-
             //Console.WriteLine(book);
 
-
-            // write code here to run any module in the book
-            // TODO
-
             //examples: 
-            book.Index.ExecuteAll();
-            //book.Index.ExecuteChapter(1);
-            //book.Index.ExecuteSubject(1, 1);
+            //book.Index.ExecuteAll();
+            book.Index.ExecuteChapter(3);
+            //book.Index.ExecuteSubject(3, 2);
             //book.Index.ExecuteChapters(1,2);
             //book.Index.ExecuteSubjects(1,1,2,3);
 
@@ -284,82 +279,9 @@ namespace ProCSharpCode
         }
 
 
-        #region Old: with the next two methods i was executing the test code, before book system
-        // with the next two methods i was executing the test code, before book system
-        private static void ExecuteTests()
-        {
-            //ProCSharpBook.SystemIO.SerializingUsingSoapFormatter.
-
-            //ProCSharpBook.SystemIO.SerializingUsingSoapFormatter.Test();
-            //ProCSharpBook.SystemIO.SerializingUsingXmlSerializer.Test();
-            //ProCSharpBook.SystemIO.SerializingCollections.Test();
-            //ProCSharpBook.SystemIO.CustomizingSerialization.Test();
-            //ProCSharpBook.SystemIO.CustomizingSerializationUsingAttributes.Test();
-            //ProCSharpBook.SystemIO.CountCharactersProblem.Test();
-            //ProCSharpBook.SystemIO..Test();
-
-        }
-
-        public static void RunOldStyle()
-        {
-
-            CSharpBasics.DataTypesBasics.TestBasics();
-            CSharpBasics.MethodsBasics.TestMethods();
-            CSharpBasics.ControlFlowTraining.TestControlFlow();
-            CSharpBasics.ArraysTraining.TestArrays();
-            CSharpBasics.StringsTraining.TestStrings();
-
-
-            CSharpBasics.EnumsTraining.TestEnums();
-            CSharpBasics.StructuresTraining.TestStructures();
-            CSharpBasics.TuplesTraining.TestTuples();
-            CSharpBasics.NullablesTraining.TestNullables();
-
-            ExceptionHandling.ExceptionHandlingTraining.TestExceptionHandling();
-
-
-            OOPEncapsulation.OOPTraining.TestOOP();
-            OOPInheritanceAndPlymorphism.OOPTraining.TestOOP();
-            OOPInterfaces.OOPTraining.TestOOP();
-
-
-            CSharpGenerics.GenericsTraining.Test();
-            CSharpCollections.CollectionsTraining.TestCollections();
-
-            CSharpDelegates.DelegateTraining.Test();
-            EventListenerSystem.TestEventListenerSystem.Test();
-
-            CSharpOperatorOverloading.OperatorOverloadingTraining.Test();
-            ExtensionMethods.MyExtensionMethods.Test();
-            AnonymousTypes.MyAnonymousTypes.Test();
-
-
-        }
-
-
-
-        #endregion
-
-
-
     }
 
 
 }
 
 
-//Core C# Programming Constructs, Part I
-//Core C# Programming Constructs, Part II
-//Understanding Encapsulation
-//Understanding Inheritance and Polymorphism
-//Understanding Structured Exception Handling
-//Working with Interfaces
-//Collections and Generics
-//Delegates, Events, and Lambda Expressions
-//Advanced C# Language Features
-//LINQ To Objects
-//Understanding Object Lifetime
-//type reflection, late Binding, and attriBute-Based programming
-//Dynamic Types and the Dynamic Language Runtime
-//Processes, AppDomains, and Object Contexts
-//Multithreaded, Parallel, and Async Programming

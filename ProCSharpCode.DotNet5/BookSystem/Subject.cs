@@ -8,29 +8,21 @@ namespace ProCSharpCode.BookSystem
 {
     public class Subject
     {
-        public int ID { get; set; }
+        public int ID { get;  }
 
-        public string Name { get; set; }
+        public string Name { get;  }
 
-        public Chapter Chapter { get; set; }
+        public Chapter Chapter { get;  }
 
-        public event Action Run;
+        protected event Action Run;
         public event Action OnStart;
         public event Action OnFinish;
 
-        public Subject()
-        {
-
-        }
-        public Subject(int iD, string name, Chapter chapter)
+        public Subject(int iD, string name, Chapter chapter, Action run) 
         {
             ID = iD;
             Name = name;
             Chapter = chapter;
-        }
-
-        public Subject(int iD, string name, Chapter chapter, Action run) : this(iD, name, chapter)
-        {
             Run += run;
         }
 

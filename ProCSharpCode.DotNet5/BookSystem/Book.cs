@@ -9,16 +9,12 @@ namespace ProCSharpCode.BookSystem
 
     public class Book
     {
-        public int ISBN { get; set; }
+        public int ISBN { get; }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
         public BookIndex Index { get; } = new BookIndex();
 
-        public Book()
-        {
-
-        }
         public Book(int iSBN, string name)
         {
             ISBN = iSBN;
