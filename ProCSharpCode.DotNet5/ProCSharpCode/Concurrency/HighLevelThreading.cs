@@ -45,10 +45,13 @@ namespace ProCSharpCode.Concurrency
 
     #region Tasks
     // ------------------------ Tasks -------------------------
-    // The Task class helps with all of these problems.Compared to a thread, a Task is
+    // The Task class helps with all of these problems.Compared to a thread,
+    //
+    // a Task is
+    // ------------
     // higher-level abstraction—it represents a concurrent operation that may or may not
-    // be backed by a thread.Tasks are compositional(you can chain them together
-    // through the use of continuations). 
+    // be backed by a thread.
+    // Tasks are compositional(you can chain them together through the use of continuations). 
     //
     // They can use the thread pool to lessen startup
     // latency, and with a TaskCompletionSource, they can leverage a callback approach
@@ -708,18 +711,14 @@ namespace ProCSharpCode.Concurrency
     #endregion
 
     #region Success and Failure in Continuation With ContinueWith Method
-    // ------------------------ Continuations With ContinueWith Method ------------------------- 
-    // The other way to attach a continuation is by calling the task’s ContinueWith method.
-    // ContinueWith itself returns a Task, which is useful if you want 
-    // to attach further continuations.
-    // 
-    // However, you must deal directly with AggregateException if the
-    // task faults, and write extra code to marshal the continuation in UI applications(see
-    // “Task Schedulers” on page 943 in Chapter 23). And in non-UI contexts, you must
-    // specify TaskContinuationOptions.ExecuteSynchronously if you want the continuation
-    // to execute on the same thread; otherwise it will bounce to the thread pool.
-    // ContinueWith is particularly useful in parallel programming scenarios; we cover it
-    // in detail in “Continuations” on page 938 in Chapter 23.
+    // ------------------------ Success and Failure in Continuation With ContinueWith Method ------------------------- 
+    // if the task is faulted or canceled and you didn't specify TaskContinuationOptions on the
+    // ContinueWith Method, the ContinueWith will be executed.
+
+    // but if you specify the TaskContinuationOptions 
+    //  - OnlyOnRanToCompletion: execute only if the task is succeeded.
+    //  - OnlyOnFaulted : execute only if the task is faulted
+    //  - 
 
 
     public class SuccessAndFailureInContinuationsWithContinueWith
@@ -781,7 +780,7 @@ namespace ProCSharpCode.Concurrency
         {
             CancellationTokenSource source = new CancellationTokenSource();
 
-            var task = CountPrimeNumbersAsync(3000000,source.Token);
+            var task = CountPrimeNumbersAsync(3000000, source.Token);
 
             // NOTE: for test only
             // randomly cancel operation
@@ -790,13 +789,13 @@ namespace ProCSharpCode.Concurrency
                 source.Cancel();
 
             // if task is canceled
-            task.ContinueWith(x => Console.WriteLine($"prime number task has been canceled."),TaskContinuationOptions.OnlyOnCanceled);
-            
+            task.ContinueWith(x => Console.WriteLine($"prime number task has been canceled."), TaskContinuationOptions.OnlyOnCanceled);
+
             // if task is faulted (exception is thrown)
-            task.ContinueWith(x => Console.WriteLine($"task has been Faulted: {x.Exception.InnerException.Message}"),TaskContinuationOptions.OnlyOnFaulted);
-            
+            task.ContinueWith(x => Console.WriteLine($"task has been Faulted: {x.Exception.InnerException.Message}"), TaskContinuationOptions.OnlyOnFaulted);
+
             // if task is suceeded
-            task.ContinueWith(x => Console.WriteLine($"result: {x.Result}"),TaskContinuationOptions.OnlyOnRanToCompletion);
+            task.ContinueWith(x => Console.WriteLine($"result: {x.Result}"), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
 
@@ -811,20 +810,20 @@ namespace ProCSharpCode.Concurrency
                     //NOTE: the next code is for test only
                     // randomly throw exception if cancelation is requested
                     // if n now is even OperationCanceledException will be thrown.
-                    if(n % 3 == 0)
+                    if (n % 3 == 0)
                         stoppingToken.ThrowIfCancellationRequested();
 
                     // if randomly code passed till here after cancellation,
                     // we will break the for loop
                     if (stoppingToken.IsCancellationRequested)
                         break;
-                    
+
                     count += Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0) ? 1 : 0;
                 }
                 return count;
-            },stoppingToken); // note that if you forget to pass CancellationToken to the Task
-                              // if there are continuation after the task with TaskContinuationOptions
-                              // OnlyOnCanceled , it will not be executed.
+            }, stoppingToken); // note that if you forget to pass CancellationToken to the Task
+                               // if there are continuation after the task with TaskContinuationOptions
+                               // OnlyOnCanceled , it will not be executed.
 
             return primeNumberTask;
 
@@ -991,10 +990,24 @@ namespace ProCSharpCode.Concurrency
 
 
             // this way is one of the best ways to run long running operations
+            // with this option task will be executed out of the thread pool
+            // Running one long-running task on a pooled thread won’t cause trouble;
+            // it’s when you run multiple long-running tasks in parallel (particularly
+            // ones that block) that performance can suffer. And in that case, there
+            // are usually better solutions than TaskCreationOptions.LongRunning:
+
+            // If the tasks are I / O bound, TaskCompletionSource and asynchronous
+            // functions let you implement concurrency with callbacks(continuations)
+            // instead of threads.
+
+            // If the tasks are compute bound, a producer / consumer queue lets you
+            // throttle the concurrency for those tasks, avoiding starvation for other
+            // threads and processes
+
             var result2 = Task.Factory.StartNew(() =>
-            {
-                Console.WriteLine("do async operation 2");
-            },TaskCreationOptions.LongRunning);
+          {
+              Console.WriteLine("do async operation 2");
+          }, TaskCreationOptions.LongRunning);
 
             // passing data to the task
             // it is good in the situation when we want to avoid closures
@@ -1003,7 +1016,7 @@ namespace ProCSharpCode.Concurrency
                 // data should be "i am data passed to task"
                 Console.WriteLine($"Data Passed To task is : {data as string}");
                 Console.WriteLine("do async operation 3");
-            },"i am data passed to task",CancellationToken.None);
+            }, "i am data passed to task", CancellationToken.None);
 
 
         }
@@ -1061,8 +1074,8 @@ namespace ProCSharpCode.Concurrency
                 // if you make TaskCreationOptions with DenyChildAttach option 
                 // parent will not attach the children even if they are AttachedToParent
 
-            }/*,TaskCreationOptions.DenyChildAttach*/ ); 
-            parent.ContinueWith(a=> Console.WriteLine("Parent Completed"));
+            }/*,TaskCreationOptions.DenyChildAttach*/ );
+            parent.ContinueWith(a => Console.WriteLine("Parent Completed"));
 
 
 
@@ -1080,8 +1093,9 @@ namespace ProCSharpCode.Concurrency
     // that tasks, actually, Task.Run uses it internally and considered a Wrapper for it.
     // 
     // also there is another difference between Task.Run and Task.Factory.StartNew()
-    // if the action passed to both is async method, Task.Run will return the result of the nested task
-    // but Task.Factory.StartNew will return the task of the async action
+    // if the action passed to both is async method, Task.Run will return the
+    // result of the nested task but Task.Factory.StartNew will return the task of
+    // the async action
     // 
     class DifferenceBetweenTaskRunAndTaskFactoryStartNew
     {
@@ -1119,7 +1133,7 @@ namespace ProCSharpCode.Concurrency
             {
                 var result = await CountPrimeNumbersAsync();
                 return result;
-            }).Unwrap(); 
+            }).Unwrap();
             // Unwrap the task to extract the result directly if the passed StartNew
             // delegate is async
 
@@ -1127,7 +1141,7 @@ namespace ProCSharpCode.Concurrency
 
 
             // with async / await keywords
-            TestWithAsyncAwait().ContinueWith(a => { } );
+            TestWithAsyncAwait().ContinueWith(a => { });
         }
 
 
@@ -1160,7 +1174,7 @@ namespace ProCSharpCode.Concurrency
             Task<int> primeNumberTask = Task.Run(() =>
                 Enumerable.Range(2, max).Count(n =>
                     Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0)));
-            
+
             return primeNumberTask;
         }
 
@@ -1197,19 +1211,21 @@ namespace ProCSharpCode.Concurrency
                 Console.SetCursorPosition(current.Left, current.Top);
             };
 
-            CountPrimeNumbersAsync(max,step,progress).ContinueWith(_ => Console.WriteLine("task finished."));
+            CountPrimeNumbersAsync(max, step, progress)
+                .ContinueWith(_ => Console.WriteLine("task finished."));
 
         }
 
 
 
-        public static Task<int> CountPrimeNumbersAsync(int max,int step, IProgress<int> progress = default)
+        public static Task<int> CountPrimeNumbersAsync(int max, int step, IProgress<int> progress = default)
         {
             Task<int> primeNumberTask = Task.Run(() =>
-                Enumerable.Range(2, max).Count((n) => {
+                Enumerable.Range(2, max).Count((n) =>
+                {
                     // report progress
-                    if(n % step == 0)
-                        progress?.Report(n/step);
+                    if (n % step == 0)
+                        progress?.Report(n / step);
                     return Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0);
                 }));
 
@@ -1318,6 +1334,40 @@ namespace ProCSharpCode.Concurrency
     // --------------------------------------------------------------
     #endregion
 
+
+    #region The Real Power of the TaskCompletionSource
+    //The real power of TaskCompletionSource is in creating tasks that don’t tie
+    //up threads.For instance, consider a task that waits for five seconds and
+    //then returns the number 42. We can write this without a thread by using the
+    //Timer class
+
+    public class TheRealPowerOfTaskCompletionSource
+    {
+        public static void Test()
+        {
+            var task = GetAnswerAfter5Sec(200);
+            var waiter = task.GetAwaiter();
+            waiter.OnCompleted(() => Console.WriteLine(waiter.GetResult()));
+        }
+
+        // note that there is no thread inside the method.
+        public static Task<int> GetAnswerAfter5Sec(int val)
+        {
+            var rcs = new TaskCompletionSource<int>();
+
+            var timer = new System.Timers.Timer(5000) { AutoReset = false };
+            timer.Elapsed += delegate { timer.Dispose(); rcs.SetResult(val); };
+            timer.Start();
+            return rcs.Task;
+        }
+
+    }
+
+
+    #endregion
+
+
+
     #region Delay With TaskCompletionSource
     // ------------------------ Delay With TaskCompletionSource -------------------------
 
@@ -1329,21 +1379,11 @@ namespace ProCSharpCode.Concurrency
             Delay(1000).GetAwaiter().OnCompleted(() => Console.WriteLine(42));
         }
 
-        public static Task<int> GetAnswerAfter5Sec(int val)
-        {
-            var rcs = new TaskCompletionSource<int>();
-
-            var timer = new System.Timers.Timer(5000) { AutoReset = false };
-            timer.Elapsed += delegate { timer.Dispose(); rcs.SetResult(val); };
-            timer.Start();
-            return rcs.Task;
-        }
-
         public static Task Delay(int milliseconds)
         {
-            var tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object>(); // note the object 
             var timer = new System.Timers.Timer(milliseconds) { AutoReset = false };
-            timer.Elapsed += delegate { timer.Dispose(); tcs.SetResult(null); };
+            timer.Elapsed += delegate { timer.Dispose(); tcs.SetResult(null); };// note null 
             timer.Start();
             return tcs.Task;
         }
@@ -1353,6 +1393,47 @@ namespace ProCSharpCode.Concurrency
 
     // --------------------------------------------------------------
     #endregion
+
+
+    #region The Real Power of the TaskCompletionSource : 1000 IO Bound Operations
+    //Our use of TaskCompletionSource without a thread means that a thread is engaged only when
+    //the continuation starts, five seconds later.We can demonstrate this by starting 10,000 of
+    //these operations at once without error or excessive resource consumption
+
+    // Timers fire their callbacks on pooled threads, so after five seconds,
+    // the thread pool will receive 10,000 requests to call SetResult(null) on a
+    // TaskCompletionSource.If the requests arrive faster than they can be processed, the thread pool
+    // will respond by enqueuing and then processing them at the optimum level of parallelism for the
+    // CPU.This is ideal if the thread-bound jobs are short running, which is true in this case
+
+    public class TaskCompletionSource1000Operations
+    {
+        public static void Test()
+        {
+            // thread creation is under the control of the thread pool
+            // that make execution more effiecent, with out any bad effects
+            // as the that case the tasks are short running operations
+            for (int i = 0; i < 1000; i++)
+            {
+                Delay(1000).GetAwaiter().OnCompleted(() => Console.WriteLine(42));
+            }
+
+        }
+
+        
+        public static Task Delay(int milliseconds)
+        {
+            var tcs = new TaskCompletionSource<object>(); // note the object 
+            var timer = new System.Timers.Timer(milliseconds) { AutoReset = false };
+            timer.Elapsed += delegate { timer.Dispose(); tcs.SetResult(null); };// note null 
+            timer.Start();
+            return tcs.Task;
+        }
+
+    }
+
+    #endregion
+
 
     #region Task.Delay Method
     // ------------------------ Task.Delay Method -------------------------

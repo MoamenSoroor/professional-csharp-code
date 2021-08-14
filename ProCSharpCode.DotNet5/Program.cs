@@ -22,10 +22,10 @@ namespace ProCSharpCode
             
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
-            RunBook();
+            //RunBook();
 
             //MockingEmployeeService.Test();
             //OriginalContext.Test();
@@ -45,9 +45,14 @@ namespace ProCSharpCode
             //LinqToXml.Test();
             //EmbeddedResourceTest.Test();
 
+
+            //await TestAsyncEnumerator.Test();
+
             Console.WriteLine("Press Any Key To Continue.");
             Console.ReadLine();
         }
+
+
 
 
 

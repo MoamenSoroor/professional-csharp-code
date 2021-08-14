@@ -38,8 +38,8 @@ namespace ProCSharpCode.Concurrency
             {
                 int temp = i;   // to avoid capturing
                 var awaiter = GetPrimesCountAsync(i * 1000000 + 2, 1000000).GetAwaiter();
-                awaiter.OnCompleted(() => 
-                        Console.WriteLine(awaiter.GetResult() + " primes between... " 
+                awaiter.OnCompleted(() =>
+                        Console.WriteLine(awaiter.GetResult() + " primes between... "
                         + (temp * 1000000) + " and " + ((temp + 1) * 1000000 - 1)));
 
             }
@@ -132,7 +132,7 @@ namespace ProCSharpCode.Concurrency
 
         // We can summarize everything we just said by looking at the logical
         // expansion of the preceding asynchronous method:
-        void DisplayPrimesCount()       
+        void DisplayPrimesCount()
         {
             var awaiter = GetPrimesCountAsync(2, 1000000).GetAwaiter();
             awaiter.OnCompleted(() =>
@@ -176,13 +176,13 @@ namespace ProCSharpCode.Concurrency
                 Console.WriteLine($"{i}- Three Seconds Passed!");
             }
             Console.WriteLine("Done!");
-            
+
 
         }
 
         public static void CallTest2()
         {
-            Test2().ContinueWith(t=> Console.WriteLine("Second Done"));
+            Test2().ContinueWith(t => Console.WriteLine("Second Done"));
             Console.WriteLine("Second Done!");
 
 
@@ -193,9 +193,9 @@ namespace ProCSharpCode.Concurrency
             for (int i = 0; i < 5; i++)
             {
                 Task.Delay(2000).GetAwaiter().OnCompleted(
-                    ()=>Console.WriteLine($"{i}- Three Seconds Passed!"));
+                    () => Console.WriteLine($"{i}- Three Seconds Passed!"));
 
-                
+
             }
             Console.WriteLine("Done!");
 
@@ -249,7 +249,7 @@ namespace ProCSharpCode.Concurrency
     {
         public static void Test()
         {
-            Go().ContinueWith(d=> Console.WriteLine("Done!"));
+            Go().ContinueWith(d => Console.WriteLine("Done!"));
         }
 
         public static async Task Go()
@@ -402,20 +402,20 @@ namespace ProCSharpCode.Concurrency
         static async Task Test()
         {
             var task = PrintAnswerToLife();
-            await task; 
+            await task;
             Console.WriteLine("Done");
         }
         static async Task PrintAnswerToLife()
         {
             var task = GetAnswerToLife();
-            int answer = await task; 
+            int answer = await task;
             Console.WriteLine(answer);
         }
         static async Task<int> GetAnswerToLife()
         {
             var task = Task.Delay(5000);
-            await task; 
-            int answer = 21 * 2; 
+            await task;
+            int answer = 21 * 2;
             return answer;
         }
 
@@ -434,7 +434,7 @@ namespace ProCSharpCode.Concurrency
         // Test Method
         public static void Test()
         {
-            Go().ContinueWith(_=>_);   // parallelism
+            Go().ContinueWith(_ => _);   // parallelism
 
         }
 
@@ -515,12 +515,13 @@ namespace ProCSharpCode.Concurrency
     [Obsolete("this code is not right don't use it")]
     public class OriginalContext
     {
-        
+
         public static void Test()
         {
             var obj = new OriginalContext();
-            obj.ContinuationOfMyTask().GetAwaiter().OnCompleted(() => {
-                    Console.WriteLine("finish the work");
+            obj.ContinuationOfMyTask().GetAwaiter().OnCompleted(() =>
+            {
+                Console.WriteLine("finish the work");
             });
 
         }
@@ -529,12 +530,13 @@ namespace ProCSharpCode.Concurrency
         public async Task ContinuationOfMyTask()
         {
             await MyTaskMethod().ConfigureAwait(false);
-            Console.WriteLine(Data.Value??"NULL");
+            Console.WriteLine(Data.Value ?? "NULL");
         }
 
         public Task MyTaskMethod()
         {
-            return Task.Run(()=> {
+            return Task.Run(() =>
+            {
 
                 Console.WriteLine("I am at Another Thread");
             });
@@ -548,6 +550,108 @@ namespace ProCSharpCode.Concurrency
 
 
     #endregion
+
+
+    #region Asynchronous Streams IAsyncEnumerator and IAsyncEnumerable
+
+    // To generate an asynchronous stream, you write a method that combines
+    // the principles of iterators and asynchronous methods.In other words,
+    // your method should include both yield return and await, and it should
+    // return IAsyncEnumerable<T>
+
+    // NOTE That IAsyncEnumerable<int> is different from Task<IEnumerable<int>>
+
+    //public interface IAsyncEnumerable<out T>
+    //{
+    //    //
+    //    // Summary:
+    //    //     Returns an enumerator that iterates asynchronously through the collection.
+    //    IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default);
+    //}
+
+
+    //public interface IAsyncEnumerator<out T> : IAsyncDisposable
+    //{
+    //    //
+    //    // Summary:
+    //    //     Gets the element in the collection at the current position of the enumerator.
+
+    //    T Current { get; }
+
+    //    //
+    //    // Summary:
+    //    //     Advances the enumerator asynchronously to the next element of the collection.
+    //    ValueTask<bool> MoveNextAsync();
+    //}
+
+    public class TestAsyncEnumerator
+    {
+
+        public static async Task Test()
+        {
+            await foreach (var item in RangeAsync(10, 20, 200))
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        private static async IAsyncEnumerable<int> RangeAsync(int start, int count, int delay)
+        {
+
+            for (int i = start; i < start + count; i++)
+            {
+                await Task.Delay(delay);
+                yield return i;
+            }
+        }
+
+
+
+
+
+
+    }
+
+    #endregion
+
+
+    #region Asynchronous Streams: Querying IAsyncEnumerable<T>
+
+
+    public class TestQueryingAsyncEnumerator
+    {
+
+        public static async Task Test()
+        {
+
+            //IAsyncEnumerable<int> query =
+            //  from i in RangeAsync(0, 10, 500)
+            //  where i % 2 == 0   // Even numbers only.
+            //  select i * 10;     // Multiply by 10.
+
+            //await foreach (var number in query)
+            //    Console.WriteLine(number);
+        }
+
+        private static async IAsyncEnumerable<int> RangeAsync(int start, int count, int delay)
+        {
+
+            for (int i = start; i < start + count; i++)
+            {
+                await Task.Delay(delay);
+                yield return i;
+            }
+        }
+
+
+
+
+
+
+    }
+
+    #endregion
+
 
 }
 

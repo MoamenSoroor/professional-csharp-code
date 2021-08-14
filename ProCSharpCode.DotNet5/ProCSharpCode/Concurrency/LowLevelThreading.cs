@@ -7,7 +7,43 @@ using System.Threading.Tasks;
 
 namespace ProCSharpCode.Concurrency
 {
-    
+
+    #region Important Definitions
+
+    // Concurrency: 
+    // ---------------
+    //  Doing more than one thing at a time.
+
+    // Multithreading
+    // ---------------
+    //  A form of concurrency that uses multiple threads of execution.
+
+    // Parallel processing
+    // ---------------
+    //  Doing lots of work by dividing it up among multiple threads that run concurrently.
+
+    // Parallel processing(or parallel programming) uses multithreading to maximize the use
+    // of multiple processor cores.Modern CPUs have multiple cores, and if there’s a lot of
+    // work to do, then it makes no sense to make one core do all the work while the others
+    // sit idle. Parallel processing splits the work among multiple threads, which can each
+    // run independently on a different core.
+
+    //Parallel processing is one type of multithreading, and multithreading is one type of
+    //concurrency.
+
+
+    // Asynchronous programming
+    // ---------------
+    //  A form of concurrency that uses futures or callbacks to avoid unnecessary threads.
+
+    // Reactive programming
+    // -------------------
+    // A declarative style of programming where the application reacts to events.
+
+    //Reactive programming is closely related to asynchronous programming but is built
+    //on asynchronous events instead of asynchronous operations.
+
+    #endregion
 
     #region Introduction
     // ------------------------ Introduction -------------------------
@@ -831,8 +867,11 @@ namespace ProCSharpCode.Concurrency
     #region Hygiene in the thread pool
     // ------------------------ Hygiene in the thread pool -------------------------
     // The thread pool serves another function, which is to ensure that a temporary excess
-    // of compute-bound work does not cause CPU oversubscription.Oversubscription is
-    // the condition of there being more active threads than CPU cores, with the operating
+    // of compute-bound work does not cause CPU oversubscription.
+    
+    // Oversubscription 
+    // -------------------
+    // it is the condition of there being more active threads than CPU cores, with the operating
     // system having to time-slice threads.Oversubscription hurts performance because
     // time-slicing requires expensive context switches and can invalidate the CPU caches
     // that have become essential in delivering performance to modern processors.
@@ -860,6 +899,10 @@ namespace ProCSharpCode.Concurrency
     // client operating systems where it favors lower resource consumption).
     // Maintaining good hygiene in the thread pool is particularly relevant when you want
     // to fully utilize the CPU
+
+    // Topics TO Search For:
+    // - Cache Invalidation at Context Switching when there are CPU Oversubscriptions
+    // - Hill Climping Algorithms and appling it on Thread Pool
     // -------------------------------------------------------------------------
     #endregion
 
