@@ -999,4 +999,52 @@ ProductInfo: Name={Name}, Description={Description}, Number in Stock={NumberInSt
     #endregion
 
 
+    #region Select Many to Flatten IEnumerable and Produce Flatten Many per One on IEnumerable
+    // 
+    // Select Many to Flatten IEnumerable and Produce Flatten Many per One on IEnumerable
+    // --------------------------------------------------------------------------------
+    // 
+
+    // 
+    public class SelectManyOperator
+    {
+        public static void Test()
+        {
+            Flatten();
+            ProduceManyPerOne();
+        }
+
+
+        public static void Flatten()
+        {
+            var data = new List<List<int>>
+            {
+                new List<int>{1,2,3},
+                new List<int>{4,5,6},
+                new List<int>{7,8,9}
+            };
+
+            var result = data.SelectMany(d => d).ToList();
+            result.ForEach(Console.WriteLine);
+        }
+
+
+        // Produce Flatten Many per One on IEnumerable
+        public static void ProduceManyPerOne()
+        {
+
+            var data = new List<int> { 1, 2, 3, 4 };
+            var result = data.SelectMany(d =>
+            {
+                return new List<int>() { d * 10, d * 20, d * 30 };
+            }).ToList();
+
+            result.ForEach(Console.WriteLine);
+
+        }
+
+    }
+    #endregion
+
+
 }
